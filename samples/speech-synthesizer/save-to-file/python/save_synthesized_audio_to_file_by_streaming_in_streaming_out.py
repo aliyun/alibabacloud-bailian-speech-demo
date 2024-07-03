@@ -79,3 +79,4 @@ for text in test_text:
     synthesizer.streaming_call(text)
     time.sleep(0.1)
 synthesizer.streaming_complete()
+print('requestId: ', synthesizer.get_last_request_id())

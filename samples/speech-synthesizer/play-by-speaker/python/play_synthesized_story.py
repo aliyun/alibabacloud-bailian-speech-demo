@@ -93,5 +93,6 @@ for item in story:
     synthesizer.streaming_call(item['text'])
     time.sleep(0.1)
     synthesizer.streaming_complete()
+    print('requestId: ', synthesizer.get_last_request_id())
 # stop realtime mp3 player
 player.stop()

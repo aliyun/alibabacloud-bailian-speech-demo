@@ -43,7 +43,7 @@ public class SaveSynthesizedAudioToFile {
 
         // Create a speech synthesizer
         SpeechSynthesizer synthesizer = new SpeechSynthesizer(param,null);
-
+        System.out.print("requestId: " + synthesizer.getLastRequestId());
         File file = new File("output.mp3");
         // use call methods to get audio data
         ByteBuffer audio = synthesizer.call(textToSynthesize);

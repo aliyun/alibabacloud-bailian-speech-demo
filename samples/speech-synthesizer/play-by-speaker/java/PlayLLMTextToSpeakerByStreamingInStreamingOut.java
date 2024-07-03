@@ -111,6 +111,7 @@ public class PlayLLMTextToSpeakerByStreamingInStreamingOut {
       synthesizer.streamingCall(text);
     });
     synthesizer.streamingComplete();
+    System.out.print("requestId: " + synthesizer.getLastRequestId());
   }
   public static void main(String[] args)
       throws FileNotFoundException, InterruptedException, NoApiKeyException,

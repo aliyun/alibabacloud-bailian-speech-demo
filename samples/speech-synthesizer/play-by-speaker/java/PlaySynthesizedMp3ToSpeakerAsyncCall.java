@@ -81,6 +81,6 @@ public class PlaySynthesizedMp3ToSpeakerAsyncCall {
         // Start the synthesizer with Text
         System.out.printf("start synthesizer : %s \n", textToSynthesize);
         synthesizer.call(textToSynthesize);
-
+        System.out.print("requestId: " + synthesizer.getLastRequestId());
     }
 }

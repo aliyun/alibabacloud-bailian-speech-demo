@@ -88,6 +88,7 @@ public class PlaySynthesizedMp3ToSpeakerByStreamingInStreamingOut {
       Thread.sleep(100);
     }
     synthesizer.streamingComplete();
+    System.out.print("requestId: " + synthesizer.getLastRequestId());
   }
   public static void main(String[] args)
       throws FileNotFoundException, InterruptedException {

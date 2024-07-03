@@ -47,6 +47,7 @@ public class PlaySynthesizedMp3ToSpeakerSyncCall {
 
         // Start the synthesizer with Text
         ByteBuffer audio = synthesizer.call(textToSynthesize);
+        System.out.print("requestId: " + synthesizer.getLastRequestId());
         System.out.printf("start synthesizer : %s \n", textToSynthesize);
         // Start the player
         audioPlayer.start();

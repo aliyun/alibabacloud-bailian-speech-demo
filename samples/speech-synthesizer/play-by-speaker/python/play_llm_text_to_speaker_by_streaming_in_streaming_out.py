@@ -90,5 +90,6 @@ for response in responses:
                 response.message,
             ))
 synthesizer.streaming_complete()
+print('requestId: ', synthesizer.get_last_request_id())
 # stop realtime mp3 player
 player.stop()

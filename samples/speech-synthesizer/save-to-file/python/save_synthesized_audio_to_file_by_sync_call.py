@@ -30,6 +30,7 @@ speech_synthesizer = SpeechSynthesizer(
 # Synthesize speech with given text, sync call and return the audio data in result
 # for more information, please refer to https://help.aliyun.com/document_detail/2712523.html
 result = speech_synthesizer.call(text_to_synthesize)
+print('requestId: ', speech_synthesizer.get_last_request_id())
 
 # Save the synthesized audio to a file
 with open(file_to_save, 'wb') as f:
