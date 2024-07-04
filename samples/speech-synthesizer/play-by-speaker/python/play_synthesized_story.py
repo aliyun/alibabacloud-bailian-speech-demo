@@ -87,7 +87,6 @@ for item in story:
     synthesizer = SpeechSynthesizer(
         model='cosyvoice-v1',
         voice=voice_name,
-        format=AudioFormat.MP3_22050HZ_MONO_256KBPS,
         callback=synthesizer_callback,
     )
     synthesizer.streaming_call(item['text'])

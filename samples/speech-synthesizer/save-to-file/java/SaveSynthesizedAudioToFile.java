@@ -37,7 +37,6 @@ public class SaveSynthesizedAudioToFile {
                 SpeechSynthesisParam.builder()
                         .model("cosyvoice-v1")
                         .voice("longxiaochun")
-                        .format(SpeechSynthesisAudioFormat.MP3_22050HZ_MONO_256KBPS)
                         .apiKey(dashScopeApiKey)
                         .build();
 

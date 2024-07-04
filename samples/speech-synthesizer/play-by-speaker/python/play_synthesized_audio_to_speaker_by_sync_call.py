@@ -25,7 +25,6 @@ text_to_synthesize = '欢迎体验阿里云百炼大模型语音合成服务！'
 speech_synthesizer = SpeechSynthesizer(
     model='cosyvoice-v1',
     voice='longxiaochun',
-    format=AudioFormat.MP3_22050HZ_MONO_256KBPS,
     callback=None)
 
 # Synthesize speech with given text, sync call and return the audio data in result

@@ -53,7 +53,6 @@ class SpeechSynthesizerObjectFactory
                 SpeechSynthesisParam.builder()
                         .model("cosyvoice-v1")
                         .voice("longxiaochun")
-                        .format(SpeechSynthesisAudioFormat.MP3_22050HZ_MONO_256KBPS)
                         .apiKey(this.dashScopeApiKey)
                         .build();
         return new SpeechSynthesizer(param, null);

@@ -70,7 +70,6 @@ test_text = [
 synthesizer = SpeechSynthesizer(
     model='cosyvoice-v1',
     voice='longxiaochun',
-    format=AudioFormat.MP3_22050HZ_MONO_256KBPS,
     callback=callback,
 )
 

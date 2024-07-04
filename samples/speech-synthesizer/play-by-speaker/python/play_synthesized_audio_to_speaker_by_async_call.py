@@ -109,7 +109,6 @@ synthesizer_callback = Callback()
 speech_synthesizer = SpeechSynthesizer(
     model='cosyvoice-v1',
     voice='longxiaochun',
-    format=AudioFormat.MP3_22050HZ_MONO_256KBPS,
     callback=synthesizer_callback)
 # Synthesize speech with given text, sync call and return the audio data in result
 # for more information, please refer to https://help.aliyun.com/document_detail/2712523.html
