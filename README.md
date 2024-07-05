@@ -202,6 +202,9 @@
 | [play_synthesized_story.py](samples%2Fspeech-synthesizer%2Fplay-by-speaker%2Fpython%2Fplay_synthesized_story.py)   | 分角色语音合成 |[CosyVoice语音合成](https://help.aliyun.com/zh/dashscope/developer-reference/cosyvoice-quick-start) | 绘本故事等 |
 
 
+## 常见问题
+
+常见问题请参考[QA文档](docs/QA/qa.md)
 
 
 ## 许可协议
