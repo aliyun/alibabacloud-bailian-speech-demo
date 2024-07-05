@@ -29,11 +29,9 @@ speech_synthesizer = SpeechSynthesizer(
 
 # Synthesize speech with given text, sync call and return the audio data in result
 # for more information, please refer to https://help.aliyun.com/document_detail/2712523.html
-result = speech_synthesizer.call(text_to_synthesize)
+audio_data = speech_synthesizer.call(text_to_synthesize)
 print('requestId: ', speech_synthesizer.get_last_request_id())
 # Check if audio data is available
-audio_data = result.get_audio_data()
-
 # codes below are used to play the audio data
 if audio_data is not None:
     # Use io.BytesIO to convert the audio data to a file-like object
