@@ -1,17 +1,12 @@
 #!/usr/bin/env python3
 # Copyright (c) alibaba.. All Rights Reserved.
 # MIT License  (https://opensource.org/licenses/MIT)
-import io
 import os
-import subprocess
 import threading
 
 import dashscope
-import pyaudio
-from dashscope.api_entities.dashscope_response import SpeechSynthesisResponse
-from dashscope.audio.tts import SpeechSynthesisResult
-from dashscope.audio.tts_v2 import (AudioFormat, ResultCallback,
-                                    SpeechSynthesizer)
+from dashscope.audio.tts_v2 import *
+from RealtimeMp3Player import RealtimeMp3Player
 
 # This sample code demonstrates how to decode MP3 audio into PCM format and play it using subprocess and pyaudio.
 # Decoding MP3 to PCM before playback is a common approach to audio data handling.
@@ -30,75 +25,35 @@ else:
 text_to_synthesize = '欢迎体验阿里云百炼大模型语音合成服务！'
 
 
-# Define a callback to handle the result
-class Callback(ResultCallback):
-    def __init__(self):
-        self.ffmpeg_process = None
-        self._stream = None
-        self._player = None
-        self.play_thread = None
-        self.stop_event = threading.Event()
-        print('Callback is initialized.')
+player = RealtimeMp3Player()
+# start player
+player.start()
 
+complete_event = threading.Event()
+
+# Define a callback to handle the result
+
+
+class Callback(ResultCallback):
     def on_open(self):
-        print('Speech synthesizer is opened.')
-        self._player = pyaudio.PyAudio()  # initialize pyaudio to play audio
-        self._stream = self._player.open(
-            format=pyaudio.paInt16, channels=1, rate=22050,
-            output=True)  # initialize pyaudio stream
-        self.ffmpeg_process = subprocess.Popen(
-            [
-                'ffmpeg', '-i', 'pipe:0', '-f', 's16le', '-ar', '22050', '-ac',
-                '1', 'pipe:1'
-            ],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
-        )  # initialize ffmpeg to decode mp3
+        print('websocket is open.')
 
     def on_complete(self):
-        print('Speech synthesizer data receiving is completed.')
-        self.ffmpeg_process.stdin.close()
-        self.ffmpeg_process.wait()
-        self.play_thread.join()
+        print('speech synthesis task complete successfully.')
+        complete_event.set()
 
-    def on_error(self, response: SpeechSynthesisResponse):
-        print('Speech synthesizer failed, response is %s' % (str(response)))
-        self.stop_event.set()
-        if self.play_thread is not None:
-            self.play_thread.join()
+    def on_error(self, message: str):
+        print(f'speech synthesis task failed, {message}')
 
     def on_close(self):
-        print('Speech synthesizer is play done.')
-        self._stream.stop_stream()
-        self._stream.close()
-        self._player.terminate()
-        if self.ffmpeg_process:
-            self.ffmpeg_process.terminate()
+        print('websocket is closed.')
 
-    def play_audio(self):
-        # play audio with pcm data decode by ffmpeg
-        while not self.stop_event.is_set():
-            pcm_data = self.ffmpeg_process.stdout.read(1024)
-            if pcm_data:
-                self._stream.write(pcm_data)
-            else:
-                break
+    def on_event(self, message):
+        print(f'recv speech synthsis message {message}')
 
-    def on_event(self, synthesizer_result: SpeechSynthesisResult):
-        audio_frame = synthesizer_result.get_audio_frame()
-        if audio_frame is not None:
-            # use ffmpeg to decode mp3
-            self.ffmpeg_process.stdin.write(audio_frame)
-            if self.play_thread is None:
-                # initialize play thread
-                print('start play thread')
-                self._stream.start_stream()
-                self.play_thread = threading.Thread(target=self.play_audio)
-                self.play_thread.start()
-                print(
-                    f'synthesized audio with text {text_to_synthesize} is playing ...'
-                )
+    def on_data(self, data: bytes) -> None:
+        # save audio to file
+        player.write(data)
 
 
 # Call the speech synthesizer callback
@@ -112,5 +67,7 @@ speech_synthesizer = SpeechSynthesizer(
     callback=synthesizer_callback)
 # Synthesize speech with given text, sync call and return the audio data in result
 # for more information, please refer to https://help.aliyun.com/document_detail/2712523.html
-result = speech_synthesizer.call(text_to_synthesize)
+result = speech_synthesizer.call(text_to_synthesize,timeout_millis=10*1000)
 print('requestId: ', speech_synthesizer.get_last_request_id())
+complete_event.wait()
+player.stop()
