@@ -62,7 +62,7 @@
     <tr>
         <td rowspan="6">呼叫中心<br/> 电话内外呼 <br/> Virtual Call</td>
         <td>
-           <p> 呼叫语音转文字 </p>
+           <p><i>呼叫语音转文字</i></p>
             <span style="font-size: 12px; color: grey;">将用户或客服人员的语音通话实时转为文字 </span>
         </td>
         <td>
@@ -70,20 +70,20 @@
     <tr>
     <tr>
         <td>
-           <p> 客服回复转语音 </p>
+           <p><i>客服回复转语音</i> </p>
             <span style="font-size: 12px; color: grey;">使用文字转语音对客服机器人回复进行实时语音播报 </span>
         <td>实时语音播报 <a target="_blank" rel="noopener noreferrer" href="samples/speech-synthesizer/play-by-speaker/java">java </a> <a target="_blank" rel="noopener noreferrer" href="samples/speech-synthesizer/play-by-speaker/python">python</a> </td>
     </tr>
     <tr>
         <td>
-            <p>批量通话录音转文字 </p>
+            <p><i>批量通话录音转文字</i> </p>
             <span style="font-size: 12px; color: grey;">将用户或客服人员的语音通话录音批量转为文字 </span>
         </td>
         <td>录音文件识别 <a href="samples/speech-recognition/from-file/java/transcription">java </a> <a href="samples/speech-recognition/from-file/python/transcription">python </a> </td>
     </tr>
     <tr>
         <td>
-            <p>电话录音质检 </p>
+            <p><i>电话录音质检</i> </p>
             <span style="font-size: 12px; color: grey;">对于电话录音进行语义转写。在获取结果后，调用大模型能力，配合prompt定义质检规则对识别文本进行质检。</span>
         </td>
         <td>电话录音质检 <img src="docs/image/logo.svg" width="15"/>  <a href="samples/speech-plus/call-quality-assurance">python </a> </td>
@@ -103,7 +103,7 @@
         <td>视频配音 <br/> 角色扮演配音 <br/>
         AIGC视频生成 </td>
         <td>
-            <p style="font-style: italic; font-weight: bold;"><span style="font-style: italic;">配音</span></p>
+            <p><i>配音</i></p>
             <span style="font-size: 12px; color: grey;">根据场景、人设、情绪选择适合的发音人，合成设计文案生成配音</span>
         </td>
         <td rowspan="4">
@@ -114,14 +114,14 @@
     <tr>
         <td>新闻<br/>数字人</td>
         <td>
-            <p>信息播报</p>
+            <p><i>信息播报</i></p>
             <span style="font-size: 12px; color: grey;">新闻等场景，通过语音合成进行文本信息的播报</span>
         </td>
     <tr>
     <tr>
         <td rowspan="4">有声读物</td>
         <td>
-            <p>分角色的有声书配音</p>
+            <p><i>分角色的有声书配音</i></p>
             <span style="font-size: 12px; color: grey;">将绘本、小说等文字内容转换为有声读物。推荐结合大模型能力，将内容分角色格式化输出。</span>
         </td>
         <td>分角色的语音合成 <img src="docs/image/logo.svg" width="15"/> 
@@ -140,7 +140,7 @@
     <tr>
         <td rowspan="4">语音助手 <br> 智能音箱 <br> 智能机器人 </td>
         <td>
-            <p>语音交互</p>
+            <p><i>语音交互</i></p>
             <span style="font-size: 12px; color: grey;">
             适用于手机、车机、智能音箱、机器人包括IOT设备等场景下的语音对话。用户通过语音输入问题，通过语音合成获取结果
             </span>
@@ -151,7 +151,7 @@
     <tr>
     <tr>
         <td>
-            <p>语音对话聊天（大模型结合）</p>
+            <p><i>语音对话聊天（大模型结合）</i></p>
             <span style="font-size: 12px; color: grey;">
             适用于手机、车机、智能音箱、机器人包括IOT设备等场景下开放域聊天，以及Agent等LLM等深度定制场景
             </span>
@@ -169,9 +169,9 @@
         <th style="background-color: gray; font-weight: bold;">开发示例</th>
     <tr>
     <tr>
-        <td >Voice Chat</td>
+        <td >Voice Chat 🔥</td>
         <td>
-            <p>Voice Chat</p>
+            <p><i>Voice Chat</i></p>
             <span style="font-size: 12px; color: grey;">适用于数字人、在线教育、智能客服等语音进语音出的交互场景</span>
         </td>
         <td>
@@ -180,7 +180,7 @@
     <tr>
         <td rowspan="3">视频会议<br/>直播</td>
         <td>
-            <p>音视频语音识别 </p>
+            <p><i>音视频语音识别</i> </p>
             <span style="font-size: 12px; color: grey;"> 适用于音视频会议、直播等场景下的通过流式调用的语音识别</span>
         </td>
         <td>实时语音识别 <a href="samples/speech-recognition/from-file/java/realtime-recognition">java </a> <a href="samples/speech-recognition/from-file/python/realtime-recognition">python </a> </td>
@@ -201,7 +201,7 @@
             现场访谈
         </td>
         <td>
-            <p>音视频语音识别与分析</p>
+            <p><i>音视频语音识别与分析</i></p>
             <span style="font-size: 12px; color: grey;"> 适用于以上场景下的语音识别，会议对话内容的总结</span>
         </td>
         <td rowspan="2">
@@ -213,7 +213,7 @@
             电话销售与理赔<br/>
         </td>
         <td>
-            <p>销售对话分析</p>
+            <p><i>销售对话分析</i></p>
             <span style="font-size: 12px; color: grey;"> 销售过程的录音录像，通过录音文件转写，并结合大模型服务可以进行后续合规和风险分析</span>
         </td>
     </tr>
