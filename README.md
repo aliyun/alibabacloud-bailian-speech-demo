@@ -202,19 +202,10 @@
         </td>
         <td>
             <p><i>音视频语音识别与分析</i></p>
-            <span style="font-size: 12px; color: grey;"> 适用于以上场景下的语音识别，会议对话内容的总结</span>
+            <span style="font-size: 12px; color: grey;"> 适用于线下会议、音视频会议等场景，会议结束后对会议音视频进行转写，对会议对话内容的总结</span>
         </td>
         <td rowspan="2">
             录音文件识别 <img src="docs/image/logo.svg" width="15"/><a href="samples/speech-recognition/from-file/java/transcription">java </a> <a href="samples/speech-recognition/from-file/python/transcription">python </a> 
-        </td>
-    </tr>
-    <tr>
-        <td>
-            电话销售与理赔<br/>
-        </td>
-        <td>
-            <p><i>销售对话分析</i></p>
-            <span style="font-size: 12px; color: grey;"> 销售过程的录音录像，通过录音文件转写，并结合大模型服务可以进行后续合规和风险分析</span>
         </td>
     </tr>
 </table>
