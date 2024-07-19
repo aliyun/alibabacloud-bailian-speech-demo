@@ -72,7 +72,7 @@
         <td>
            <p><i>客服回复转语音</i> </p>
             <span style="font-size: 12px; color: grey;">使用文字转语音对客服机器人回复进行实时语音播报 </span>
-        <td>实时语音播报 <a target="_blank" rel="noopener noreferrer" href="samples/speech-synthesizer/play-by-speaker/java">java </a> <a target="_blank" rel="noopener noreferrer" href="samples/speech-synthesizer/play-by-speaker/python">python</a> </td>
+        <td>实时语音播报 <a target="_blank" rel="noopener noreferrer" href="samples/speech-synthesizer/play-by-speaker/java/single-line-input/">java </a> <a target="_blank" rel="noopener noreferrer" href="samples/speech-synthesizer/play-by-speaker/python/single-line-input">python</a> </td>
     </tr>
     <tr>
         <td>
@@ -125,7 +125,7 @@
             <span style="font-size: 12px; color: grey;">将绘本、小说等文字内容转换为有声读物。推荐结合大模型能力，将内容分角色格式化输出。</span>
         </td>
         <td>分角色的语音合成 <img src="docs/image/logo.svg" width="15"/> 
-        <br/> <a href="samples/speech-synthesizer/play-by-speaker/python/multi-roles">python </a>
+        <br/> <a href="samples/speech-synthesizer/play-by-speaker/python/multi-roles-input">python </a>
         </td>
     <tr>
 </table>
@@ -175,7 +175,7 @@
             <span style="font-size: 12px; color: grey;">适用于数字人、在线教育、智能客服等语音进语音出的交互场景</span>
         </td>
         <td>
-            Voice Chat <img src="docs/image/logo.svg" width="15"/> <a href="samples/speech-plus/voice-chat)">python </a> </td>
+            Voice Chat <img src="docs/image/logo.svg" width="15"/> <a href="samples/speech-plus/voice-chat">python </a> </td>
     <tr>
     <tr>
         <td rowspan="3">视频会议<br/>直播</td>
