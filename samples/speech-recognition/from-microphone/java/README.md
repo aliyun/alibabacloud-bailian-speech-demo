@@ -5,20 +5,31 @@
 ## 前提条件
 本目录下提供了通过麦克风录音并调用实时语音识别接口进行语音识别的示例。在运行代码之前请确保您已安装依赖并配置好必要的环境变量。
 
-### 安装 Python 依赖
+### 安装 Java 依赖
 
-阿里云百炼SDK运行环境需要Python3.8及以上版本。
-运行本场景DEMO依赖的环境可以通过[PyPI](https://pypi.org/)安装。
+阿里云百炼SDK运行环境需要Java8及以上版本，SDK版本请参考[Maven](https://mvnrepository.com/artifact/com.alibaba/dashscope-sdk-java)。
 
-- 三方SDK
-```commandline
-pip3 install pynput //用户输入键盘指令
-pip3 install sounddevice //用于与麦克风录音
+运行本场景DEMO依赖的环境可以通过XML/Gradle安装。
+
+#### 使用 Maven
+
+在你的 `pom.xml` 文件中添加以下依赖项：
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.alibaba/dashscope-sdk-java -->
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>dashscope-sdk-java</artifactId>
+    <version>the-latest-version</version>
+</dependency>
 ```
+#### 使用 Gradle
 
-- 导入百炼SDK
-```commandline
-pip3 install dashscope //安装阿里云百炼SDK
+在你的项目的 build.gradle 文件中添加以下依赖项：
+
+```gradle
+// https://mvnrepository.com/artifact/com.alibaba/dashscope-sdk-java
+implementation group: 'com.alibaba', name: 'dashscope-sdk-java', version: 'the-latest-version'
 ```
 
 

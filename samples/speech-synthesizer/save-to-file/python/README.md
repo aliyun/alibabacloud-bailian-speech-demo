@@ -1,22 +1,23 @@
-## 实时语音识别
-实时语音识别（Real-Time Speech Recognition）是指通过实时的方式将语音数据发送给语音识别服务，并实时地将语音转换为文字的过程。
-实时语音识别适用于对时效性要求比较高的语音识别场景，如电话客服、语音对话聊天、会议字幕等。
+## 离线语音合成 
+离线语音合成是指通过语音合成服务将合成的语音保存为文件的使用方式。通常这种方式用于非实时的场景。
+离线语音合成适用于配音、有声读物等场景。
 
 ## 前提条件
-本目录下提供了通过麦克风录音并调用实时语音识别接口进行语音识别的示例。在运行代码之前请确保您已安装依赖并配置好必要的环境变量。
+本目录提供的是离线语音合成的示例。示例展示了调用CosyVoice 大模型语音合成音频并保存为音频文件的过程。
+
+
+在运行代码之前请确保您已安装依赖并配置好必要的环境变量。
+
+以下是两种不同接口的调用示例。
+
+[流式语音合成并保存示例](./stream_synthesize_text_to_speech_and_save_in_file.py)  | [同步语音合成并保存示例](./sync_synthesize_text_to_speech_and_save_in_file.py)
 
 ### 安装 Python 依赖
 
 阿里云百炼SDK运行环境需要Python3.8及以上版本。
 运行本场景DEMO依赖的环境可以通过[PyPI](https://pypi.org/)安装。
 
-- 三方SDK
-```commandline
-pip3 install pynput //用户输入键盘指令
-pip3 install sounddevice //用于与麦克风录音
-```
-
-- 导入百炼SDK
+- 百炼SDK
 ```commandline
 pip3 install dashscope //安装阿里云百炼SDK
 ```
