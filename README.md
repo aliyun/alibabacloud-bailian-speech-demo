@@ -86,7 +86,7 @@
             <p><i>电话录音质检</i> </p>
             <span style="font-size: 12px; color: grey;">对于电话录音进行语义转写。在获取结果后，调用大模型能力，配合prompt定义质检规则对识别文本进行质检。</span>
         </td>
-        <td>电话录音质检 <img src="docs/image/logo.svg" width="15"/>  <a href="samples/speech-plus/call-quality-assurance">python </a> </td>
+        <td>电话录音质检 <a href="https://tongyi.aliyun.com/"><img src="docs/image/logo.svg" width="15"/>  <a href="samples/speech-plus/call-quality-assurance">python </a> </td>
     </tr>
 </table>
 
@@ -124,7 +124,7 @@
             <p><i>分角色的有声书配音</i></p>
             <span style="font-size: 12px; color: grey;">将绘本、小说等文字内容转换为有声读物。推荐结合大模型能力，将内容分角色格式化输出。</span>
         </td>
-        <td>分角色的语音合成 <img src="docs/image/logo.svg" width="15"/> 
+        <td>分角色的语音合成 <a href="https://tongyi.aliyun.com/"><img src="docs/image/logo.svg" width="15"/> 
         <br/> <a href="samples/speech-synthesizer/play-by-speaker/python/multi-roles-input">python </a>
         </td>
     <tr>
@@ -157,7 +157,7 @@
             </span>
         </td>
         <td>实时语音识别 <a href="">java </a> <a href="samples/speech-recognition/from-file/python/realtime-recognition">python </a><br>
-        结合大模型的语音播报 <img src="docs/image/logo.svg" width="15"/> <br/> <a href="samples/speech-synthesizer/play-by-speaker/java/streaming-input">java </a> <a href="samples/speech-synthesizer/play-by-speaker/python/streaming-input">python </a>
+        结合大模型的语音播报 <a href="https://tongyi.aliyun.com/"><img src="docs/image/logo.svg" width="15"/> <br/> <a href="samples/speech-synthesizer/play-by-speaker/java/streaming-input">java </a> <a href="samples/speech-synthesizer/play-by-speaker/python/streaming-input">python </a>
     <tr>
 </table>
 
@@ -175,7 +175,7 @@
             <span style="font-size: 12px; color: grey;">适用于数字人、在线教育、智能客服等语音进语音出的交互场景</span>
         </td>
         <td>
-            Voice Chat <img src="docs/image/logo.svg" width="15"/> <a href="samples/speech-plus/voice-chat">python </a> </td>
+            Voice Chat <a href="https://tongyi.aliyun.com/"><img src="docs/image/logo.svg" width="15"/> <a href="samples/speech-plus/voice-chat">python </a> </td>
     <tr>
     <tr>
         <td rowspan="3">视频会议<br/>直播</td>
@@ -205,7 +205,7 @@
             <span style="font-size: 12px; color: grey;"> 适用于线下会议、音视频会议等场景，会议结束后对会议音视频进行转写，对会议对话内容的总结</span>
         </td>
         <td rowspan="2">
-            录音文件识别 <img src="docs/image/logo.svg" width="15"/><a href="samples/speech-recognition/from-file/java/transcription">java </a> <a href="samples/speech-recognition/from-file/python/transcription">python </a> 
+            录音文件识别 <a href="https://tongyi.aliyun.com/"><img src="docs/image/logo.svg" width="15"/><a href="samples/speech-recognition/from-file/java/transcription">java </a> <a href="samples/speech-recognition/from-file/python/transcription">python </a> 
         </td>
     </tr>
 </table>
