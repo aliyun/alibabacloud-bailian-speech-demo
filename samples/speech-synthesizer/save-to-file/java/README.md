@@ -8,7 +8,7 @@
 
 在运行代码之前请确保您已安装依赖并配置好必要的环境变量。
 
-[流式语音合成并保存示例](./StreamSynthesizeTextToSpeechAndSaveInFile.java)  | [同步语音合成并保存示例](./SyncSynthesizeTextToSpeechAndSaveInFile.java) | [多并发语音合成并保存示例](./BatchSynthesizedTextToSpeechAndSaveInFile.java)
+[流式语音合成并保存示例](./StreamSynthesizeTextToSpeechAndSaveInFile.java)  | [同步语音合成并保存示例](./SyncSynthesizeTextToSpeechAndSaveInFile.java) | [多并发语音合成并保存示例](./BatchSynthesizeTextToSpeechAndSaveInFiles.java)
 
 ### 安装 Java 依赖
 
@@ -27,6 +27,12 @@
     <artifactId>dashscope-sdk-java</artifactId>
     <version>the-latest-version</version>
 </dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-pool2</artifactId>
+    <version>2.11.1</version>
+</dependency>
 ```
 #### 使用 Gradle
 
@@ -35,6 +41,7 @@
 ```gradle
 // https://mvnrepository.com/artifact/com.alibaba/dashscope-sdk-java
 implementation group: 'com.alibaba', name: 'dashscope-sdk-java', version: 'the-latest-version'
+implementation group: 'org.apache.commons', name: 'commons-pool2', version: '2.11.1'
 ```
 
 

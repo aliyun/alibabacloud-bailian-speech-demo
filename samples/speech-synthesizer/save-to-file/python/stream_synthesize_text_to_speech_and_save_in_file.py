@@ -26,6 +26,7 @@ class Callback(ResultCallback):
     def on_open(self):
         self.file = open('output.mp3', 'wb')
         print('websocket is open.')
+        print("speech synthesis is running...")
 
     def on_complete(self):
         print('speech synthesis task complete successfully.')
@@ -38,7 +39,7 @@ class Callback(ResultCallback):
         self.file.close()
 
     def on_event(self, message):
-        print(f'recv speech synthsis message {message}')
+        print('..', end='')
 
     def on_data(self, data: bytes) -> None:
         # save audio to file

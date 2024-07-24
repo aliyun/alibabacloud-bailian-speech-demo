@@ -16,6 +16,8 @@
 阿里云百炼SDK运行环境需要Python3.8及以上版本。
 运行本场景DEMO依赖的环境可以通过[PyPI](https://pypi.org/)安装。
 
+您可以使用`pip install -r requirements.txt` 命令来安装本文件夹下的requirements依赖文件。或者手动安装下方的依赖。
+
 - 三方SDK
 ```commandline
 pip3 install pyaudio //用于实时播放音频
@@ -34,3 +36,18 @@ pip3 install dashscope //安装阿里云百炼SDK
 - 在[百炼控制台](https://bailian.console.aliyun.com/)界面右上角头像位置，鼠标悬浮后，展示API-KEY，点击后进入API-KEY管理页面。
 - 点击【创建新的API-KEY】，会自动创建一条属于这个账号的API-KEY。列表上展示API-KEY密文，点击【查看】可以看到API-KEY的明文信息。请注意保存API-KEY的明文信息，后续使用API-KEY时需要用到。
 - 更多百炼配置信息请参考：[PREREQUISITES.md](../../../../../PREREQUISITES.md)
+
+### 运行
+
+- 运行多句文本流式调用示例
+
+```commandline
+python stream_synthesize_text_to_speech.py
+```
+
+- 运行结合千问大模型生成的文本流式调用示例
+
+```commandline
+python stream_synthesize_llm_response_to_speech.py
+```
+    

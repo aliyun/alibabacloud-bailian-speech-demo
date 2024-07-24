@@ -11,12 +11,18 @@
 <img src="docs/image/groups.png" width="400"/>
 
 
-## 最新动态
+## ⭐最新动态⭐
 ----
-- 2024/07/19：更新文档结构。增加VoiceChat示例、增加语音质检示例。
-- 2024/07/17：更新说明文档。
-- 2024/07/05：补充QA文档。
-- 2024/06/25：发布初始版本，分别支持从麦克风/文件输入识别，以及语音合成到扬声器和文件的 python/java 示例。
+- 2024/07/24: 
+    - 增加并行调用语音识别和语音合成的python示例。
+    - 增加朗读故事并实时展示字幕的 python/java 示例。
+    - 增加使用网页播放流式音频的AI Assistant示例。
+    - 各示例根节点目录增加更详细的运行说明。
+    - VoiceChat示例运行代码优化。
+- 2024/07/19: 更新文档结构。增加VoiceChat示例、增加语音质检示例。
+- 2024/07/17: 更新说明文档。
+- 2024/07/05: 补充QA文档。
+- 2024/06/25: 发布初始版本，分别支持从麦克风/文件输入识别，以及语音合成到扬声器和文件的 python/java 示例。
 
 
 ## 示例获取和准备
@@ -45,7 +51,7 @@
     <h3>语音播报场景</h3>
     <p>视频配音  | 角色扮演配音 | 有声读物  | 信息播报 | 分角色的有声书配音</p>
     <h3>音视频场景</h3>
-    <p>Voice Chat | 音视频语音识别 </p>
+    <p>Voice Chat | 音视频语音识别 | AI Assistant网页版 </p>
   </div>
 </div>
 
@@ -86,7 +92,7 @@
             <p><i>电话录音质检</i> </p>
             <span style="font-size: 12px; color: grey;">对于电话录音进行语义转写。在获取结果后，调用大模型能力，配合prompt定义质检规则对识别文本进行质检。</span>
         </td>
-        <td>电话录音质检 <a href="https://tongyi.aliyun.com/"><img src="docs/image/logo.svg" width="15"/>  <a href="samples/speech-plus/call-quality-assurance">python </a> </td>
+        <td>电话录音质检 <img src="docs/image/logo.svg" width="15"/>  <a href="samples/speech-plus/call-quality-assurance">python </a> </td>
     </tr>
 </table>
 
@@ -124,8 +130,11 @@
             <p><i>分角色的有声书配音</i></p>
             <span style="font-size: 12px; color: grey;">将绘本、小说等文字内容转换为有声读物。推荐结合大模型能力，将内容分角色格式化输出。</span>
         </td>
-        <td>分角色的语音合成 <a href="https://tongyi.aliyun.com/"><img src="docs/image/logo.svg" width="15"/> 
+        <td>分角色的语音合成 <img src="docs/image/logo.svg" width="15"/> 
         <br/> <a href="samples/speech-synthesizer/play-by-speaker/python/multi-roles-input">python </a>
+        <br/>朗读故事并实时展示字幕 <img src="docs/image/logo.svg" width="15"/> 
+        <br/> <a href="samples/speech-plus/read-and-display-subtitles/java">java</a>
+        <br/> <a href="samples/speech-plus/read-and-display-subtitles/python">python </a>
         </td>
     <tr>
 </table>
@@ -157,7 +166,7 @@
             </span>
         </td>
         <td>实时语音识别 <a href="">java </a> <a href="samples/speech-recognition/from-file/python/realtime-recognition">python </a><br>
-        结合大模型的语音播报 <a href="https://tongyi.aliyun.com/"><img src="docs/image/logo.svg" width="15"/> <br/> <a href="samples/speech-synthesizer/play-by-speaker/java/streaming-input">java </a> <a href="samples/speech-synthesizer/play-by-speaker/python/streaming-input">python </a>
+        结合大模型的语音播报 <img src="docs/image/logo.svg" width="15"/> <br/> <a href="samples/speech-synthesizer/play-by-speaker/java/streaming-input">java </a> <a href="samples/speech-synthesizer/play-by-speaker/python/streaming-input">python </a>
     <tr>
 </table>
 
@@ -175,7 +184,16 @@
             <span style="font-size: 12px; color: grey;">适用于数字人、在线教育、智能客服等语音进语音出的交互场景</span>
         </td>
         <td>
-            Voice Chat <a href="https://tongyi.aliyun.com/"><img src="docs/image/logo.svg" width="15"/> <a href="samples/speech-plus/voice-chat">python </a> </td>
+            Voice Chat <img src="docs/image/logo.svg" width="15"/> <a href="samples/speech-plus/voice-chat">python </a> </td>
+    <tr>
+        <tr>
+        <td >AI Assistant网页版</td>
+        <td>
+            <p><i>AI Assistant</i></p>
+            <span style="font-size: 12px; color: grey;">适用于搭建自己的Chatgpt网页等场景下需要实现语音合成转发服务、在前端播放实时音频流</span>
+        </td>
+        <td>
+            AI Assistant网页版 <img src="docs/image/logo.svg" width="15"/> <a href="samples/speech-plus/ai-assistant">python </a> </td>
     <tr>
     <tr>
         <td rowspan="3">视频会议<br/>直播</td>
@@ -205,7 +223,7 @@
             <span style="font-size: 12px; color: grey;"> 适用于线下会议、音视频会议等场景，会议结束后对会议音视频进行转写，对会议对话内容的总结</span>
         </td>
         <td rowspan="2">
-            录音文件识别 <a href="https://tongyi.aliyun.com/"><img src="docs/image/logo.svg" width="15"/><a href="samples/speech-recognition/from-file/java/transcription">java </a> <a href="samples/speech-recognition/from-file/python/transcription">python </a> 
+            录音文件识别 <img src="docs/image/logo.svg" width="15"/><a href="samples/speech-recognition/from-file/java/transcription">java </a> <a href="samples/speech-recognition/from-file/python/transcription">python </a> 
         </td>
     </tr>
 </table>

@@ -1,12 +1,15 @@
-## 多角色语音合成 
-本示例是一个多角色语音合成调用的原型（Prototype）。
-在有声读物场景，通常会有多角色参与，而通义语音大模型服务提供了丰富的说话人音色，能够很好的完成分角色语音合成。
-在这个示例中，我们将导入一个json格式的多角色故事，通过调用不同角色选择不同的发音人，生成了一个多角色的语音绘本故事。
+## AI Assistant网页版
+AI Assistant网页版模拟了目前主流的大模型网站提供的交互服务，在多轮对话的基础上增加了实时、低延迟朗读大模型输出的能力。您可以参考这个示例项目搭建自己的Chatgpt网站。
 
 ## 前提条件
-在运行代码之前请确保您已安装依赖并配置好必要的环境变量。
+本目录下下提供了调用通义Speech语音合成以及通义千问两个服务接口，实现的AI Assistant场景示例。
 
-[多角色语音合成示例](./synthesize_multi_roles_text_to_speech.py)  
+本示例提供了一个简化的GUI 界面，用来交互。
+首先，请运行`demo_server.py`，默认会在本地的11111端口运行websocket服务。
+
+之后可以双击在浏览器打开`interface.html`网页，输入提问并点击`Send`按钮发送消息后，会自动调用百炼SDK的接口，并在收到大模型的回复并且立刻朗读。本示例可以支持多轮交互，默认缓存五轮历史对话消息。
+
+<img src="../../../docs/image/ai-assistant.png" width="400"/>
 
 ### 安装 Python 依赖
 
@@ -15,27 +18,13 @@
 
 您可以使用`pip install -r requirements.txt` 命令来安装本文件夹下的requirements依赖文件。或者手动安装下方的依赖。
 
-- 三方SDK
-```commandline
-pip3 install ffmpeg-python //python的ffmpeg绑定, 用于实时解码mp3音频。
-pip3 install pyaudio //用于实时播放音频
-```
-在安装ffmpeg-python时请参考对应[官方文档](https://github.com/kkroening/ffmpeg-python)安装ffmpeg
-
-- 百炼SDK
+- 导入百炼SDK
 ```commandline
 pip3 install dashscope //安装阿里云百炼SDK
 ```
-
 
 ### 配置阿里云百炼API-KEY
 在使用百炼SDK进行语音识别之前，您需要先在阿里云控制台创建语音识别服务并获取API-KEY。
 - 在[百炼控制台](https://bailian.console.aliyun.com/)界面右上角头像位置，鼠标悬浮后，展示API-KEY，点击后进入API-KEY管理页面。
 - 点击【创建新的API-KEY】，会自动创建一条属于这个账号的API-KEY。列表上展示API-KEY密文，点击【查看】可以看到API-KEY的明文信息。请注意保存API-KEY的明文信息，后续使用API-KEY时需要用到。
 - 更多百炼配置信息请参考：[PREREQUISITES.md](../../../../../PREREQUISITES.md)
-
-
-### 运行
-```commandline
-python synthesize_multi_roles_text_to_speech.py
-```

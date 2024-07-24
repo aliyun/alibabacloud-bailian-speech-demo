@@ -3,12 +3,13 @@
 # MIT License  (https://opensource.org/licenses/MIT)
 import os
 import queue
+import sys
 import threading
 import time
 
 import dashscope
 from dashscope.audio.tts_v2 import *
-from pcm_player import PcmPlayer
+from pcm_player import PcmPlayer, PlayerCallback
 
 # This sample code demonstrates how to decode MP3 audio into PCM format and play it using subprocess and pyaudio.
 # Decoding MP3 to PCM before playback is a common approach to audio data handling.
@@ -28,12 +29,14 @@ else:
 class Callback(ResultCallback):
     def __init__(self, player: PcmPlayer):
         self.player = player
+        self._synth_frame_count = 0
 
     def on_open(self):
         print('websocket is open.')
+        self._synth_frame_count = 0
 
     def on_complete(self):
-        print('speech synthesis task complete successfully.')
+        print('\nspeech synthesis task complete successfully.')
 
     def on_error(self, message):
         print(f'speech synthesis task failed, {message}')
@@ -42,7 +45,9 @@ class Callback(ResultCallback):
         print('websocket is closed.')
 
     def on_event(self, message):
-        print(f'recv speech synthsis message {message}')
+        self._synth_frame_count += 1
+        sys.stdout.write("\rPlaying: [{:<10}]".format('=' * self._synth_frame_count))
+        sys.stdout.flush()
 
     def on_data(self, data: bytes) -> None:
         # save audio to file
@@ -53,10 +58,11 @@ class SpeechSynthesisPlayer:
     # Synthesize speech with given text, sync call and return the audio data in result
     # you can customize the synthesis parameters, like model, format, sample_rate or other parameters
     # for more information, please refer to https://help.aliyun.com/document_detail/2712523.html
-    def __init__(self):
+    def __init__(self,player_callback: PlayerCallback):
         print("init synthesizer")
         self.message_queue = queue.Queue()
-        self._player = PcmPlayer()
+        self._player_callback = player_callback
+        self._player = PcmPlayer(self._player_callback)
         self.synthesizer_callback = Callback(self._player)
         consumer_thread = threading.Thread(target=self.consumer, args=())
         consumer_thread.start()
@@ -73,6 +79,7 @@ class SpeechSynthesisPlayer:
                 self.synthesizer.streaming_complete()
                 # notify tts player audio complete
                 self.streaming_complete()
+                self._player.feed_finish()
                 break
             else:
                 print("streaming synthesizer call with text: ", message)

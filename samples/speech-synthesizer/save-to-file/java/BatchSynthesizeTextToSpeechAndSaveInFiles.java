@@ -65,7 +65,7 @@ class SpeechSynthesizerObjectFactory
 }
 
 @Slf4j
-public class BatchSynthesizedTextToSpeechAndSaveInFile {
+public class BatchSynthesizeTextToSpeechAndSaveInFiles {
     public static void main(String[] args) throws InterruptedException, NoApiKeyException {
         // Record task start time
         LocalDateTime task_start_time = LocalDateTime.now();
@@ -94,6 +94,7 @@ public class BatchSynthesizedTextToSpeechAndSaveInFile {
         GenericObjectPoolConfig<SpeechSynthesizer> config =
                 new GenericObjectPoolConfig<>();
         config.setMaxTotal(peakThreadNum);
+        config.setMinIdle(peakThreadNum);
         config.setMinIdle(peakThreadNum);
         GenericObjectPool<SpeechSynthesizer> synthesizerPool =
                 new GenericObjectPool<>(speechSynthesizerObjectFactory, config);

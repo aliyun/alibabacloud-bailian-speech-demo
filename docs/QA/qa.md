@@ -140,7 +140,7 @@ websocket closed due to [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify fail
 security find-certificate -a -p > ~/all_mac_certs.pem; export SSL_CERT_FILE=~/all_mac_certs.pem; export REQUESTS_CA_BUNDLE=~/all_mac_certs.pem
 ln -s /etc/ssl/* /Library/Frameworks/Python.framework/Versions/3.9/etc/openssl
 ```
-执行上面这两条命令手动定位证书。第2条注意python版本。请在执行好上述指令后重新开启终端再运行python。
+执行上面这两条命令手动定位证书。第2条注意python版本。
 
 ### 缺少必要参数
 Java报错：

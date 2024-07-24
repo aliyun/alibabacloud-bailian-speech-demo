@@ -27,6 +27,12 @@
     <artifactId>dashscope-sdk-java</artifactId>
     <version>the-latest-version</version>
 </dependency>
+<!-- 引入jlayer用于解码mp3音频格式 -->
+<dependency>
+    <groupId>javazoom</groupId>
+    <artifactId>jlayer</artifactId>
+    <version>1.0.1</version>
+</dependency>  
 ```
 #### 使用 Gradle
 
@@ -35,6 +41,7 @@
 ```gradle
 // https://mvnrepository.com/artifact/com.alibaba/dashscope-sdk-java
 implementation group: 'com.alibaba', name: 'dashscope-sdk-java', version: 'the-latest-version'
+implementation group: 'javazoom', name: 'jlayer', version: '1.0.1'
 ```
 
 ### 配置阿里云百炼API-KEY

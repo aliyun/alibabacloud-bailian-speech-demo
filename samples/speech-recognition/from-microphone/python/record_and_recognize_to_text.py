@@ -3,13 +3,14 @@
 #  MIT License  (https://opensource.org/licenses/MIT)
 import os
 import sys
+import time
 
 import dashscope
 import sounddevice as sd  # To record audio
 from dashscope.audio.asr import (Recognition, RecognitionCallback,
                                  RecognitionResult)
-from pynput import \
-    keyboard  # To listen for keyboard events by pressing 'q' to stop recording and recognition
+import signal
+# To listen for keyboard events by pressing 'Ctrl+C' to stop recording and recognition
 
 # Set recording parameters
 sample_rate = 16000  # Sample rate (Hz)
@@ -97,26 +98,23 @@ recognition.start()
 print('Recognition start')
 
 
-# keyboard event handler
-def on_press(key):
-    try:
-        print(f'{key.char} pressed .......\n')
-        if key.char == 'q':
-            return False  # Stop listener
-    except AttributeError:
-        pass
+def signal_handler(sig, frame):
+    print("Ctrl+C pressed! Performing quit recognition and exit...")
+    # 执行任何必要的清理操作
+    # Stop recording
+    if 'stream' in globals():
+        stream.stop()
+        stream.close()
+    # Stop recording and recognition
+    print('Recognition stop')
+    recognition.stop()
+    # Forcefully exit the program
+    sys.exit(0)
 
 
-print("Press 'q' to stop recording and recognition.")
+signal.signal(signal.SIGINT, signal_handler)
+print("Press 'Ctrl+C' to stop recording and recognition.")
 # Create a keyboard listener to stop the recording and recognition
-with keyboard.Listener(on_press=on_press) as listener:
-    # Wait until the listener detects the 'q' key
-    listener.join()
-
-# Stop recording
-if 'stream' in globals():
-    stream.stop()
-    stream.close()
-# Stop recording and recognition
-recognition.stop()
-print('Recognition stop')
+# 模拟长时间运行的任务
+while True:
+    time.sleep(0.1)

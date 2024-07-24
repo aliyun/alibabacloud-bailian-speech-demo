@@ -72,8 +72,19 @@ class MyFrame(wx.Frame):
         Args:
             text (str): New text to be displayed.
         """
-        self.button1.SetLabel(text)
+        print("update ui ", text)
+        self.Freeze()
+        self.label.SetLabel(text)
+        self.Thaw()
 
+    def update_label_safely(self, text):
+        print("update ui ", text)
+        wx.CallAfter(self.label.SetLabel, text)
+
+    def on_close(event):
+        # when window is closed
+        print("OnClose")
+        sys.exit(0)
 
 class MyApp(wx.App):
     """
@@ -105,8 +116,4 @@ class MyApp(wx.App):
         Args:
             text (str): New text content.
         """
-        frame.update_text(text)
-
-    def OnCloseWindow(self, event):
-        # when window is closed
-        sys.exit(1)
+        frame.update_label_safely(text)

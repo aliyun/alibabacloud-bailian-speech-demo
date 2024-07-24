@@ -10,9 +10,10 @@
 阿里云百炼SDK运行环境需要Python3.8及以上版本。
 运行本场景DEMO依赖的环境可以通过[PyPI](https://pypi.org/)安装。
 
+您可以使用`pip install -r requirements.txt` 命令来安装本文件夹下的requirements依赖文件。或者手动安装下方的依赖。
+
 - 三方SDK
 ```commandline
-pip3 install pynput //用户输入键盘指令
 pip3 install sounddevice //用于与麦克风录音
 ```
 

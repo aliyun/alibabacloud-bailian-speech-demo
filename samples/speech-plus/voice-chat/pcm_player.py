@@ -77,6 +77,7 @@ class PcmPlayer:
                 continue
             frame_data = self.frame_data_queue.pop(0)
             self.stream.write(frame_data)
+
         if self._is_end:
             self.stream.stop_stream()
             self.callback.on_play_end()
@@ -90,7 +91,7 @@ class PcmPlayer:
         """
         self.frame_data_queue.append(frame_data)
 
-    def stop_play(self):
+    def feed_finish(self):
         """
         Sets the end flag, causing the playback thread to exit its loop, thus stopping playback.
         """

@@ -42,10 +42,10 @@ public class SyncSynthesizeTextToSpeechAndSaveInFile {
 
         // Create a speech synthesizer
         SpeechSynthesizer synthesizer = new SpeechSynthesizer(param,null);
-        System.out.print("requestId: " + synthesizer.getLastRequestId());
         File file = new File("output.mp3");
         // use call methods to get audio data
         ByteBuffer audio = synthesizer.call(textToSynthesize);
+        System.out.println("requestId: " + synthesizer.getLastRequestId());
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(audio.array());
             System.out.println("synthesis done!");
