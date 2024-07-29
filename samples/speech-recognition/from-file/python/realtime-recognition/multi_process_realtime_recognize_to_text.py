@@ -42,9 +42,7 @@ class MyRecognitionCallback(RecognitionCallback):
             print(f'[{self.tag}]RecognitionCallback text: ', sentence['text'])
             self.text = sentence['text']
             if RecognitionResult.is_sentence_end(sentence):
-                print(
-                    '[{}]RecognitionCallback sentence end, request_id:%s, usage:%s'.format(
-                        self.tag, result.get_request_id(), result.get_usage(sentence)))
+                print(f'[{self.tag}]RecognitionCallback sentence end,request_id:{result.get_request_id()}, usage:{result.get_usage(sentence)}')
 
     def on_close(self) -> None:
         print(f'[{self.tag}]RecognitionCallback close.')
@@ -56,7 +54,7 @@ def process_recognition(file_path):
     # you can customize the recognition parameters, like model, format, sample_rate
     # for more information, please refer to https://help.aliyun.com/document_detail/2712536.html
     recognition = Recognition(
-        model='paraformer-realtime-v1',
+        model='paraformer-realtime-v2',
         # 'paraformer-realtime-v1'、'paraformer-realtime-8k-v1'
         format='wav',
         # 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr', you can check the supported formats in the document
