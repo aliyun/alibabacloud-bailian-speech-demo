@@ -1,6 +1,6 @@
 # 阿里云百炼 - 通义语音大模型 - 开发示例
 
-本仓库提供了在语音生成、语音分析理解、语音聊天对话等典型应用场景下，通过<strong>阿里云百炼</strong>调用<strong>通义语音大模型</strong>（包括[CozyVoice](https://fun-audio-llm.github.io/)、[Paraformer](https://github.com/modelscope/FunASR)、[SenseVoice](https://fun-audio-llm.github.io/)等）的开发示例代码。
+本仓库提供了在语音生成、语音分析理解、语音聊天对话等典型应用场景下，通过<strong>阿里云百炼</strong>调用<strong>通义语音大模型</strong>（包括[CosyVoice](https://fun-audio-llm.github.io/)、[Paraformer](https://github.com/modelscope/FunASR)、[SenseVoice](https://fun-audio-llm.github.io/)等）的开发示例代码。
 
 我们以示例的形式向开发者展示如何实现<strong>语音识别</strong>（语音转文字）、<strong>语音合成</strong>（文字转语音）等基础能力。还展示了如何结合大语言模型来实现<strong>语音聊天对话</strong>、<strong>语音分析理解</strong>等高阶AI能力。开发者可以方便的将本仓库中的示例集成进自己的项目中进行进一步开发。
 
