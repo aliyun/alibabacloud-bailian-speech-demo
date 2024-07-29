@@ -1,41 +1,29 @@
-# Sample Repository for the AlibabaCloud Bailian Speech SDK
+# 阿里云百炼 - 通义语音大模型 - 开发示例
 
-## 关于
----
+本仓库提供了在语音生成、语音分析理解、语音聊天对话等典型应用场景下，通过<strong>阿里云百炼</strong>调用<strong>通义语音大模型</strong>（包括[CozyVoice](https://fun-audio-llm.github.io/)、[Paraformer](https://github.com/modelscope/FunASR)、[SenseVoice](https://fun-audio-llm.github.io/)等）的开发示例代码。
 
-本仓库提供了阿里云百炼语音大模型服务在一些常用场景的集成示例代码。示例展示了如何通过阿里云百炼的语音大模型服务开发工具包（SDK），实现语音识别（语音转文字）、语音合成（文字转语音）、语音交互等各类AI功能。
-您可以将本文档中的这些示例集成进自己的项目中进行二次开发。如有任何疑问还可以通过我们的钉钉 / 微信群进行沟通交流。
+我们以示例的形式向开发者展示如何实现<strong>语音识别</strong>（语音转文字）、<strong>语音合成</strong>（文字转语音）等基础能力。还展示了如何结合大语言模型来实现<strong>语音聊天对话</strong>、<strong>语音分析理解</strong>等高阶AI能力。开发者可以方便的将本仓库中的示例集成进自己的项目中进行进一步开发。
 
-### 联系我们
+在开发过程中如有任何疑问，都可以通过我们的钉钉 / 微信群进行沟通交流。
 
-<img src="docs/image/groups.png" width="400"/>
-
+<img src="./docs/image/groups.png" width="400"/>
 
 ## ⭐最新动态⭐
-----
-- 2024/07/24: 
-    - 增加并行调用语音识别和语音合成的python示例。
-    - 增加朗读故事并实时展示字幕的 python/java 示例。
-    - 增加使用网页播放流式音频的AI Assistant示例。
-    - 各示例根节点目录增加更详细的运行说明。
-    - VoiceChat示例运行代码优化。
-- 2024/07/19: 更新文档结构。增加VoiceChat示例、增加语音质检示例。
-- 2024/07/17: 更新说明文档。
-- 2024/07/05: 补充QA文档。
-- 2024/06/25: 发布初始版本，分别支持从麦克风/文件输入识别，以及语音合成到扬声器和文件的 python/java 示例。
+### 2024/07/24 
+- 增加并行调用语音识别和语音合成的python示例。
+- 增加朗读故事并实时展示字幕的 python/java 示例。
+- 增加使用网页播放流式音频的AI Assistant示例。
+- 各示例根节点目录增加更详细的运行说明。
+- VoiceChat示例运行代码优化。
 
+更多历史发布信息请见[变更记录](#变更记录)。
 
-## 示例获取和准备
-----
+## :point_right: 示例获取和准备工作
+- 您可以通过`git clone`克隆示例工程，或者通过[`Download Zip`](https://github.com/aliyun/alibabacloud-bailian-speech-demo/archive/refs/heads/master.zip)下载完整工程，并在本地解压到文件。
 
-- 您可以通过 `git clone` 克隆示例工程，或者通过 `Download Zip` 下载完整工程，并在本地解压到文件。
+- 在执行示例代码之前，您需要开通阿里云账号、获得阿里云百炼**API\_KEY**，并进行必要的**环境配置**。请参考文档[PREREQUISITES.md](./PREREQUISITES.md)。某些示例还需要导入必要的依赖，您可以在示例代码所在目录下的README.md文件中查看具体的依赖条件。
 
-- 在执行示例代码之前，您需要申请阿里云账号并开通**API\_KEY,** 并进行必要的**环境配置**。 请参考文档[PREREQUISITES.md](./PREREQUISITES.md).
-- 有些示例的场景还需要导入必要的依赖，如mp3播放的示例需要导入mp3编解码和播放的依赖库。您可以在示例代码所在目录下的README.md文件中查看依赖条件。
-
-##  应用场景与开发示例
-----
-### 快速开始
+## :point_right: 应用场景与开发示例
 
 <div style="display: flex;">
   <div style="flex: 1; padding: 10px;">
@@ -228,10 +216,27 @@
     </tr>
 </table>
 
-## 常见问题
+## :point_right: 常见问题
 
 常见问题请参考[QA文档](docs/QA/qa.md)
 
-## 许可协议
+## :point_right: 许可协议
 
 本项目遵循[The MIT License](https://opensource.org/license/MIT)开源协议
+
+## 变更记录
+
+### 2024/07/24
+- 增加并行调用语音识别和语音合成的python示例。
+- 增加朗读故事并实时展示字幕的 python/java 示例。
+- 增加使用网页播放流式音频的AI Assistant示例。
+- 各示例根节点目录增加更详细的运行说明。
+- VoiceChat示例运行代码优化。
+### 2024/07/19
+- 更新文档结构。增加VoiceChat示例、增加语音质检示例。
+### 2024/07/17
+- 更新说明文档。
+### 2024/07/05
+- 补充QA文档。
+### 2024/06/25
+- 发布初始版本，分别支持从麦克风/文件输入识别，以及语音合成到扬声器和文件的 python/java 示例。
