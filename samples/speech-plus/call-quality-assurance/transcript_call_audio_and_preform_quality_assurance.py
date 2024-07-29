@@ -59,7 +59,7 @@ def read_file_get_content(file_path):
         Return Value:
         String representation of file content.
     """
-    with open(file_path, 'r') as f:
+    with open(file_path, 'r', encoding='utf-8') as f:
         trans_result = f.read()
         print("trans_result: ", trans_result)
         if trans_result:
