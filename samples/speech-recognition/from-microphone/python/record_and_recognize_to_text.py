@@ -87,7 +87,7 @@ callback = MyRecognitionCallback()
 # you can customize the recognition parameters, like model, format, sample_rate
 # for more information, please refer to https://help.aliyun.com/document_detail/2712536.html
 recognition = Recognition(
-    model='paraformer-realtime-v1',
+    model='paraformer-realtime-v2',
     # 'paraformer-realtime-v1'、'paraformer-realtime-8k-v1'
     format='pcm',
     # 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr', you can check the supported formats in the document
