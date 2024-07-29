@@ -25,10 +25,11 @@
 
 [comment]: # (supported programming languages of the sample)
 ### :point_right: 编程语言
-[Python](./python) | [Java](./java)
+- [Python](./python)
+- [Java](./java)
 
 [comment]: # (model and interface of the sample)
-### :point_right: 详细参考信息
+### :point_right: 参考详情
 
 <table>
     <tr>
@@ -36,12 +37,8 @@
         <th><b>开发文档</b></th>
     <tr>
     <tr>
-        <td><b>Paraformer-v1</b></td>
+        <td><b>Paraformer-v2</b></td>
         <td><a>https://help.aliyun.com/zh/dashscope/developer-reference/real-time-speech-recognition-api-details</a></td>
-    <tr>
-    <tr>
-        <td><b>会议场景</b></td>
-        <td>实时会议语音转文字</td>
     <tr>
 </table>
 
