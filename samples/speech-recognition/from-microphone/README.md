@@ -20,7 +20,7 @@
 
 | 推荐模型 | 开发文档 |
 | ----- | ----- |
-| Paraformer-realtime-v2<br>Paraformer-realtime-v1<br>paraformer-realtime-8k-v1 | [Paraformer实时语音识别API详情](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
+| paraformer-realtime-v2<br>paraformer-realtime-v1<br>paraformer-realtime-8k-v1 | [Paraformer实时语音识别API详情](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
 
 
 [comment]: # (technical support of the sample)
