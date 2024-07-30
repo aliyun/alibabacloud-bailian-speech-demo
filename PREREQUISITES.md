@@ -31,7 +31,7 @@
 
     - 前提条件
 
-        已安装Python3.8及以上版本。请确保安装正确的Python版本，可能需要pip3 install dashscope！
+        已安装Python 3.8及以上版本。
 
     - 操作步骤
 
