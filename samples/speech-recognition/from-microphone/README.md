@@ -31,16 +31,9 @@
 [comment]: # (model and interface of the sample)
 ### :point_right: 参考详情
 
-<table>
-    <tr>
-        <th><b>推荐模型</b></th>    
-        <th><b>开发文档</b></th>
-    <tr>
-    <tr>
-        <td><b>Paraformer-v2</b></td>
-        <td><a>https://help.aliyun.com/zh/dashscope/developer-reference/real-time-speech-recognition-api-details</a></td>
-    <tr>
-</table>
+| 推荐模型 | 开发文档 |
+| ----- | ----- |
+| Paraformer-realtime-v2<br>Paraformer-realtime-v1<br>paraformer-realtime-8k-v1 | https://help.aliyun.com/zh/dashscope/developer-reference/real-time-speech-recognition-api-details |
 
 
 [comment]: # (technical support of the sample)
