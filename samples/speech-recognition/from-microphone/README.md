@@ -5,23 +5,10 @@
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景
 
-<table>
-    <tr>
-        <th><b>应用场景</b></th>    
-        <th><b>典型用法</b></th>
-        <th><b>使用说明</b></th>
-    <tr>
-    <tr>
-        <td><b>电话呼叫中心场景</b></td>
-        <td>实时通话语音转文字</td>
-        <td><i>将用户或客服人员的语音通话实时转为文字</i></td>
-    <tr>
-    <tr>
-        <td><b>会议场景</b></td>
-        <td>实时会议语音转文字</td>
-        <td><i>将与会人的语音实时转为文字</i></td>
-    <tr>
-</table>
+| 应用场景 | 典型用法 | 使用说明 |
+| ----- | ----- | ----- |
+| **电话呼叫中心场景** | 实时通话语音转文字 | *将用户或客服人员的语音通话实时转为文字* |
+| **会议场景** | 实时会议语音转文字 | *将与会人的语音实时转为文字* |
 
 [comment]: # (supported programming languages of the sample)
 ### :point_right: 编程语言
@@ -33,7 +20,7 @@
 
 | 推荐模型 | 开发文档 |
 | ----- | ----- |
-| Paraformer-realtime-v2<br>Paraformer-realtime-v1<br>paraformer-realtime-8k-v1 | https://help.aliyun.com/zh/dashscope/developer-reference/real-time-speech-recognition-api-details |
+| Paraformer-realtime-v2<br>Paraformer-realtime-v1<br>paraformer-realtime-8k-v1 | [Paraformer实时语音识别API详情](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
 
 
 [comment]: # (technical support of the sample)
