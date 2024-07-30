@@ -21,7 +21,7 @@
 ## :point_right: 示例获取和准备工作
 - 您可以通过`git clone`克隆示例工程，或者通过[`Download Zip`](https://github.com/aliyun/alibabacloud-bailian-speech-demo/archive/refs/heads/master.zip)下载完整工程，并在本地解压到文件。
 
-- 在执行示例代码之前，您需要开通阿里云账号、获得阿里云百炼**API\_KEY**，并进行必要的**环境配置**。请参考文档[PREREQUISITES.md](./PREREQUISITES.md)。某些示例还需要导入必要的依赖，您可以在示例代码所在目录下的README.md文件中查看具体的依赖条件。
+- 在执行示例代码之前，您需要开通**阿里云账号**及**阿里云百炼模型服务**、创建阿里云百炼**API\_KEY**并进行必要的**环境配置**，以及安装阿里云百炼**DashScope SDK**，有关步骤的向导请参见[运行示例代码的前提条件](./PREREQUISITES.md)。某些示例还需要导入必要的依赖，您可以在示例代码所在目录下的README.md文件中查看具体的依赖条件。
 
 ## :point_right: 应用场景与开发示例
 
