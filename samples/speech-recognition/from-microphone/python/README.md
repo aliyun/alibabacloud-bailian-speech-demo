@@ -24,7 +24,7 @@
 python record_and_recognize_to_text.py
 ```
 
-示例运行时，您通过麦克风所录制的语音将会被实时识别为文字，这些文字会打印在屏幕上。当从键盘上按下“Ctrl+Q”时，示例将停止运行。
+示例运行时，您通过麦克风所录制的语音将会被实时识别为文字，这些文字会打印在屏幕上。当从键盘上按下“Ctrl+C”时，示例将停止运行。
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持

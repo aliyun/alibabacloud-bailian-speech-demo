@@ -16,7 +16,7 @@
 - 各示例根节点目录增加更详细的运行说明。
 - VoiceChat示例运行代码优化。
 
-更多历史发布信息请见[变更记录](#变更记录)。
+更多历史发布信息请见[变更记录](#point_right-变更记录)。
 
 ## :point_right: 示例获取和准备工作
 - 您可以通过`git clone`克隆示例工程，或者通过[`Download Zip`](https://github.com/aliyun/alibabacloud-bailian-speech-demo/archive/refs/heads/master.zip)下载完整工程，并在本地解压到文件。
@@ -224,7 +224,7 @@
 
 本项目遵循[The MIT License](https://opensource.org/license/MIT)开源协议
 
-## 变更记录
+## :point_right: 变更记录
 
 ### 2024/07/24
 - 增加并行调用语音识别和语音合成的python示例。
@@ -232,11 +232,15 @@
 - 增加使用网页播放流式音频的AI Assistant示例。
 - 各示例根节点目录增加更详细的运行说明。
 - VoiceChat示例运行代码优化。
+
 ### 2024/07/19
 - 更新文档结构。增加VoiceChat示例、增加语音质检示例。
+
 ### 2024/07/17
 - 更新说明文档。
+
 ### 2024/07/05
 - 补充QA文档。
+
 ### 2024/06/25
 - 发布初始版本，分别支持从麦克风/文件输入识别，以及语音合成到扬声器和文件的 python/java 示例。
