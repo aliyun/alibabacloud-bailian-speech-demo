@@ -24,10 +24,13 @@ else:
 
 # Submit the transcription task
 task_response = dashscope.audio.asr.Transcription.async_call(
-    model='paraformer-v1',
+    model='sensevoice-v1',
+    # 'paraformer-v1'
     file_urls=[
         'https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/paraformer/hello_world_female2.wav',
-        'https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/paraformer/hello_world_male2.wav'
+        'https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/paraformer/hello_world_male2.wav',
+        'https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/rich_text_example_1.wav',
+        'https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/rich_text_example_2.wav'
     ])
 # This is the description of 'file_urls'.
 # You need to provide a URL from which the file can be downloaded via HTTP.
