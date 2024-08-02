@@ -1,9 +1,7 @@
+[comment]: # (title and brief introduction of the sample)
 ## 批量音视频文件语音识别（实时模式）
 批量音视频文件语音识别（实时模式）是指并发的将多个音视频文件通过实时的方式将语音数据发送给语音识别服务，并实时地将语音转换为文字的过程。
 
-
-[comment]: # (title and brief introduction of the sample)
-## 批量音视频文件语音识别（实时模式）
 
 ## Python
 
@@ -29,7 +27,7 @@
 python3 run.py
 ```
 
-示例运行时，您通过麦克风所录制的语音将会被实时识别为文字，这些文字会打印在屏幕上。当从键盘上按下“Ctrl+C”时，示例将停止运行。
+示例使用了multiprocessing实现并发运行。在示例运行时，程序会并发的读取您输入的多个音视频文件，将其独立的转为实时识别结果并分别以callback的方式回调。
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持
