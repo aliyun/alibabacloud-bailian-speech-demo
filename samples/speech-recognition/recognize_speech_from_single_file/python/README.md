@@ -24,7 +24,7 @@
 python3 run.py
 ```
 
-示例运行时，文件中的语音将被转写为文字，并通过控制台打印结果。
+示例运行时，文件中的音视频文件会被转为16k 16bit 单通道的PCM格式数据，之后再被转写为文字，并通过控制台打印结果。
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持
