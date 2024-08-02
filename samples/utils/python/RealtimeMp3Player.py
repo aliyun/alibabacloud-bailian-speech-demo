@@ -31,7 +31,7 @@ class RealtimeMp3Player:
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
         )  # initialize ffmpeg to decode mp3
-        print('audio player is started')
+        print('audio play is start')
 
     def stop(self):
         self.ffmpeg_process.stdin.close()
@@ -42,7 +42,7 @@ class RealtimeMp3Player:
         self._player.terminate()
         if self.ffmpeg_process:
             self.ffmpeg_process.terminate()
-        print('audio player is stoped')
+        print('audio play is stop')
 
     def play_audio(self):
         # play audio with pcm data decode by ffmpeg
@@ -58,7 +58,7 @@ class RealtimeMp3Player:
         self.ffmpeg_process.stdin.write(data)
         if self.play_thread is None:
             # initialize play thread
-            print('start play thread')
+            # print('start play thread')
             self._stream.start_stream()
             self.play_thread = threading.Thread(target=self.play_audio)
             self.play_thread.start()

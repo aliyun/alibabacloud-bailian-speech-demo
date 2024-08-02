@@ -45,16 +45,16 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
 
     class Callback(ResultCallback):
         def on_open(self):
-            print('websocket is open.')
+            print('\nwebsocket is open')
 
         def on_complete(self):
-            print('speech synthesis task complete successfully.')
+            print('\nspeech synthesis complete')
 
         def on_error(self, message: str):
             print(f'speech synthesis task failed, {message}')
 
         def on_close(self):
-            print('websocket is closed.')
+            print('websocket is close')
 
         def on_event(self, message):
             # print(f'recv speech synthsis message {message}')
@@ -84,7 +84,7 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
     )
     for response in responses:
         if response.status_code == HTTPStatus.OK:
-            print(response.output.choices[0]['message']['content'], end='')
+            print(response.output.choices[0]['message']['content'], end='', flush=True)
             # send llm result to synthesizer
             synthesizer.streaming_call(
                 response.output.choices[0]['message']['content'])
@@ -98,7 +98,7 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
                     response.message,
                 ))
     synthesizer.streaming_complete()
-    print('requestId: ', synthesizer.get_last_request_id())
+    print('synthesize and play over with requestId: ', synthesizer.get_last_request_id())
     # stop realtime mp3 player
     player.stop()
 
