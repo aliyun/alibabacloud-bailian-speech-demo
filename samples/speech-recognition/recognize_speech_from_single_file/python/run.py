@@ -8,6 +8,7 @@ import os
 
 import dashscope
 from dashscope.audio.asr import Recognition, RecognitionResult
+from samples.utils.python import AudioDecoder
 
 
 def init_dashscope_api_key():
@@ -26,23 +27,17 @@ class RecognizeSpeechFromSingleFile:
     def __init__(self):
         pass
 
-    def recognize_file(self,file_name: str) -> RecognitionResult:
+    def recognize_file(self, file_path: str) -> RecognitionResult:
         # Initialize recognition service by sync call
         # you can customize the recognition parameters, like model, format, sample_rate
         # for more information, please refer to https://help.aliyun.com/document_detail/2712536.html
         recognition = Recognition(
             model='paraformer-realtime-v2',
             # 'paraformer-realtime-v1'、'paraformer-realtime-8k-v1'
-            format='wav',
+            format='pcm',
             # 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr', you can check the supported formats in the document
             sample_rate=16000,  # supported 8000、16000
             callback=None)
-
-        # Please replace the path with your audio file path
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(current_dir, '../..', 'sampledata',
-                                 file_name)
-        print('Input file is: %s' % file_path)
 
         # Start recognition with the audio file
         return recognition.call(file_path)
@@ -51,9 +46,25 @@ class RecognizeSpeechFromSingleFile:
 # main function
 if __name__ == '__main__':
     init_dashscope_api_key()
+
+    # Please replace the path with your audio file path
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(current_dir, '../..', 'sampledata',
+                             "sample_audio.mp3")
+    print('Input file is: %s' % file_path)
+
+    decoded_file_path = os.path.join(current_dir,
+                                     "temple_decoded.pcm")
+
+    # Decode your audio/video file to 16k 16bit mono pcm file to current directory
+    AudioDecoder.convert_to_pcm(file_path, decoded_file_path)
+
     # Initialize recognition
     speech_recognizer = RecognizeSpeechFromSingleFile()
-    result = speech_recognizer.recognize_file('hello_world_male_16k_16bit_mono.wav')
+    result = speech_recognizer.recognize_file(decoded_file_path)
 
     # Check the result
     print(json.dumps(result, indent=4, ensure_ascii=False))
+
+    # Remove the decoded file
+    os.remove(decoded_file_path)
