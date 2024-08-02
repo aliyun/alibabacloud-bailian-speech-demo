@@ -1,6 +1,8 @@
+# coding=utf-8
 #!/usr/bin/env python3
-# Copyright (c) alibaba.. All Rights Reserved.
-# MIT License  (https://opensource.org/licenses/MIT)
+# Copyright (C) Alibaba Group. All Rights Reserved.
+# MIT License (https://opensource.org/licenses/MIT)
+
 import os
 import wx
 import wx.richtext as rt
@@ -14,19 +16,21 @@ from dashscope import Generation
 from dashscope.audio.tts_v2 import *
 from RealtimeMp3Player import RealtimeMp3Player
 
+
 # This sample code demonstrates how to decode MP3 audio into PCM format and play it using subprocess and pyaudio.
 # Decoding MP3 to PCM before playback is a common approach to audio data handling.
 # Alternatively, other libraries can be utilized either to decode MP3 or to play the audio directly.
 
-# Set your DashScope API key. More information: https://help.aliyun.com/document_detail/2712195.html
-if 'DASHSCOPE_API_KEY' in os.environ:
-    dashscope.api_key = os.environ['DASHSCOPE_API_KEY']
-    # in fact,if you have set DASHSCOPE_API_KEY in your environment variable,
-    # you can ignore this, and the sdk will automatically get the api_key from the environment variable
-else:
-    dashscope.api_key = '<your-dashscope-api-key>'
-    # if you can not set api_key in your environment variable,
-    # you can set it here by code
+def init_dashscope_api_key():
+    """
+        Set your DashScope API-key. More information:
+        https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
+    """
+
+    if 'DASHSCOPE_API_KEY' in os.environ:
+        dashscope.api_key = os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+    else:
+        dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
 
 
 class SubtitlePlayer(wx.Frame):
@@ -36,7 +40,8 @@ class SubtitlePlayer(wx.Frame):
 
         self.label_text = ""
         # self.label = wx.StaticText(panel, label=self.label_text, pos=(10, 10))
-        self.label = rt.RichTextCtrl(panel, pos=(10, 10), size=(1380, 260), style=wx.VSCROLL|wx.HSCROLL|wx.NO_BORDER|wx.TE_READONLY|wx.TE_MULTILINE)
+        self.label = rt.RichTextCtrl(panel, pos=(10, 10), size=(1380, 260),
+                                     style=wx.VSCROLL | wx.HSCROLL | wx.NO_BORDER | wx.TE_READONLY | wx.TE_MULTILINE)
         font = self.label.GetFont()
         font.PointSize += 6
         self.label.SetFont(font)
@@ -52,8 +57,7 @@ class SubtitlePlayer(wx.Frame):
         self.work_thread.start()
         self.player = RealtimeMp3Player()
         self.player.start()
-        
-        
+
     def update_label(self, new_text):
         # Remove highlight from existing text
         self.label.SetStyle(0, self.label.GetLastPosition(), wx.TextAttr(wx.Colour(0, 0, 0)))
@@ -61,17 +65,17 @@ class SubtitlePlayer(wx.Frame):
         # Add new text at the end     
         self.label.SetInsertionPointEnd()
         self.label.WriteText(new_text)
-        
+
         # Get the entire text
         current_text = self.label.GetValue()
-        
+
         # Find the start of the last line
         last_newline = current_text.rfind('\n', 0, self.label.GetLastPosition() - len(new_text))
         if last_newline == -1:
             start_of_last_line = 0
         else:
             start_of_last_line = last_newline + 1
-        
+
         # Highlight the last line
         last_position = self.label.GetLastPosition()
         self.label.SetStyle(start_of_last_line, last_position, wx.TextAttr(wx.Colour(10, 200, 10)))
@@ -79,11 +83,9 @@ class SubtitlePlayer(wx.Frame):
         # Ensure the control scrolls to show the new text
         self.label.ShowPosition(last_position)
 
-
     def add_text_to_label(self, new_text):
         wx.CallAfter(self.update_label, new_text)
-        
-    
+
     def stop(self):
         with self.task_lock:
             self.stop_task = True
@@ -98,18 +100,18 @@ class SubtitlePlayer(wx.Frame):
         with self.queue_lock:
             if text is not None:
                 self.text_queue.append([False, text])
-    
+
     def sentence_end(self):
         with self.queue_lock:
             self.text_queue.append([True, None])
             self.audio_queue.append([True, None])
-    
+
     def wait_and_refresh_player(self):
         if self.player is not None:
             self.player.stop()
         self.player = RealtimeMp3Player()
         self.player.start()
-    
+
     def run(self):
         while True:
             time.sleep(0.05)
@@ -137,7 +139,7 @@ class SubtitlePlayer(wx.Frame):
                         # 将音频写入播放器
                         self.player.write(audio)
                         self.audio_queue.pop(0)
-                                        
+
                 if len(self.text_queue) > 0:
                     is_text_stop, text = self.text_queue[0]
                     # 本句文本结束
@@ -157,6 +159,7 @@ class SubtitlePlayer(wx.Frame):
                         # 将文本上屏
                         self.add_text_to_label(text)
                         self.text_queue.pop(0)
+
 
 # Define a callback to handle the result
 
@@ -179,7 +182,8 @@ class CallbackWithFrame(ResultCallback):
         print('websocket is closed.')
 
     def on_event(self, message):
-        print(f'recv speech synthsis message {message}')
+        # print(f'recv speech synthsis message {message}')
+        pass
 
     def on_data(self, data: bytes) -> None:
         # play audio realtime
@@ -194,23 +198,23 @@ class TtsTask:
         SENTENCE_BEGIN = (0)
         SENTENCE_END = (1)
         TEXT = (2)
-        
-        
+
         def __init__(self, code):
             self.type_code = code
 
     text = ""
-    type:TaskType = TaskType.TEXT
+    type: TaskType = TaskType.TEXT
+
     def __init__(self, text, type):
         self.text = text
         self.type = type
-    
+
     def __str__(self):
         return "TtsTask(text=" + self.text + ", type=" + str(self.type.type_code) + ")"
 
 
 class TtsTaskHandler:
-    def __init__(self, callback:CallbackWithFrame, frame:SubtitlePlayer):
+    def __init__(self, callback: CallbackWithFrame, frame: SubtitlePlayer):
         self.task_list = []
         self.lock = threading.Lock()
         self.stop_task = False
@@ -219,14 +223,14 @@ class TtsTaskHandler:
         self.work_thread.start()
         self.frame = frame
         self.callback = callback
-    
+
     def restart_synthesizer(self):
         self.synthesizer = SpeechSynthesizer(
             model='cosyvoice-v1',
             voice='longxiaochun',
             callback=self.callback,
         )
-    
+
     def run(self):
         while True:
             with self.lock:
@@ -243,24 +247,24 @@ class TtsTaskHandler:
                 elif task.type == TtsTask.TaskType.SENTENCE_END:
                     self.synthesizer.streaming_complete()
                     self.frame.sentence_end()
-                    print('#'*10 + 'sentence end' + '#'*10)
+                    print('#' * 10 + 'sentence end' + '#' * 10)
                 elif task.type == TtsTask.TaskType.SENTENCE_BEGIN:
                     self.restart_synthesizer()
-    
-    def submit_task(self, task:TtsTask):
+
+    def submit_task(self, task: TtsTask):
         with self.lock:
             # skip empty text
             if task.type == TtsTask.TaskType.TEXT and not task.text:
                 return
-            self.task_list.append(task)      
-            
+            self.task_list.append(task)
+
     def stop(self):
         with self.lock:
             self.stop_task = True
         self.work_thread.join()
-        
 
-def process(frame:SubtitlePlayer, ttsTaskHandler:TtsTaskHandler):
+
+def process(frame: SubtitlePlayer, ttsTaskHandler: TtsTaskHandler):
     messages = [
         {'role': 'user', 'content': '请讲一个一百五十字的小故事。'}]
     responses = Generation.call(model="qwen-turbo",
@@ -272,18 +276,18 @@ def process(frame:SubtitlePlayer, ttsTaskHandler:TtsTaskHandler):
     ttsTaskHandler.submit_task(TtsTask("", TtsTask.TaskType.SENTENCE_BEGIN))
     for response in responses:
         if response.status_code == HTTPStatus.OK:
-            text = response.output.choices[0]['message']['content'] 
-            print('recv text from llm:'+text)
+            text = response.output.choices[0]['message']['content']
+            print('recv text from llm:' + text)
             if '。' in text:
                 # split text by '。'
                 parts = text.split('。', 1)
-                ttsTaskHandler.submit_task(TtsTask(parts[0]+'。', TtsTask.TaskType.TEXT))
+                ttsTaskHandler.submit_task(TtsTask(parts[0] + '。', TtsTask.TaskType.TEXT))
                 ttsTaskHandler.submit_task(TtsTask("", TtsTask.TaskType.SENTENCE_END))
                 ttsTaskHandler.submit_task(TtsTask("", TtsTask.TaskType.SENTENCE_BEGIN))
                 ttsTaskHandler.submit_task(TtsTask(parts[1], TtsTask.TaskType.TEXT))
             else:
                 ttsTaskHandler.submit_task(TtsTask(text, TtsTask.TaskType.TEXT))
-                
+
         else:
             print(
                 'Request id: %s, Status code: %s, error code: %s, error message: %s'
@@ -294,12 +298,13 @@ def process(frame:SubtitlePlayer, ttsTaskHandler:TtsTaskHandler):
                     response.message,
                 ))
     ttsTaskHandler.stop()
-  
+
 
 # Synthesize speech with llm streaming output text, sync call and playback of MP3 audio streams.
 # you can customize the synthesis parameters, like model, format, sample_rate or other parameters
 # for more information, please refer to https://help.aliyun.com/document_detail/2712523.html        
-if __name__ == "__main__": 
+if __name__ == "__main__":
+    init_dashscope_api_key()
     app = wx.App(False)
     frame = SubtitlePlayer()
     callback = CallbackWithFrame(frame)
@@ -307,4 +312,3 @@ if __name__ == "__main__":
     thread = threading.Thread(target=process, args=(frame, ttsTaskHandler))
     thread.start()
     app.MainLoop()
-        

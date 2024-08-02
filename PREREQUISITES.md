@@ -1,7 +1,7 @@
 # 运行示例代码的前提条件
 
 ## :point_right: 概述
-通义实验室语音大模型（包括[CozyVoice](https://fun-audio-llm.github.io/)、[Paraformer](https://github.com/modelscope/FunASR)、[SenseVoice](https://fun-audio-llm.github.io/)等）可以通过阿里云百炼提供的API服务进行调用，实现<strong>语音识别</strong>（语音转文字）、<strong>语音生成</strong>（文字转语音）等功能。这些功能通过与阿里云百炼上的大语言模型API服务（包括通义千问、百川、月之暗面、零一万物、MiniMax等）结合，还可以实现<strong>语音聊天对话</strong>、<strong>语音分析理解</strong>、<strong>语音翻译</strong>等高阶AI功能。
+通义实验室语音大模型（包括[CosyVoice](https://fun-audio-llm.github.io/)、[Paraformer](https://github.com/modelscope/FunASR)、[SenseVoice](https://fun-audio-llm.github.io/)等）可以通过阿里云百炼提供的API服务进行调用，实现<strong>语音识别</strong>（语音转文字）、<strong>语音生成</strong>（文字转语音）等功能。这些功能通过与阿里云百炼上的大语言模型API服务（包括通义千问、百川、月之暗面、零一万物、MiniMax等）结合，还可以实现<strong>语音聊天对话</strong>、<strong>语音分析理解</strong>、<strong>语音翻译</strong>等高阶AI功能。
 
 运行本代码库中的示例代码需要调用阿里云百炼模型服务，该服务会提供一定的<strong>免费额度</strong>供开发者试用各个模型。要获得免费试用的额度并运行本代码库中的示例，开发者只需要简单的遵循以下四个步骤以满足前提条件：
 

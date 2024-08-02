@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) Alibaba Group. All Rights Reserved.
+ * MIT License (https://opensource.org/licenses/MIT)
+ */
+
 package org.example.ttsv2;
 
 import com.alibaba.dashscope.aigc.generation.Generation;

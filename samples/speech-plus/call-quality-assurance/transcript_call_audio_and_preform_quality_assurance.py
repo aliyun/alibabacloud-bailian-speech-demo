@@ -1,6 +1,8 @@
+# coding=utf-8
 #!/usr/bin/env python3
-# Copyright (c) alibaba.. All Rights Reserved.
-#  MIT License  (https://opensource.org/licenses/MIT)
+# Copyright (C) Alibaba Group. All Rights Reserved.
+# MIT License (https://opensource.org/licenses/MIT)
+
 import json
 import os
 from http import HTTPStatus
@@ -8,15 +10,18 @@ import requests
 import dashscope
 from dashscope import Generation
 
-# Set your DashScope API key. More information: https://help.aliyun.com/document_detail/2712195.html
-if 'DASHSCOPE_API_KEY' in os.environ:
-    dashscope.api_key = os.environ['DASHSCOPE_API_KEY']
-    # in fact,if you have set DASHSCOPE_API_KEY in your environment variable,
-    # you can ignore this, and the sdk will automatically get the api_key from the environment variable
-else:
-    dashscope.api_key = '<your-dashscope-api-key>'
-    # if you can not set api_key in your environment variable,
-    # you can set it here by code
+
+def init_dashscope_api_key():
+    """
+        Set your DashScope API-key. More information:
+        https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
+    """
+
+    if 'DASHSCOPE_API_KEY' in os.environ:
+        dashscope.api_key = os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+    else:
+        dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
+
 
 # Submit the transcription task files list
 # the transcription api supports most of the common audio formats
@@ -88,7 +93,6 @@ def call_llm(query: str):
     prompt += query
     messages = [{'role': 'user', 'content': prompt}]
 
-
     # Prepare for the LLM call
     responses = Generation.call(
         model='qwen-turbo',
@@ -97,9 +101,9 @@ def call_llm(query: str):
         # incremental_output=True,  # enable incremental output
     )
     for response in responses:
-        if response.status_code == HTTPStatus.OK :
+        if response.status_code == HTTPStatus.OK:
             if response.output.get('finish_reason') == 'stop':
-                print("perform_quality_assurance result:",response.output)
+                print("perform_quality_assurance result:", response.output)
         else:
             print(
                 'Request id: %s, Status code: %s, error code: %s, error message: %s'
@@ -110,7 +114,8 @@ def call_llm(query: str):
                     response.message,
                 ))
 
-def transcript_audo_file():
+
+def transcript_audio_file():
     # Submit the transcription task
     task_response = dashscope.audio.asr.Transcription.async_call(
         model='paraformer-v1',
@@ -145,8 +150,10 @@ def transcript_audo_file():
 
 
 if __name__ == '__main__':
+    # 0. init dashscope api key
+    init_dashscope_api_key()
     # 1. transcribe audio file
-    trans_result_link = transcript_audo_file()
+    trans_result_link = transcript_audio_file()
     # 2. download the transcription result
     if trans_result_link:
         download_file(trans_result_link, file_path)

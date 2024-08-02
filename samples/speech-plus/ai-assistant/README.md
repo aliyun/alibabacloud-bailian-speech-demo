@@ -1,7 +1,32 @@
+[comment]: # (title and brief introduction of the sample)
 ## AI Assistant网页版
 AI Assistant网页版模拟了目前主流的大模型网站提供的交互服务，在多轮对话的基础上增加了实时、低延迟朗读大模型输出的能力。您可以参考这个示例项目搭建自己的Chatgpt网站。
 
-## 前提条件
+<!-- [comment]: # (list of scenarios of the sample)
+### :point_right: 适用场景
+
+| 应用场景         | 典型用法   | 使用说明                |
+|--------------|--------|---------------------| -->
+
+
+## Python
+
+[comment]: # (prerequisites)
+### :point_right: 前提条件
+
+1. #### 配置阿里云百炼API-KEY
+
+    在运行本示例之前，您需要开通阿里云账号、获得阿里云百炼API_KEY，并进行必要的环境配置。有关API-KEY的详细配置步骤请参考：[PREREQUISITES.md](../../../../PREREQUISITES.md)
+
+1. #### 安装Python依赖
+
+    阿里云百炼SDK运行环境需要Python 3.8及以上版本。您可以使用以下命令来安装本示例的依赖：
+    ```commandline
+    pip3 install -r requirements.txt
+    ```
+
+[comment]: # (how to run the sample and expected results)
+### :point_right: 运行示例
 本目录下下提供了调用通义Speech语音合成以及通义千问两个服务接口，实现的AI Assistant场景示例。
 
 本示例提供了一个简化的GUI 界面，用来交互。
@@ -11,20 +36,8 @@ AI Assistant网页版模拟了目前主流的大模型网站提供的交互服�
 
 <img src="../../../docs/image/ai-assistant.png" width="400"/>
 
-### 安装 Python 依赖
+[comment]: # (technical support of the sample)
+### :point_right: 技术支持
+<img src="../../../docs/image/groups.png" width="400"/>
 
-阿里云百炼SDK运行环境需要Python3.8及以上版本。
-运行本场景DEMO依赖的环境可以通过[PyPI](https://pypi.org/)安装。
-
-您可以使用`pip install -r requirements.txt` 命令来安装本文件夹下的requirements依赖文件。或者手动安装下方的依赖。
-
-- 导入百炼SDK
-```commandline
-pip3 install dashscope //安装阿里云百炼SDK
-```
-
-### 配置阿里云百炼API-KEY
-在使用百炼SDK进行语音识别之前，您需要先在阿里云控制台创建语音识别服务并获取API-KEY。
-- 在[百炼控制台](https://bailian.console.aliyun.com/)界面右上角头像位置，鼠标悬浮后，展示API-KEY，点击后进入API-KEY管理页面。
-- 点击【创建新的API-KEY】，会自动创建一条属于这个账号的API-KEY。列表上展示API-KEY密文，点击【查看】可以看到API-KEY的明文信息。请注意保存API-KEY的明文信息，后续使用API-KEY时需要用到。
-- 更多百炼配置信息请参考：[PREREQUISITES.md](../../../../../PREREQUISITES.md)
+    

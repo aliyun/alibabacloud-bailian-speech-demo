@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) Alibaba Group. All Rights Reserved.
+ * MIT License (https://opensource.org/licenses/MIT)
+ */
+
 package org.aliyun.bailian;
 
 import javazoom.jl.decoder.JavaLayerException;

@@ -1,3 +1,8 @@
+# coding=utf-8
+#!/usr/bin/env python3
+# Copyright (C) Alibaba Group. All Rights Reserved.
+# MIT License (https://opensource.org/licenses/MIT)
+
 """
 pcm_recorder.py: A simple class for managing PCM audio recordings.
 

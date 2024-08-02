@@ -1,6 +1,8 @@
+# coding=utf-8
 #!/usr/bin/env python3
-# Copyright (c) alibaba.. All Rights Reserved.
-# MIT License  (https://opensource.org/licenses/MIT)
+# Copyright (C) Alibaba Group. All Rights Reserved.
+# MIT License (https://opensource.org/licenses/MIT)
+
 import os
 import queue
 import sys

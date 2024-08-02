@@ -1,6 +1,8 @@
+# coding=utf-8
 #!/usr/bin/env python3
-# Copyright (c) alibaba.. All Rights Reserved.
-# MIT License  (https://opensource.org/licenses/MIT)
+# Copyright (C) Alibaba Group. All Rights Reserved.
+# MIT License (https://opensource.org/licenses/MIT)
+
 import os
 import sys
 import threading
@@ -16,19 +18,21 @@ from pcm_recorder import Recorder
 from app_util import MyApp
 from pcm_player import PlayerCallback
 
+
 # This sample code demonstrates how to decode MP3 audio into PCM format and play it using subprocess and pyaudio.
 # Decoding MP3 to PCM before playback is a common approach to audio data handling.
 # Alternatively, other libraries can be utilized either to decode MP3 or to play the audio directly.
 
-# Set your DashScope API key. More information: https://help.aliyun.com/document_detail/2712195.html
-if 'DASHSCOPE_API_KEY' in os.environ:
-    dashscope.api_key = os.environ['DASHSCOPE_API_KEY']
-    # in fact,if you have set DASHSCOPE_API_KEY in your environment variable,
-    # you can ignore this, and the sdk will automatically get the api_key from the environment variable
-else:
-    dashscope.api_key = '<your-dashscope-api-key>'
-    # if you can not set api_key in your environment variable,
-    # you can set it here by code
+def init_dashscope_api_key():
+    """
+        Set your DashScope API-key. More information:
+        https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
+    """
+
+    if 'DASHSCOPE_API_KEY' in os.environ:
+        dashscope.api_key = os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+    else:
+        dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
 
 
 # recognition callback
@@ -160,6 +164,8 @@ def call_LLM(text: str, tts_player: speech_synthesizer.SpeechSynthesisPlayer):
 
 # main function
 if __name__ == '__main__':
+    init_dashscope_api_key()
+
     _recognition = RecordToRecognize()
     app = MyApp()
 
