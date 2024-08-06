@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## 音视频文件语音识别
+## 单个音视频文件语音识别
 ## Java
 
 [comment]: # (prerequisites)

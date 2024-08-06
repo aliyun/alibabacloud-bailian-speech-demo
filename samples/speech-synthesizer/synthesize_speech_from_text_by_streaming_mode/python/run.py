@@ -1,5 +1,5 @@
 # coding=utf-8
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 
@@ -15,7 +15,8 @@ sys.path.append(parent_dir)
 
 from samples.utils.python.RealtimeMp3Player import RealtimeMp3Player
 
-text_to_synthesize = '欢迎体验阿里云百炼大模型语音合成服务！'
+text_to_synthesize = '想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！'
+
 
 def init_dashscope_api_key():
     '''
@@ -26,6 +27,7 @@ def init_dashscope_api_key():
         dashscope.api_key = os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
     else:
         dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
+
 
 def synthesis_text_to_speech_and_play_by_streaming_mode(text):
     '''
@@ -39,7 +41,6 @@ def synthesis_text_to_speech_and_play_by_streaming_mode(text):
     complete_event = threading.Event()
 
     # Define a callback to handle the result
-
 
     class Callback(ResultCallback):
         def on_open(self):
@@ -66,7 +67,6 @@ def synthesis_text_to_speech_and_play_by_streaming_mode(text):
             # save audio to file
             self.file.write(data)
 
-
     # Call the speech synthesizer callback
     synthesizer_callback = Callback()
 
@@ -74,12 +74,14 @@ def synthesis_text_to_speech_and_play_by_streaming_mode(text):
     # you can customize the synthesis parameters, like voice, format, sample_rate or other parameters
     speech_synthesizer = SpeechSynthesizer(
         model='cosyvoice-v1',
-        voice='longxiaochun',
+        voice='loongstella',
         callback=synthesizer_callback)
 
     speech_synthesizer.call(text)
     print('Synthesized text: {} requestId: {}'.format(text, speech_synthesizer.get_last_request_id()))
     complete_event.wait()
+    first_package_delay = speech_synthesizer._first_package_timestamp - speech_synthesizer._start_stream_timestamp
+    print(f'first package delay: {first_package_delay} ms')
     player.stop()
 
 

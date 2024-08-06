@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## 语音合成并保存到文件
+## 语音合成并保存（简单模式）
 ## Python
 
 [comment]: # (prerequisites)
@@ -15,7 +15,6 @@
     ```commandline
     pip3 install -r requirements.txt
     ```
-    请参考[文档](https://github.com/kkroening/ffmpeg-python)安装ffmpeg
 
 [comment]: # (how to run the sample and expected results)
 ### :point_right: 运行示例
@@ -25,7 +24,7 @@
 python3 run.py
 ```
 
-示例运行时，将会使用longxiaochun音色合成示例文本 “欢迎体验阿里云百炼大模型语音合成服务！” 保存在 `result.mp3` 文件中，并通过扬声器播放。
+示例运行时，将会使用longxiaochun音色合成示例文本 “欢迎体验阿里云百炼大模型语音合成服务！” 保存在 `result.mp3` 文件中。
 您可以通过修改`text_to_synthesize`合成指定的文本。
 
 [comment]: # (technical support of the sample)

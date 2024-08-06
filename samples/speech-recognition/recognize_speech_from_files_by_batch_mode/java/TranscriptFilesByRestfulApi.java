@@ -22,12 +22,12 @@ public class TranscriptFilesByRestfulApi {
         TranscriptionParam param =
             TranscriptionParam.builder()
             .apiKey("your-dashscope-api-key")
-            .model("sensevoice-v1")
+            .model("paraformer-v1") // 'paraformer-8k-v1', 'paraformer-mtl-v1'
             .fileUrls(
                 Arrays.asList(
                 "https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/rich_text_example_1.wav",
-                "https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/rich_text_example_1.wav"))
-            .parameter("language_hints", new String[] {"en"})  			
+                "https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/sample_video_poetry.mp4",
+                "https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/long_audio_demo_cn.mp3")
             .build();
         try {
             Transcription transcription = new Transcription();

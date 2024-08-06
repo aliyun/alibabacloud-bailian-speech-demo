@@ -52,11 +52,11 @@ public class RecordAndRecognizeToText {
         frame.setSize(1, 1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        System.out.println("Press 'q' then 'Enter' to quit...");
+        System.out.println("Press 'Ctrl+C' to stop recording and recognition...");
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyChar() == 'q') {
+                if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_C) {
                     synchronized (exitFlag) {
                         shouldExit[0] = true;
                         exitFlag.notifyAll(); // 通知录音线程退出

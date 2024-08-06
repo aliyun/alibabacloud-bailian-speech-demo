@@ -1,5 +1,5 @@
 # coding=utf-8
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 
@@ -8,7 +8,7 @@ import os
 
 import dashscope
 from dashscope.audio.asr import Recognition, RecognitionResult
-from samples.utils.python import AudioDecoder
+from samples.utils.python.AudioDecoder import AudioDecoder
 
 
 def init_dashscope_api_key():
@@ -49,22 +49,33 @@ if __name__ == '__main__':
 
     # Please replace the path with your audio file path
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(current_dir, '../..', 'sampledata',
-                             "sample_audio.mp3")
+    file_path = os.path.join(current_dir, '../../..', 'sample-data',
+                             "sample_video_poetry.mp4")
     print('Input file is: %s' % file_path)
 
     decoded_file_path = os.path.join(current_dir,
                                      "temple_decoded.pcm")
 
     # Decode your audio/video file to 16k 16bit mono pcm file to current directory
-    AudioDecoder.convert_to_pcm(file_path, decoded_file_path)
+    audio_decoder = AudioDecoder()
+    audio_decoder.convert_to_pcm_file(file_path, decoded_file_path)
 
     # Initialize recognition
     speech_recognizer = RecognizeSpeechFromSingleFile()
+    print("Speech recognizing...")
     result = speech_recognizer.recognize_file(decoded_file_path)
 
     # Check the result
-    print(json.dumps(result, indent=4, ensure_ascii=False))
+    file_json = open('result.json', 'wb')
+    file_json.write(json.dumps(result.output, indent=4, ensure_ascii=False).encode('utf-8'))
+    file_json.close()
+    print("Full recognition result is saved into file: result.json")
+    print("\nThe brief result is:")
+
+    if result.status_code == 200 and result.output:
+        if result.output.__contains__('sentence'):
+            for sent in result.output['sentence']:
+                print(sent['text'], end='')
 
     # Remove the decoded file
     os.remove(decoded_file_path)

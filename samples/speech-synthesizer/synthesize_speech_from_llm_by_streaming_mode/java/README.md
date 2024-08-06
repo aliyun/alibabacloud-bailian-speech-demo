@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## 语音合成LLM实时输出并播放（流式模式）
+## 语音合成实时LLM输出并播放（流式模式）
 ## Java
 
 [comment]: # (prerequisites)
@@ -43,7 +43,7 @@
 
 推荐通过IDE导入maven依赖，并导入`SynthesizeSpeechFromeLlmByStreamingMode.java`示例代码和`samples/speech_utils/java/RealtimeMp3Player.java`播放器。
 
-运行 `SynthesizeSpeechFromeLlmByStreamingMode.java` 示例。调用阿里云百炼平台大语言模型千问（qwen-turbo）回答提问：“番茄炒鸡蛋怎么做？”，并使用longxiaochun音色，按照流式方式发送大模型回答的文本并合成，将音频按照流式方式下发并通过扬声器播放。
+运行 `SynthesizeSpeechFromeLlmByStreamingMode.java` 示例。调用阿里云百炼平台大语言模型千问（qwen-turbo）回答提问：“番茄炒鸡蛋怎么做？”，并使用 longmiao 音色，按照流式方式发送大模型回答的文本并合成，将音频按照流式方式下发并通过扬声器播放。
 
 您可以通过修改`query_to_llm`更改提问内容。
 

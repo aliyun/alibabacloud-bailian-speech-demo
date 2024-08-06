@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## 从麦克风输入进行实时语音识别
+## 麦克风实时语音识别
 ## Java
 
 [comment]: # (prerequisites)

@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## 音视频文件语音识别
+## 单个音视频文件语音识别
 ## Python
 
 [comment]: # (prerequisites)
@@ -25,6 +25,8 @@ python3 run.py
 ```
 
 示例运行时，文件中的音视频文件会被转为16k 16bit 单通道的PCM格式数据，之后再被转写为文字，并通过控制台打印结果。
+
+本示例引入了AudioDecoder类，使用ffmpeg实现了音视频文件的转码，借助于ffmpeg丰富的格式支持，示例支持目前市面上大多数的音视频文件格式转换为适用于语音识别的音频。
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持

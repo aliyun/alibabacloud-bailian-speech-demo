@@ -9,7 +9,6 @@ import com.alibaba.dashscope.audio.ttsv2.SpeechSynthesisParam;
 import com.alibaba.dashscope.audio.ttsv2.SpeechSynthesizer;
 import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.alibaba.dashscope.utils.ApiKey;
-import org.example.ttsv2.RealtimeMp3Player;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,8 +16,6 @@ import java.nio.ByteBuffer;
 
 // This demo showcases how to use Alibaba Cloud's DashScope model for real-time synthesis and playback of MP3 audio streams.
 public class SynthesizeSpeechFromText {
-    static RealtimeMp3Player audioPlayer = new RealtimeMp3Player(); // use to play mp3
-
     public static void main(String[] args) {
         // Set your DashScope API key. More information: https://help.aliyun.com/document_detail/2712195.html
         // in fact,if you have set DASHSCOPE_API_KEY in your environment variable,
@@ -41,7 +38,7 @@ public class SynthesizeSpeechFromText {
         SpeechSynthesisParam param =
                 SpeechSynthesisParam.builder()
                         .model("cosyvoice-v1")
-                        .voice("longxiaochun")
+                        .voice("loongstella")
                         .apiKey(dashScopeApiKey)
                         .build();
         System.out.println("init params done");
@@ -49,7 +46,7 @@ public class SynthesizeSpeechFromText {
         // Create a speech synthesizer
         SpeechSynthesizer synthesizer = new SpeechSynthesizer(param,null);
 
-        String textToSynthesize = "欢迎体验阿里云百炼大模型语音合成服务！";
+        String textToSynthesize = "想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！";
 
         // Start the synthesizer with Text
         System.out.printf("start synthesizer : %s \n", textToSynthesize);
@@ -61,12 +58,6 @@ public class SynthesizeSpeechFromText {
             throw new RuntimeException(e);
         }
         System.out.print("requestId: " + synthesizer.getLastRequestId());
-        // Start the player
-        audioPlayer.start();
-        // Write the audio data to the player
-        audioPlayer.write(audio);
-        // Finish audio feed to the player
-        audioPlayer.stop();
         System.exit(0);
     }
 }

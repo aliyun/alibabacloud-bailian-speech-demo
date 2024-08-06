@@ -1,5 +1,5 @@
 # coding=utf-8
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 
@@ -144,20 +144,15 @@ def transcript_audio_file():
                 print("get transcription_url: ", transcription_url)
                 if transcription_url:
                     # download the transcription result
-                    transcription_result = download_file(transcription_url, "./transcription_result.json")
-                    print("transcription_result: ", transcription_result)
-                    return transcription_result
+                    download_file(transcription_url, "./transcription_result.json")
 
 
 if __name__ == '__main__':
     # 0. init dashscope api key
     init_dashscope_api_key()
     # 1. transcribe audio file
-    trans_result_link = transcript_audio_file()
-    # 2. download the transcription result
-    if trans_result_link:
-        download_file(trans_result_link, file_path)
-    # 3. read the transcription result
+    transcript_audio_file()
+    # 2. read the transcription result
     trans_result_text = read_file_get_content(file_path)
-    # 4. do perform quality assurance with the transcription result
+    # 3. do perform quality assurance with the transcription result
     call_llm(trans_result_text)

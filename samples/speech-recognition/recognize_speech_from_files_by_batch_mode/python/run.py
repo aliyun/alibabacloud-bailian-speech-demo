@@ -8,6 +8,7 @@ import os
 from http import HTTPStatus
 import dashscope
 from dashscope.api_entities.dashscope_response import TranscriptionResponse
+from samples.utils.python.TranscriptionResultUtil import handle_transcription_result
 
 
 def init_dashscope_api_key():
@@ -33,13 +34,13 @@ def submit_transcription_job() -> TranscriptionResponse:
 
     # Submit the transcription task
     task_response = dashscope.audio.asr.Transcription.async_call(
-        model='sensevoice-v1',
-        # 'paraformer-v1'
+        model='paraformer-v1',
+        # 'paraformer-8k-v1', 'paraformer-mtl-v1'
         file_urls=[
             'https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/rich_text_example_1.wav',
-            'https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/rich_text_example_1.wav',
-        ],
-        language_hints=['en'],)
+            'https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/sample_video_poetry.mp4',
+            'https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/long_audio_demo_cn.mp3'
+        ])
     # This is the description of 'file_urls'.
     # You need to provide a URL from which the file can be downloaded via HTTP.
     # Typically, we can **store these files in public cloud storage services (such as Alibaba Cloud OSS)**
@@ -57,10 +58,11 @@ def retrieve_transcription_result(transcription_response: TranscriptionResponse)
     transcribe_response = dashscope.audio.asr.Transcription.wait(
         task=transcription_response.output.task_id)
     if transcribe_response.status_code == HTTPStatus.OK:
+        print("transcription result : ")
         print(json.dumps(transcribe_response.output, indent=4, ensure_ascii=False))
-        print('transcription done!')
-    # you will get the transcription result in the transcribe_response.output by param : transcription_url
-    # transcription_url is a downloadable file of json format transcription result
+        # you will get the transcription result in the transcribe_response.output by param : transcription_url
+        # transcription_url is a downloadable file of json format transcription result
+        handle_transcription_result(transcribe_response)
 
 
 # run the transcription script

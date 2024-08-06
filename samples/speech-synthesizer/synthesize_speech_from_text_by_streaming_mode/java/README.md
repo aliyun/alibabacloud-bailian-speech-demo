@@ -43,7 +43,7 @@
 
 推荐通过IDE导入maven依赖，并导入`SynthesizeSpeechFromeTextByStreamingMode.java`示例代码和`samples/speech_utils/java/RealtimeMp3Player.java`播放器。
 
-运行 `SynthesizeSpeechFromeTextByStreamingMode.java` 示例。使用longxiaochun音色合成示例文本 “欢迎体验阿里云百炼大模型语音合成服务！” ，合成音频将按照流式方式下发，通过扬声器播放并保存到文件`result.mp3`中。
+运行 `SynthesizeSpeechFromeTextByStreamingMode.java` 示例。使用 loongstella 音色合成示例文本 “想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！” ，合成音频将按照流式方式下发，通过扬声器播放并保存到文件`result.mp3`中。
 
 您可以通过修改`textToSynthesize`合成指定的文本。
 

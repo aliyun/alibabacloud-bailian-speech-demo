@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## 语音合成并保存到文件
+## 语音合成并保存（简单模式）
 ## Java
 
 [comment]: # (prerequisites)
@@ -34,9 +34,9 @@
 [comment]: # (how to run the sample and expected results)
 ### :point_right: 运行示例
 
-推荐通过IDE导入maven依赖，并导入`SynthesizeSpeechFromText.java`示例代码和`samples/speech_utils/java/RealtimeMp3Player.java`播放器。
+推荐通过IDE导入maven依赖，并导入`SynthesizeSpeechFromText.java`示例代码。
 
-运行 `SynthesizeSpeechFromText.java` 示例。使用longxiaochun音色合成示例文本 “欢迎体验阿里云百炼大模型语音合成服务！” 保存在 `result.mp3` 文件中，并通过扬声器播放。
+运行 `SynthesizeSpeechFromText.java` 示例。使用 loongstella 音色合成示例文本 “想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！” 保存在 `result.mp3` 文件中。
 您可以通过修改`textToSynthesize`合成指定的文本。
 
 [comment]: # (technical support of the sample)

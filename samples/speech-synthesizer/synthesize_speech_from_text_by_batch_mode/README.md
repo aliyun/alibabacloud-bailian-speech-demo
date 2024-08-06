@@ -20,6 +20,10 @@
 
 | [音色列表](https://help.aliyun.com/zh/model-studio/developer-reference/model-list-1?spm=a2c4g.11186623.0.0.6e4f3d47ohvUJx) | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25?spm=a2c4g.11186623.0.0.504b1751bmS0ev) |
 
+### :point_right: 预期结果
+
+示例运行时，将使用三种不同的音色并发合成 “我是XXX，欢迎体验阿里云百炼大模型语音合成服务！” 并保存在 `results/result_v<音色名>_p<线程号>.mp3` 文件中。
+
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持
 <img src="../../../docs/image/groups.png" width="400"/>

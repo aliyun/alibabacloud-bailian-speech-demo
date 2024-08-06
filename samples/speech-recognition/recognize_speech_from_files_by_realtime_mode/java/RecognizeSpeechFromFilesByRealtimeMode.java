@@ -59,12 +59,11 @@ class RealtimeRecognizeTask implements Runnable {
                 null;
         try {
             param = RecognitionParam.builder()
-                    .model("paraformer-realtime-v1")
+                    .model("paraformer-realtime-v2")
                     .format("pcm") // 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr', you
                     // can check the supported formats in the document
                     .sampleRate(16000) // supported 8000、16000
-                    .apiKey(
-                            getDashScopeApiKey()) // use getDashScopeApiKey to get api key.
+                    .apiKey(getDashScopeApiKey()) // use getDashScopeApiKey to get api key.
                     .build();
         } catch (NoApiKeyException e) {
             throw new RuntimeException(e);
@@ -79,9 +78,9 @@ class RealtimeRecognizeTask implements Runnable {
                     @Override
                     public void onEvent(RecognitionResult message) {
                         if (message.isSentenceEnd()) {
-                            System.out.println("[" + threadName + "] Fix:" + message.getSentence().getText());
+                            System.out.println("[process " + threadName + "] Fix:" + message.getSentence().getText());
                         } else {
-                            System.out.println("[" + threadName + "] Result: " + message.getSentence().getText());
+                            System.out.println("[process " + threadName + "] Result: " + message.getSentence().getText());
                         }
                     }
 

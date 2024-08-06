@@ -1,14 +1,13 @@
 # coding=utf-8
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 
 import os
-import time
 import multiprocessing
-
 import dashscope
 from dashscope.audio.asr import Recognition, RecognitionCallback, RecognitionResult
+from samples.utils.python.AudioDecoder import AudioDecodeCallback, AudioDecoder
 
 
 def init_dashscope_api_key():
@@ -21,6 +20,12 @@ def init_dashscope_api_key():
         dashscope.api_key = os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
     else:
         dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
+
+
+class MyAudioDecoderCallback(AudioDecodeCallback):
+    def on_audio_data(self, audio_data):
+        if 'recognition' in globals() and audio_data is not None:
+            recognition.send_audio_frame(audio_data)
 
 
 # Real-time speech recognition callback
@@ -54,37 +59,34 @@ class MyRecognitionCallback(RecognitionCallback):
 
 
 def process_recognition(file_path):
+    print(f'recognition with file :{file_path}')
     # Create the recognition callback
     callback = MyRecognitionCallback(f'process {os.getpid()}')
+    audio_decode_callback = MyAudioDecoderCallback()
+    audio_decoder = AudioDecoder(audio_decode_callback)
+
+    global recognition
     # Initialize recognition service by sync call
     # you can customize the recognition parameters, like model, format, sample_rate
     # for more information, please refer to https://help.aliyun.com/document_detail/2712536.html
     recognition = Recognition(
         model='paraformer-realtime-v2',
         # 'paraformer-realtime-v1'、'paraformer-realtime-8k-v1'
-        format='wav',
+        format='pcm',
         # 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr', you can check the supported formats in the document
         sample_rate=16000,  # supported 8000、16000
         callback=callback)
 
-    # Start recognition with the audio file simulate multi channel audio stream from microphone
+    # Start recognition with the audio files
     recognition.start()
-    f = open(file_path, 'rb')
-    while True:
-        # 3200 bytes is 20ms audio data
-        chunk = f.read(3200)
-        if not chunk:
-            break
-        else:
-            recognition.send_audio_frame(chunk)
-        time.sleep(0.02)
-    f.close()
+    audio_decoder.decode_audio_in_blocks(file_path)
+    # Stop recognition
     recognition.stop()
     return callback.text
 
 
 def multi_process_recognition():
-    # Get the number of CPU cores avaliable
+    # Get the number of CPU cores available
     num_cores = multiprocessing.cpu_count()
     # print(f"Number of CPU cores: {num_cores}")
 
@@ -94,12 +96,10 @@ def multi_process_recognition():
     # Please replace the path with your audio source
     current_dir = os.path.dirname(os.path.abspath(__file__))
     file_list = [
-        os.path.join(current_dir, '../..', 'sampledata',
-                     'hello_world_male_16k_16bit_mono.wav'),
-        os.path.join(current_dir, '../..', 'sampledata',
-                     'hello_world_male_16k_16bit_mono.wav'),
-        os.path.join(current_dir, '../..', 'sampledata',
-                     'hello_world_male_16k_16bit_mono.wav'),
+        os.path.join(current_dir, '../../..', 'sample-data',
+                     'sample_video_story.mp4'),
+        os.path.join(current_dir, '../../..', 'sample-data',
+                     'sample_audio.mp3')
     ]
 
     # Use the map method to distribute tasks among the pool and collect the results
@@ -108,10 +108,6 @@ def multi_process_recognition():
     # Close the pool and wait for all processes to complete
     process_pool.close()
     process_pool.join()
-
-    # Print all results
-    for result in results:
-        print(result)
 
 
 if __name__ == '__main__':

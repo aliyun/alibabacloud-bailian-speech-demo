@@ -22,7 +22,7 @@ public class RecognizeSpeechToTextBySyncRealtimeApi {
     // https://help.aliyun.com/document_detail/2712536.html
     RecognitionParam param =
         RecognitionParam.builder()
-            .model("paraformer-realtime-v1")
+            .model("paraformer-realtime-v2")
             .format("pcm") // 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr', you
                            // can check the supported formats in the document
             .sampleRate(16000) // supported 8000、16000
@@ -37,8 +37,29 @@ public class RecognizeSpeechToTextBySyncRealtimeApi {
     System.out.println("Input file_path is: " + filePath);
     // Start recognition with the audio file
     String result = recognizer.call(param, filePath.toFile());
-    // Check the result
-    System.out.println(result);
+
+    System.out.println("Full recognition result is saved into file: result.json ");
+    System.out.println("\nThe brief result is:");
+    FileOutputStream fos = null;
+    try {
+      fos = new FileOutputStream("result.json");
+      fos.write(result.getBytes());
+      fos.close();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
+    // format json print
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    JsonObject jsonObject = gson.fromJson(result, JsonObject.class);
+
+    if (jsonObject.has("sentences")) {
+      for (JsonElement sent : jsonObject.get("sentences").getAsJsonArray()) {
+        JsonObject sentObj = sent.getAsJsonObject();
+        System.out.println(sentObj.get("text").getAsString());
+      }
+    }
+
     System.exit(0);
   }
 

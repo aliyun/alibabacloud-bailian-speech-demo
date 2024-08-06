@@ -20,6 +20,10 @@
 
 | [音色列表](https://help.aliyun.com/zh/model-studio/developer-reference/model-list-1?spm=a2c4g.11186623.0.0.6e4f3d47ohvUJx) | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25?spm=a2c4g.11186623.0.0.504b1751bmS0ev) |
 
+### :point_right: 预期结果
+
+示例运行时，将会使用 loongstella 音色合成示例文本 “想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！” ，合成音频将按照流式方式下发，通过扬声器播放并保存到文件`result.mp3`中。
+
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持
 <img src="../../../docs/image/groups.png" width="400"/>

@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## 语音合成LLM实时输出并播放（流式模式）
+## 语音合成实时LLM输出并播放（流式模式）
 本示例展示了如何将大语言模型（LLM）生成的文本流合成为语音流，并且通过扬声器播放。
 
 [comment]: # (list of scenarios of the sample)
@@ -20,6 +20,10 @@
 ### :point_right: 参考详情
 
 | [音色列表](https://help.aliyun.com/zh/model-studio/developer-reference/model-list-1?spm=a2c4g.11186623.0.0.6e4f3d47ohvUJx) | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25?spm=a2c4g.11186623.0.0.504b1751bmS0ev) |
+
+### :point_right: 预期结果
+
+示例运行时，将会调用阿里云百炼平台大语言模型千问（qwen-turbo）回答提问：“番茄炒鸡蛋怎么做？”，并使用 longmiao 音色，按照流式方式发送大模型回答的文本并合成，将音频按照流式方式下发并通过扬声器播放。
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持

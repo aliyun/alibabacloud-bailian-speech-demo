@@ -44,12 +44,12 @@ public class SynthesizeSpeechFromeTextByStreamingMode {
             dashScopeApiKey = "your-dashscope-api-key";
         }
 
-        String textToSynthesize = "欢迎体验阿里云百炼大模型语音合成服务！";
+        String textToSynthesize = "想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！";
 
         SpeechSynthesisParam param =
                 SpeechSynthesisParam.builder()
                         .model("cosyvoice-v1")
-                        .voice("longxiaochun")
+                        .voice("loongstella")
                         .apiKey(dashScopeApiKey)
                         .build();
         System.out.println("init params done");

@@ -99,7 +99,7 @@ public class SynthesizeSpeechFromLlmByStreamingMode {
     SpeechSynthesisParam param =
         SpeechSynthesisParam.builder()
             .model("cosyvoice-v1")
-            .voice("longxiaochun")
+            .voice("longmiao")
             .apiKey(dashScopeApiKey)
             .build();
     SpeechSynthesizer synthesizer =
@@ -120,7 +120,7 @@ public class SynthesizeSpeechFromLlmByStreamingMode {
   public static void main(String[] args)
       throws FileNotFoundException, InterruptedException, NoApiKeyException,
              InputRequiredException {
-    String text_to_query = "番茄炒鸡蛋怎么做？";
+    String text_to_query = "番茄炒鸡蛋怎么做？要求不超过两百个字符";
     LLMTextToPlayer(text_to_query);
   }
 }

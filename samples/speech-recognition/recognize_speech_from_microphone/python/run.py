@@ -121,7 +121,7 @@ if __name__ == '__main__':
     print('Recognition started.')
 
     signal.signal(signal.SIGINT, signal_handler)
-    print("Press 'Ctrl+C' to stop recording and recognition")
+    print("Press 'Ctrl+C' to stop recording and recognition...")
     # Create a keyboard listener until "Ctrl+C" is pressed
     while True:
         time.sleep(0.1)

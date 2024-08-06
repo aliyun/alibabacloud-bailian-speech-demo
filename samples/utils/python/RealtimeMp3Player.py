@@ -10,12 +10,13 @@ import pyaudio
 
 # Define a callback to handle the result
 class RealtimeMp3Player:
-    def __init__(self):
+    def __init__(self, verbose = False):
         self.ffmpeg_process = None
         self._stream = None
         self._player = None
         self.play_thread = None
         self.stop_event = threading.Event()
+        self.verbose = verbose
 
     def start(self):
         self._player = pyaudio.PyAudio()  # initialize pyaudio to play audio
@@ -31,7 +32,8 @@ class RealtimeMp3Player:
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
         )  # initialize ffmpeg to decode mp3
-        print('audio play is start')
+        if self.verbose:
+            print('mp3 audio player is started')
 
     def stop(self):
         self.ffmpeg_process.stdin.close()
@@ -42,7 +44,8 @@ class RealtimeMp3Player:
         self._player.terminate()
         if self.ffmpeg_process:
             self.ffmpeg_process.terminate()
-        print('audio play is stop')
+        if self.verbose:
+            print('mp3 audio player is stopped')
 
     def play_audio(self):
         # play audio with pcm data decode by ffmpeg

@@ -8,13 +8,7 @@ import sys
 import dashscope
 from dashscope.audio.tts_v2 import SpeechSynthesizer
 
-# add parent directory for utils to sys.path
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../'))
-sys.path.append(parent_dir)
-
-from samples.utils.python.RealtimeMp3Player import RealtimeMp3Player
-
-text_to_synthesize = '欢迎体验阿里云百炼大模型语音合成服务！'
+text_to_synthesize = '想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！'
 file_to_save = 'result.mp3'
 
 def init_dashscope_api_key():
@@ -37,21 +31,17 @@ def synthesize_speech_from_text(text, file_path):
     # you can customize the synthesis parameters, like voice, format, sample_rate or other parameters
     speech_synthesizer = SpeechSynthesizer(
         model='cosyvoice-v1',
-        voice='longxiaochun',
+        voice='loongstella',
         callback=None)
     audio = speech_synthesizer.call(text)
     print('requestId: ', speech_synthesizer.get_last_request_id())
     # Save the synthesized audio to a file
     with open(file_path, 'wb') as f:
         f.write(audio)
-    print('Synthesized text %s to file : %s' % (text, file_path))
+    first_package_delay = speech_synthesizer._first_package_timestamp - speech_synthesizer._start_stream_timestamp
+    print(f'Synthesized text {text} to file : {file_path}')
+    print(f'first package delay: {first_package_delay} ms')
     
-    # play audio
-    player = RealtimeMp3Player()
-    # start player
-    player.start()
-    player.write(audio)
-    player.stop()
 
 
 # main function

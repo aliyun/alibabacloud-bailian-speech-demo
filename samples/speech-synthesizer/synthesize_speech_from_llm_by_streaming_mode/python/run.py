@@ -17,6 +17,7 @@ sys.path.append(parent_dir)
 
 from samples.utils.python.RealtimeMp3Player import RealtimeMp3Player
 
+system_text = '你是一个闲聊型语音AI助手，主要任务是和用户展开日常性的友善聊天。请不要回复使用任何格式化文本，回复要求口语化，每一个字符都会被朗读出来。要求每次回复不超过两百个字符'
 query_to_llm = '番茄炒鸡蛋怎么做？'
 
 def init_dashscope_api_key():
@@ -45,19 +46,18 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
 
     class Callback(ResultCallback):
         def on_open(self):
-            print('\nwebsocket is open')
+            pass
 
         def on_complete(self):
-            print('\nspeech synthesis complete')
+            pass
 
         def on_error(self, message: str):
             print(f'speech synthesis task failed, {message}')
 
         def on_close(self):
-            print('websocket is close')
+            pass
 
         def on_event(self, message):
-            # print(f'recv speech synthsis message {message}')
             pass
 
         def on_data(self, data: bytes) -> None:
@@ -69,12 +69,16 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
 
     synthesizer = SpeechSynthesizer(
         model='cosyvoice-v1',
-        voice='longxiaochun',
+        voice='longmiao',
         callback=synthesizer_callback,
     )
 
     # Prepare for the LLM call
-    messages = [{'role': 'user', 'content': query_text}]
+    messages = [
+        {'role': 'system', 'content': system_text},
+        {'role': 'user', 'content': query_text}
+        ]
+    print('>>>提问：'+query_text)
     responses = Generation.call(
         model='qwen-turbo',
         messages=messages,
@@ -82,12 +86,13 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
         stream=True,  # enable stream output
         incremental_output=True,  # enable incremental output
     )
+    print('>>>回答：', end = '')
     for response in responses:
         if response.status_code == HTTPStatus.OK:
-            print(response.output.choices[0]['message']['content'], end='', flush=True)
             # send llm result to synthesizer
-            synthesizer.streaming_call(
-                response.output.choices[0]['message']['content'])
+            llm_text_chunk = response.output.choices[0]['message']['content']
+            print(llm_text_chunk, end='', flush=True)
+            synthesizer.streaming_call(llm_text_chunk)
         else:
             print(
                 'Request id: %s, Status code: %s, error code: %s, error message: %s'
@@ -98,6 +103,8 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
                     response.message,
                 ))
     synthesizer.streaming_complete()
+    # add new line after llm outputs
+    print('')
     print('synthesize and play over with requestId: ', synthesizer.get_last_request_id())
     # stop realtime mp3 player
     player.stop()

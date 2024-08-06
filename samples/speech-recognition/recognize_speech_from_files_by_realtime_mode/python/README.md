@@ -21,13 +21,13 @@
 
 [comment]: # (how to run the sample and expected results)
 ### :point_right: 运行示例
-您可以使用以下命令运行本示例：
+- 您可以使用以下命令运行本示例：
 
 ```commandline
 python3 run.py
 ```
 
-示例使用了multiprocessing实现并发运行。在示例运行时，程序会并发的读取您输入的多个音视频文件，将其独立的转为实时识别结果并分别以callback的方式回调。
+   示例使用了multiprocessing实现并发运行。在示例运行时，程序会并发的读取您输入的多个音视频文件，将其独立的转为实时识别结果并分别以callback的方式回调识别结果。
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持
