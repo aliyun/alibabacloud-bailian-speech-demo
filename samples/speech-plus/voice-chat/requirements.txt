@@ -1,5 +1,0 @@
-pyaudio
-dashscope
-ffmpeg-python
-sounddevice
-wxPython
