@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## 语音合成并保存（简单模式）
+## 语音合成并保存文件（简单模式）
 本示例展示了如何合成指定文本的语音，并将语音保存为文件。
 
 [comment]: # (list of scenarios of the sample)

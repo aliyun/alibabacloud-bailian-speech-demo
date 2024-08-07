@@ -70,7 +70,7 @@ class SpeechSynthesizerObjectFactory
 }
 
 @Slf4j
-public class BatchSynthesizeTextToSpeechAndSaveInFiles {
+public class SynthesizeTextToSpeechAndSaveInFilesConcurrently {
     public static void main(String[] args) throws InterruptedException, NoApiKeyException {
         // Record task start time
         LocalDateTime task_start_time = LocalDateTime.now();

@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## 批量语音合成并保存
+## 并发调用语音合成
 ## Java
 
 [comment]: # (prerequisites)

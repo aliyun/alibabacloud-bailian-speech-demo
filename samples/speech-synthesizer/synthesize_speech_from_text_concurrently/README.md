@@ -1,14 +1,13 @@
 [comment]: # (title and brief introduction of the sample)
-## 批量语音合成并保存
-本示例展示了如何批量合成多个文本的语音，并将语音保存为单独的文件。
+## 并发调用语音合成
+本示例展示了如何并发合成多个文本的语音，并将语音保存为单独的文件。
 
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景
 
 | 应用场景 | 典型用法 | 使用说明 |
 | ----- | ----- | ----- |
-| **视频配音场景** | 视频配音、新闻配音 | *通过语音合成批量合成视频中的全部字幕等文本内容* |
-| **有声读物场景** | 小说配音、绘本配音 | *批量合成文本中不同角色的对白* |
+| **入门场景**| 并发调用语音合成	 | *并发地将文本合成为语音*  |
 
 [comment]: # (supported programming languages of the sample)
 ### :point_right: 编程语言

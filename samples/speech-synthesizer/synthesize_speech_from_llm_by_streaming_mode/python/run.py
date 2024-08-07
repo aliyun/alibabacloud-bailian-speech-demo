@@ -17,7 +17,7 @@ sys.path.append(parent_dir)
 
 from samples.utils.python.RealtimeMp3Player import RealtimeMp3Player
 
-system_text = '你是一个闲聊型语音AI助手，主要任务是和用户展开日常性的友善聊天。请不要回复使用任何格式化文本，回复要求口语化，每一个字符都会被朗读出来。要求每次回复不超过两百个字符'
+system_text = '你是一个闲聊型语音AI助手，主要任务是和用户展开日常性的友善聊天。请不要回复使用任何格式化文本，回复要求口语化，不要使用markdown格式或者列表。'
 query_to_llm = '番茄炒鸡蛋怎么做？'
 
 def init_dashscope_api_key():
@@ -80,7 +80,7 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
         ]
     print('>>>提问：'+query_text)
     responses = Generation.call(
-        model='qwen-turbo',
+        model='qwen-long',
         messages=messages,
         result_format='message',  # set result format as 'message'
         stream=True,  # enable stream output
