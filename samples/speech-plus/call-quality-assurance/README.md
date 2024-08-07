@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## AI Assistant网页版
+## 识别电话录音文件并通过大模型质检
 电话录音质检是一个在呼叫中心等业务中特别典型的场景。本用例使用录音文件识别+通义千问大模型实现了一个简单的录音质检功能。
 
 ## Python
