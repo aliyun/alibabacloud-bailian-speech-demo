@@ -54,7 +54,7 @@ if __name__ == '__main__':
     print('Input file is: %s' % file_path)
 
     decoded_file_path = os.path.join(current_dir,
-                                     "temple_decoded.pcm")
+                                     "temp_decoded.pcm")
 
     # Decode your audio/video file to 16k 16bit mono pcm file to current directory
     audio_decoder = AudioDecoder()

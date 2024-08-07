@@ -30,15 +30,18 @@ class MyAudioDecoderCallback(AudioDecodeCallback):
 
 # Real-time speech recognition callback
 class MyRecognitionCallback(RecognitionCallback):
-    def __init__(self, tag) -> None:
+    def __init__(self, tag, file_path) -> None:
         super().__init__()
         self.tag = tag
+        self.file_path = file_path
         self.text = ''
 
     def on_open(self) -> None:
         print(f'[{self.tag}]Recognition open')  # recognition open
 
     def on_complete(self) -> None:
+        print(f'\n\n[{self.tag}] ========= transcription result for file : {self.file_path}=========  ')
+        print(f'[{self.tag}] result==>: ', self.text)
         print(f'[{self.tag}]Recognition complete')  # recognition complete
 
     def on_error(self, result: RecognitionResult) -> None:
@@ -48,11 +51,11 @@ class MyRecognitionCallback(RecognitionCallback):
     def on_event(self, result: RecognitionResult) -> None:
         sentence = result.get_sentence()
         if 'text' in sentence:
-            print(f'[{self.tag}]RecognitionCallback text: ', sentence['text'])
+            # print(f'[{self.tag}]RecognitionCallback text: ', sentence['text']) partial recognition result
             self.text = sentence['text']
             if RecognitionResult.is_sentence_end(sentence):
-                print(
-                    f'[{self.tag}]RecognitionCallback sentence end,request_id:{result.get_request_id()}, usage:{result.get_usage(sentence)}')
+                self.text = self.text + sentence['text']
+
 
     def on_close(self) -> None:
         print(f'[{self.tag}]RecognitionCallback close.')
@@ -61,7 +64,7 @@ class MyRecognitionCallback(RecognitionCallback):
 def process_recognition(file_path):
     print(f'recognition with file :{file_path}')
     # Create the recognition callback
-    callback = MyRecognitionCallback(f'process {os.getpid()}')
+    callback = MyRecognitionCallback(f'process {os.getpid()}', file_path)
     audio_decode_callback = MyAudioDecoderCallback()
     audio_decoder = AudioDecoder(audio_decode_callback)
 
