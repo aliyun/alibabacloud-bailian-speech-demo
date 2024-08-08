@@ -34,7 +34,6 @@
     
     //process: 51389 对应sample_audio.mp3的识别结果2
     [process 51389]RecognitionCallback text:  那河畔的金柳是夕阳中的新娘。
-
 ```
 
 [comment]: # (technical support of the sample)
