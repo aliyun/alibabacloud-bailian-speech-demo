@@ -10,7 +10,7 @@ import dashscope
 from dashscope.audio.asr import Recognition, RecognitionCallback, RecognitionResult
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
-from AudioDecoder import AudioDecodeCallback, AudioDecoder
+from AudioDecoder import AudioDecoder, AudioDecodeCallback
 
 
 def init_dashscope_api_key():
@@ -48,14 +48,14 @@ class MyRecognitionCallback(RecognitionCallback):
         print(f'[{self.tag}] Recognition completed')  # recognition complete
 
     def on_error(self, result: RecognitionResult) -> None:
-        print(f'[{self.tag}] RecognitionCallback task_id: ', result.request_id)
-        print(f'[{self.tag}] RecognitionCallback error: ', result.message)
+        print(f'[{self.tag}]RecognitionCallback task_id: ', result.request_id)
+        print(f'[{self.tag}]RecognitionCallback error: ', result.message)
+        exit(0)
 
     def on_event(self, result: RecognitionResult) -> None:
         sentence = result.get_sentence()
         if 'text' in sentence:
             # print(f'[{self.tag}]RecognitionCallback text: ', sentence['text']) partial recognition result
-            self.text = sentence['text']
             if RecognitionResult.is_sentence_end(sentence):
                 self.text = self.text + sentence['text']
 

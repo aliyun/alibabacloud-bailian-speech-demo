@@ -11,11 +11,9 @@ import dashscope
 from dashscope import Generation
 from dashscope.audio.tts_v2 import *
 
-# add parent directory for utils to sys.path
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../'))
-sys.path.append(parent_dir)
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
+from RealtimeMp3Player import RealtimeMp3Player
 
-from samples.utils.python.RealtimeMp3Player import RealtimeMp3Player
 
 system_text = '你是一个闲聊型语音AI助手，主要任务是和用户展开日常性的友善聊天。请不要回复使用任何格式化文本，回复要求口语化，不要使用markdown格式或者列表。'
 query_to_llm = '番茄炒鸡蛋怎么做？'

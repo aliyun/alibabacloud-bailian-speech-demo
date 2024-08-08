@@ -25,7 +25,7 @@
 | --- | --- |-------------------------------------------------------------------------------|
 | 麦克风语音识别 | *实时从麦克风录音并进行语音识别* | [麦克风实时语音识别](./samples/speech-recognition/recognize_speech_from_microphone)    |
 | 音视频文件语音识别 | *对音视频文件进行语音识别* | [单个音视频文件语音识别](./samples/speech-recognition/recognize_speech_from_single_file) |
-| 语音合成 | *将文字合成为语音并进行播放和保存* | [语音合成并保存（简单模式）](./samples/speech-synthesizer/synthesize_speech_from_text)         |
+| 语音合成 | *将文字合成为语音并保存到文件* | [语音合成并保存（简单模式）](./samples/speech-synthesizer/synthesize_speech_from_text)         |
 
 * ### :telephone: 电话客服中心机器人及对话分析理解场景
 | 典型用法 | 使用说明 | 开发示例                                                                                        |
@@ -38,7 +38,7 @@
 * ### :loudspeaker: 语音播报及配音场景
 | 典型用法 | 使用说明 | 开发示例                                                                                |
 | --- | --- |-------------------------------------------------------------------------------------|
-| 信息播报 | *对各类文字进行实时语音合成并播报* | [语音合成并保存（简单模式）](./samples/speech-synthesizer/synthesize_speech_from_text)               |
+| 信息播报 | *对各类文字进行语音合成* | [语音合成并保存（简单模式）](./samples/speech-synthesizer/synthesize_speech_from_text)               |
 | 大语言模型实时输出播报 <img src="./docs/image/logo.svg" height="15"/> | *对大语言模型产生的实时输出进行语音合成并播报* | [语音合成实时LLM输出并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_llm_by_streaming_mode)      |
 
 * ### :raising_hand: 会议语音分析理解场景
@@ -58,7 +58,7 @@
 * ### :speech_balloon: 语音对话聊天场景
 | 典型用法 | 使用说明 | 开发示例                                       |
 | --- | --- |--------------------------------------------|
-| 语音对话聊天 <img src="./docs/image/logo.svg" height="15"/>  | *通过语音与大语言模型进行对话聊天* | [语音对话聊天](./samples/speech-plus/voice-chat) |
+| 语音对话聊天 <img src="./docs/image/logo.svg" height="15"/>  | *通过语音与大语言模型进行对话聊天* | Comming Soon |
 
 ## :point_right: 常见问题
 
