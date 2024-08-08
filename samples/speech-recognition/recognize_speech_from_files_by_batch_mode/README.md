@@ -2,7 +2,7 @@
 ## 批量音视频文件语音识别（批量模式）
 本示例展示了如何大批量的提交存储于云存储（例如OSS）中的音视频文件URL，并调用阿里云百炼语音识别大模型离线文件转写API，实现批量语音识别的过程。
 
-录音文件识别提供了更多音视频格式，以及更准确、信息更丰富的识别结果供用户使用。批量音视频文件语音识别更适合时效性要求不苛刻的、大规模批量任务处理。
+录音文件识别提供了更多音视频格式，以及更准确、信息更丰富的识别结果供用户使用。音视频文件语音识别的**批量模式**更适合对大批量云端文件进行生产任务处理、且不需要即时返回结果的场景。如果您需要对本地文件进行处理，且希望即时返回结果，请参考示例：[批量音视频文件语音识别（实时模式）](../recognize_speech_from_files_by_realtime_mode/)。
 
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景
@@ -23,7 +23,7 @@
 
 | 推荐模型                                                        | API详情                                                                                             |
 |-------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
-| paraformer-v1<br/> paraformer-8k-v1 <br/>paraformer-mtl-v1  | [录音文件识别API详情](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-api)|
+| **paraformer-v2**<br/> paraformer-v1<br/> paraformer-8k-v1 <br/>paraformer-mtl-v1  | [录音文件识别API详情](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-api)|
 
 ### :point_right: 预期结果
 
