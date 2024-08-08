@@ -9,11 +9,8 @@ import threading
 import dashscope
 from dashscope.audio.tts_v2 import *
 
-# add parent directory for utils to sys.path
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../'))
-sys.path.append(parent_dir)
-
-from samples.utils.python.RealtimeMp3Player import RealtimeMp3Player
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
+from RealtimeMp3Player import RealtimeMp3Player
 
 text_to_synthesize = '想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！'
 

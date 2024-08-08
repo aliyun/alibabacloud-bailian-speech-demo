@@ -7,7 +7,9 @@ import os
 import multiprocessing
 import dashscope
 from dashscope.audio.asr import Recognition, RecognitionCallback, RecognitionResult
-from samples.utils.python.AudioDecoder import AudioDecodeCallback, AudioDecoder
+
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
+from AudioDecoder import AudioDecoder
 
 
 def init_dashscope_api_key():
