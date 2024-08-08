@@ -1,2 +1,2 @@
 dashscope
-ffmpeg
+ffmpeg-python

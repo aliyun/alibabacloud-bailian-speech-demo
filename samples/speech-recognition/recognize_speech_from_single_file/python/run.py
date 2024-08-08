@@ -5,11 +5,13 @@
 
 import json
 import os
+import sys
 
 import dashscope
 from dashscope.audio.asr import Recognition, RecognitionResult
-from samples.utils.python.AudioDecoder import AudioDecoder
 
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
+from AudioDecoder import AudioDecoder
 
 def init_dashscope_api_key():
     """
@@ -62,7 +64,7 @@ if __name__ == '__main__':
 
     # Initialize recognition
     speech_recognizer = RecognizeSpeechFromSingleFile()
-    print("Speech recognizing...")
+    print("Recognizing speech ...")
     result = speech_recognizer.recognize_file(decoded_file_path)
 
     # Check the result
