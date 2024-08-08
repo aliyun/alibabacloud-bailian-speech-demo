@@ -31,14 +31,14 @@
 | 典型用法 | 使用说明 | 开发示例                                                                                        |
 | --- | --- |---------------------------------------------------------------------------------------------|
 | 实时通话语音识别 | *实时对电话系统通话进行语音识别* | [麦克风实时语音识别](./samples/speech-recognition/recognize_speech_from_microphone)                    |
-| 实时回复语音合成 | *对客服机器人回复进行语音合成* | [语音合成并保存（简单模式）](./samples/speech-synthesizer/synthesize_speech_from_text)                       |
+| 实时回复语音合成 | *对客服机器人回复进行语音合成* | [语音合成并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode)                       |
 | 通话录音批量语音识别 | *对客服中心通话录音文件进行批量语音识别* | [批量音视频文件语音识别（批量模式）](./samples/speech-recognition/recognize_speech_from_files_by_batch_mode) |
 
 
 * ### :loudspeaker: 语音播报及配音场景
 | 典型用法 | 使用说明 | 开发示例                                                                                |
 | --- | --- |-------------------------------------------------------------------------------------|
-| 信息播报 | *对各类文字进行语音合成* | [语音合成并保存（简单模式）](./samples/speech-synthesizer/synthesize_speech_from_text)               |
+| 信息播报 | *对各类文字进行语音合成* | [语音合成并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode)                |
 | 大语言模型实时输出播报 <img src="./docs/image/logo.svg" height="15"/> | *对大语言模型产生的实时输出进行语音合成并播报* | [语音合成实时LLM输出并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_llm_by_streaming_mode)      |
 
 * ### :raising_hand: 会议语音分析理解场景
@@ -49,11 +49,11 @@
 
 
 * ### :film_strip: 音视频语音分析理解场景
-| 典型用法                                                   | 使用说明                      | 开发示例                                                                                        |
-|--------------------------------------------------------|---------------------------|---------------------------------------------------------------------------------------------|
-| 音视频批量语音识别                        | *对音视频文件进行批量语音识别*          | [批量音视频文件语音识别（批量模式）](./samples/speech-recognition/recognize_speech_from_files_by_batch_mode) |
-| 音视频批量富信息语音识别            | *对音视频文件中的文本/情绪/事件进行识别*    | [批量音视频文件富信息语音识别（批量模式）](./samples/speech-recognition/recognize_speech_and_rich_information_from_files_by_batch_mode)  |
-| 音视频摘要总结 <img src="./docs/image/logo.svg" height="15"/> | *对音视频文件进行语音识别，并使用大模型进行摘要* | Comming Soon                                                                                |
+| 典型用法 | 使用说明 | 开发示例 |
+| --- | --- | --- |
+| 音视频批量语音识别 | *对音视频文件进行批量语音识别* | [批量音视频文件语音识别（批量模式）](./samples/speech-recognition/recognize_speech_from_files_by_batch_mode) |
+| 音视频批量富信息语音识别 | *对音视频文件中的文本/情绪/事件进行识别* | [批量音视频文件富信息语音识别（批量模式）](./samples/speech-recognition/recognize_speech_and_rich_information_from_files_by_batch_mode)  |
+| 音视频摘要与问答 <img src="./docs/image/logo.svg" height="15"/> | *对音视频文件进行语音识别，并使用大模型进行摘要总结和问答* | Comming Soon                                                                                |
 
 * ### :speech_balloon: 语音对话聊天场景
 | 典型用法 | 使用说明 | 开发示例                                       |

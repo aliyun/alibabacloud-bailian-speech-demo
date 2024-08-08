@@ -1,6 +1,6 @@
 [comment]: # (title and brief introduction of the sample)
 ## 语音合成并播放（流式模式）
-本示例展示了如何合成指定文本的语音，获取流式返回音频播放。本示例同时展示了如何在流式回调中保存音频到文件。
+本示例展示了如何合成指定文本的语音，流式获取返回音频并实时播放。本示例同时展示了如何在流式回调中保存音频到文件。
 
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景
