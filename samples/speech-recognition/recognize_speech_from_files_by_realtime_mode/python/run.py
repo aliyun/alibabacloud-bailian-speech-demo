@@ -10,7 +10,7 @@ import dashscope
 from dashscope.audio.asr import Recognition, RecognitionCallback, RecognitionResult
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
-from AudioDecoder import AudioDecoder
+from AudioDecoder import AudioDecoder, AudioDecodeCallback
 
 
 def init_dashscope_api_key():
