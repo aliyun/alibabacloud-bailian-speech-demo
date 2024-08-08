@@ -65,9 +65,9 @@ def read_file_and_print_content(file_path):
 
         if trans_result:
             trans_result = json.loads(trans_result)
-            print("========= transcription result for file : ", trans_result['file_url'], " print begin=========  ")
+            print("============= transcription for file : ", trans_result['file_url'], " === START ===")
             for transcript in trans_result['transcripts']:
                 for sentence in transcript['sentences']:
                     text = sentence['text']
                     print("==>: ", text)
-            print("========= transcription result for file : ", trans_result['file_url'], " print over========= \n\n")
+            print("============= transcription for file : ", trans_result['file_url'], " ===  END  ===\n\n")
