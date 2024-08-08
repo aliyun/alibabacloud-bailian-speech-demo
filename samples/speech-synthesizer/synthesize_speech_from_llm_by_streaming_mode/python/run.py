@@ -67,7 +67,7 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
 
     synthesizer = SpeechSynthesizer(
         model='cosyvoice-v1',
-        voice='longmiao',
+        voice='loongstella',
         callback=synthesizer_callback,
     )
 
@@ -76,7 +76,7 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
         {'role': 'system', 'content': system_text},
         {'role': 'user', 'content': query_text}
         ]
-    print('>>>提问：'+query_text)
+    print('>>> query: '+query_text)
     responses = Generation.call(
         model='qwen-long',
         messages=messages,
@@ -84,7 +84,7 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
         stream=True,  # enable stream output
         incremental_output=True,  # enable incremental output
     )
-    print('>>>回答：', end = '')
+    print('>>> answer: ', end = '')
     for response in responses:
         if response.status_code == HTTPStatus.OK:
             # send llm result to synthesizer
@@ -103,7 +103,7 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
     synthesizer.streaming_complete()
     # add new line after llm outputs
     print('')
-    print('synthesize and play over with requestId: ', synthesizer.get_last_request_id())
+    print('>>> playback completed, requestId: ', synthesizer.get_last_request_id())
     # stop realtime mp3 player
     player.stop()
 

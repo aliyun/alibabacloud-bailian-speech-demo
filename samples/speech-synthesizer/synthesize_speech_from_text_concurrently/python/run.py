@@ -29,9 +29,7 @@ def synthesis_one_text_to_speech(task):
     text_to_synthesize = task[0]
     voice = task[1]
     pid = os.getpid()
-    if os.path.exists('results') is False:
-        os.mkdir('results')
-    file_to_save = os.path.join('results', f'result_v{voice}_p{pid}.mp3')
+    file_to_save = os.path.join(f'result_{voice}_p{pid}.mp3')
 
     # Initialize the speech synthesizer
     # you can customize the synthesis parameters, like voice, format, sample_rate or other parameters
@@ -65,9 +63,9 @@ def multi_process_pool():
 
     # Please replace the text with your own text to synthesis
     task_list = [
-        ['我是龙小淳，欢迎体验阿里云百炼大模型语音合成服务！', 'longxiaochun'],
-        ['我是龙小白，欢迎体验阿里云百炼大模型语音合成服务！', 'longxiaobai'],
-        ['我是龙媛，欢迎体验阿里云百炼大模型语音合成服务！', 'longyuan'],
+        ['我是龙小淳，欢迎体验阿里云百炼语音合成大模型服务！', 'longxiaochun'],
+        ['我是龙小白，欢迎体验阿里云百炼语音合成大模型服务！', 'longxiaobai'],
+        ['我是龙媛，欢迎体验阿里云百炼语音合成大模型服务！', 'longyuan'],
     ]
     
     # Use the map method to distribute tasks among the pool and collect the results

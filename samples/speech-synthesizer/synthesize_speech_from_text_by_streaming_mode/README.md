@@ -17,8 +17,9 @@
 
 [comment]: # (model and interface of the sample)
 ### :point_right: 参考详情
-
-| [音色列表](https://help.aliyun.com/zh/model-studio/developer-reference/model-list-1?spm=a2c4g.11186623.0.0.6e4f3d47ohvUJx) | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25?spm=a2c4g.11186623.0.0.504b1751bmS0ev) |
+| 推荐模型 | API详情 |
+| --- | --- |
+| **cosyvoice-v1** | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [音色列表](https://help.aliyun.com/zh/model-studio/developer-reference/model-list-1)|
 
 ### :point_right: 预期结果
 

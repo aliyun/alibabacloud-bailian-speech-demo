@@ -48,8 +48,8 @@ class MyRecognitionCallback(RecognitionCallback):
         print(f'[{self.tag}] Recognition completed')  # recognition complete
 
     def on_error(self, result: RecognitionResult) -> None:
-        print(f'[{self.tag}]RecognitionCallback task_id: ', result.request_id)
-        print(f'[{self.tag}]RecognitionCallback error: ', result.message)
+        print(f'[{self.tag}] RecognitionCallback task_id: ', result.request_id)
+        print(f'[{self.tag}] RecognitionCallback error: ', result.message)
         exit(0)
 
     def on_event(self, result: RecognitionResult) -> None:
