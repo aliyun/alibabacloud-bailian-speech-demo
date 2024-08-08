@@ -25,6 +25,7 @@ def synthesis_one_text_to_speech(task):
     Synthesize speech with given text and voice, sync call and save the audio into file_path
     for more information, please refer to https://help.aliyun.com/document_detail/2712523.html
     '''
+    init_dashscope_api_key()
     text_to_synthesize = task[0]
     voice = task[1]
     pid = os.getpid()
@@ -78,5 +79,4 @@ def multi_process_pool():
 
 
 if __name__ == '__main__':
-    init_dashscope_api_key()
     multi_process_pool()

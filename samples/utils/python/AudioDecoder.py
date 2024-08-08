@@ -4,6 +4,7 @@
 # MIT License (https://opensource.org/licenses/MIT)
 
 import sys
+import subprocess
 import time
 import ffmpeg
 
@@ -56,35 +57,30 @@ class AudioDecoder:
         Args:
             input_file (str): Path to the input audio file.
         """
-        try:
-            # Start the ffmpeg process asynchronously to decode audio
-            out = (
-                ffmpeg
-                .input(input_file)
-                .output('pipe:1', format='s16le', acodec='pcm_s16le', ac=1, ar='16k')
-                .run_async(pipe_stdout=True, pipe_stderr=True)
-            )
+        ffmpeg_process = subprocess.Popen(
+            [
+                'ffmpeg', '-i', input_file, '-f', 's16le', '-ar', '16000', '-ac',
+                '1', 'pipe:1'
+            ],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+        )  # initialize ffmpeg to decode mp3
+        
 
-            while True:
-                # Read bytes from the ffmpeg process stdout
-                in_bytes = out.stdout.read(3200)
-                time.sleep(0.01)
-                if not in_bytes:
-                    break
+        while True:
+            # Read bytes from the ffmpeg process stdout
+            in_bytes = ffmpeg_process.stdout.read(3200)
+            time.sleep(0.01)
+            if not in_bytes:
+                break
 
-                # Pass the audio data to the callback function
-                self._callback.on_audio_data(in_bytes)
+            # Pass the audio data to the callback function
+            self._callback.on_audio_data(in_bytes)
 
-            # Close the pipes and wait for the ffmpeg process to finish
-            out.stdout.close()
-            out.stderr.close()
-            out.wait()
-
-        except ffmpeg.Error as e:
-            # Print ffmpeg stderr output upon encountering an error
-            print(e.stderr, file=sys.stderr)
-            # Exit the program with an error status
-            sys.exit(1)
+        # Close the pipes and wait for the ffmpeg process to finish
+        ffmpeg_process.stdin.close()
+        ffmpeg_process.wait()
 
     def convert_to_pcm_file(self, input_file_to_decode: str, output_file: str):
         """

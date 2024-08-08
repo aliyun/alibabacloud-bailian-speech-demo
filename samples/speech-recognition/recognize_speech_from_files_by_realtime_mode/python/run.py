@@ -65,6 +65,7 @@ class MyRecognitionCallback(RecognitionCallback):
 
 
 def process_recognition(file_path):
+    init_dashscope_api_key()
     print(f'recognition with file :{file_path}')
     # Create the recognition callback
     callback = MyRecognitionCallback(f'process {os.getpid()}', file_path)
@@ -117,5 +118,4 @@ def multi_process_recognition():
 
 
 if __name__ == '__main__':
-    init_dashscope_api_key()
     multi_process_recognition()

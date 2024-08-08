@@ -1,0 +1,10 @@
+.DS_Store
+__pycache__
+
+samples/speech-synthesizer/synthesize_speech_from_text_concurrently/python/results
+samples/speech-synthesizer/synthesize_speech_from_text/python/*.mp3
+samples/speech-recognition/recognize_speech_from_files_by_batch_mode/python/*.json
+samples/speech-recognition/recognize_speech_with_paralinguistics_from_files_by_batch_mode/python/*.json
+samples/speech-recognition/recognize_speech_from_single_file/python/*.json
+samples/speech-recognition/recognize_speech_from_single_file/python/*.json
+samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode/python/*.mp3
