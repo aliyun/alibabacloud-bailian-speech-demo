@@ -49,12 +49,12 @@ class MyRecognitionCallback(RecognitionCallback):
     def on_error(self, result: RecognitionResult) -> None:
         print(f'[{self.tag}]RecognitionCallback task_id: ', result.request_id)
         print(f'[{self.tag}]RecognitionCallback error: ', result.message)
+        exit(0)
 
     def on_event(self, result: RecognitionResult) -> None:
         sentence = result.get_sentence()
         if 'text' in sentence:
             # print(f'[{self.tag}]RecognitionCallback text: ', sentence['text']) partial recognition result
-            self.text = sentence['text']
             if RecognitionResult.is_sentence_end(sentence):
                 self.text = self.text + sentence['text']
 
