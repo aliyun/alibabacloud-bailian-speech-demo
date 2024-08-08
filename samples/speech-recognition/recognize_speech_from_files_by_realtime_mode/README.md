@@ -2,6 +2,8 @@
 ## 批量音视频文件语音识别（实时模式）
 本示例展示了如何批量的调用实时语音识别接口，实现多个文件流的输入，并实时返回多个文件对应的识别结果。
 
+音视频文件语音识别的**实时模式**更适合对本地文件进行处理，且希望即时返回结果的场景。如果您需要对大批量云端文件进行生产任务处理、且不需要即时返回结果，请参考示例：[批量音视频文件语音识别（批量模式）](../recognize_speech_from_files_by_batch_mode//)。
+
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景
 
@@ -19,7 +21,7 @@
 
 | 推荐模型 | API详情 |
 | ----- | ----- |
-| paraformer-realtime-v2<br>paraformer-realtime-v1<br>paraformer-realtime-8k-v1 | [Paraformer实时语音识别API详情](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
+| **paraformer-realtime-v2**<br>paraformer-realtime-v1<br>paraformer-realtime-8k-v1 | [Paraformer实时语音识别API详情](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
 
 
 ### :point_right: 预期结果

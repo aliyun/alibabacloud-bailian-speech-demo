@@ -5,10 +5,13 @@
 
 import json
 import os
+import sys
 from http import HTTPStatus
 import dashscope
 from dashscope.api_entities.dashscope_response import TranscriptionResponse
-from samples.utils.python.TranscriptionResultUtil import handle_transcription_result
+
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
+from TranscriptionResultUtil import handle_transcription_result
 
 
 def init_dashscope_api_key():

@@ -4,10 +4,13 @@
 # MIT License (https://opensource.org/licenses/MIT)
 
 import os
+import sys
 import multiprocessing
 import dashscope
 from dashscope.audio.asr import Recognition, RecognitionCallback, RecognitionResult
-from samples.utils.python.AudioDecoder import AudioDecodeCallback, AudioDecoder
+
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
+from AudioDecoder import AudioDecodeCallback, AudioDecoder
 
 
 def init_dashscope_api_key():
@@ -37,16 +40,16 @@ class MyRecognitionCallback(RecognitionCallback):
         self.text = ''
 
     def on_open(self) -> None:
-        print(f'[{self.tag}]Recognition open')  # recognition open
+        print(f'[{self.tag}] Recognition started')  # recognition open
 
     def on_complete(self) -> None:
-        print(f'\n\n[{self.tag}] ========= transcription result for file : {self.file_path}=========  ')
-        print(f'[{self.tag}] result==>: ', self.text)
-        print(f'[{self.tag}]Recognition complete')  # recognition complete
+        print(f'\n\n[{self.tag}] ========= transcription for file : {self.file_path} =========  ')
+        print(f'[{self.tag}] Results ==> ', self.text)
+        print(f'[{self.tag}] Recognition completed')  # recognition complete
 
     def on_error(self, result: RecognitionResult) -> None:
-        print(f'[{self.tag}]RecognitionCallback task_id: ', result.request_id)
-        print(f'[{self.tag}]RecognitionCallback error: ', result.message)
+        print(f'[{self.tag}] RecognitionCallback task_id: ', result.request_id)
+        print(f'[{self.tag}] RecognitionCallback error: ', result.message)
 
     def on_event(self, result: RecognitionResult) -> None:
         sentence = result.get_sentence()
@@ -58,7 +61,7 @@ class MyRecognitionCallback(RecognitionCallback):
 
 
     def on_close(self) -> None:
-        print(f'[{self.tag}]RecognitionCallback close.')
+        print(f'[{self.tag}] RecognitionCallback closed')
 
 
 def process_recognition(file_path):
