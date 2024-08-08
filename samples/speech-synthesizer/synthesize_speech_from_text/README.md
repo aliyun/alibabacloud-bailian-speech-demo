@@ -1,6 +1,6 @@
 [comment]: # (title and brief introduction of the sample)
 ## 语音合成并保存文件（简单模式）
-本示例展示了如何合成指定文本的语音，并将语音保存为文件。
+本示例展示了如何合成指定文本的语音，并将语音保存为文件。语音合成**简单模式**将合成语音保存为文件，适合不需要实时播放的场景。如需实时播放，请参考[语音合成并播放（流式模式）](../synthesize_speech_from_text_by_streaming_mode/)。
 
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景
@@ -8,7 +8,6 @@
 | 应用场景 | 典型用法 | 使用说明 |
 | ----- | ----- | ----- |
 | **入门场景** | 一句话合成 | *将一段文本转化为语音* |
-| **电话呼叫中心场景** | 客服回复转语音 | *使用文字转语音对客服机器人回复进行播报* |
 | **视频配音场景** | 视频配音、新闻配音 | *通过语音合成播报视频中字幕等文本内容* |
 | **有声读物场景** | 小说配音、绘本配音 | *通过多种音色对应不同角色，朗读小说、绘本等有声读物* |
 
@@ -19,8 +18,9 @@
 
 [comment]: # (model and interface of the sample)
 ### :point_right: 参考详情
-
-| [音色列表](https://help.aliyun.com/zh/model-studio/developer-reference/model-list-1?spm=a2c4g.11186623.0.0.6e4f3d47ohvUJx) | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25?spm=a2c4g.11186623.0.0.504b1751bmS0ev) |
+| 推荐模型 | API详情 |
+| --- | --- |
+| **cosyvoice-v1** | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [音色列表](https://help.aliyun.com/zh/model-studio/developer-reference/model-list-1)|
 
 ### :point_right: 预期结果
 
