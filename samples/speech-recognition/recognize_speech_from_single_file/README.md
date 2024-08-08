@@ -1,6 +1,6 @@
 [comment]: # (title and brief introduction of the sample)
 ## 单个音视频文件语音识别
-本示例展示了如何从一个音视频文件中读取数据，并调用实时语音识别接口实现实时语音识别。
+本示例展示了如何对一个音视频文件进行语音识别。示例首先提取音视频文件中的音轨、转码为16kHz 16bit MONO PCM格式，并保存为一个临时文件，然后调用阿里云百炼实时语音识别大模型API实现语音识别。
 
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景
@@ -19,13 +19,11 @@
 
 | 推荐模型 | API详情 |
 | ----- | ----- |
-| paraformer-realtime-v2<br>paraformer-realtime-v1<br>paraformer-realtime-8k-v1 | [Paraformer实时语音识别API详情](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
+| **paraformer-realtime-v2**<br>paraformer-realtime-v1<br>paraformer-realtime-8k-v1 | [Paraformer实时语音识别API详情](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
 
 ### :point_right: 预期结果
 
-完整的识别结果会以json的格式保存在 result.json文件中。完整结果包含句级别和字级别的时间戳信息等。
-
-另外识别的完整文本会在控制台打印：
+完整的识别结果会以json格式保存在result.json文件中。完整结果包含句级别和字级别的时间戳信息等。语音识别的纯文本会同时在控制台打印：
 ```text
 The brief result is:
 横看成岭侧成峰，远近高低各不同。不识庐山真面目，只缘身在此山中。

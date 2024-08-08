@@ -7,7 +7,7 @@
 
 1. #### 配置阿里云百炼API-KEY
 
-    在运行本示例之前，您需要开通阿里云账号、获得阿里云百炼API_KEY，并进行必要的环境配置。有关API-KEY的详细配置步骤请参考：[PREREQUISITES.md](../../../../PREREQUISITES.md)
+    在运行本示例之前，您需要开通阿里云账号、获得阿里云百炼API_KEY，并进行必要的环境配置。有关API-KEY的详细配置步骤请参考：[PREREQUISITES.md](../../../../PREREQUISITES.md)。
 
 1. #### 安装Python依赖
 
@@ -15,6 +15,9 @@
     ```commandline
     pip3 install -r requirements.txt
     ```
+1. #### 安装ffmpeg
+
+    示例需要用到ffmpeg进行音视频解码。推荐从官方网站下载安装，并将ffmpeg安装路径配置进环境变量：[ffmpeg官方网站下载](https://www.ffmpeg.org/download.html)。
 
 [comment]: # (how to run the sample and expected results)
 ### :point_right: 运行示例
