@@ -137,10 +137,12 @@ websocket closed due to [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify fail
 **解答：** 
 连接websocket时，本地的openssl验证证书失败，找不到证书。通常是python环境配置错误。
 ```bash
+#命令1
 security find-certificate -a -p > ~/all_mac_certs.pem; export SSL_CERT_FILE=~/all_mac_certs.pem; export REQUESTS_CA_BUNDLE=~/all_mac_certs.pem
+#命令2
 ln -s /etc/ssl/* /Library/Frameworks/Python.framework/Versions/3.9/etc/openssl
 ```
-执行上面这两条命令手动定位证书。第2条注意python版本。
+执行上面这两条命令手动定位证书。第2条命令注意选择您本地环境python版本的对应目录。
 
 ### 缺少必要参数
 Java报错：
