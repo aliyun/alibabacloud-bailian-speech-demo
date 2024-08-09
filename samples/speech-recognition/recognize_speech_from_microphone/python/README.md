@@ -13,7 +13,7 @@
 
     阿里云百炼SDK运行环境需要Python 3.8及以上版本。您可以使用以下命令来安装本示例的依赖：
     ```commandline
-    pip install -r requirements.txt
+    pip3 install -r requirements.txt
     ```
 
 [comment]: # (how to run the sample and expected results)
