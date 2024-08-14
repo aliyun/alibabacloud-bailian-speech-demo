@@ -89,26 +89,6 @@ def _download_file(url, local_path):
         print(f"Failed to download the file: {e}")
 
 
-def read_file_get_content(file_path):
-    """
-        Reads a file and retrieves its content.
-
-        Parameter:
-        - file_path: File Path
-
-        Return Value:
-        String representation of file content.
-    """
-    with open(file_path, 'r', encoding='utf-8') as f:
-        trans_result = f.read()
-        # print("trans_result: ", trans_result)
-        if trans_result:
-            trans_result = json.loads(trans_result)
-            text = trans_result['transcripts'][0]['text']
-            # print("transcript_result: ", text)
-            return text
-
-
 def call_llm_with_prompt(prompt: str) -> str:
     """
         Invokes an LLM Model with prompt
@@ -168,7 +148,7 @@ def call_llm_with_messages(system_content: str, user_content: str):
         ))
 
 
-def transcript_audio_file(file_link: str):
+def transcribe_audio_file(file_link: str):
     """
         Transcribes an audio file.
         Parameter:
@@ -224,43 +204,50 @@ if __name__ == '__main__':
     audio_file_url = upload_audio_file_to_oss(opus_file)
     # TRANSCRIBE
     # 3. transcribe audio file
-    transcript_audio_file(audio_file_url)
+    transcribe_audio_file(audio_file_url)
+
     # 4. read the transcription result
-
-    trans_result_text = read_file_get_content(transcription_result_file_path)
-    print("\n\n============= meeting transcript === START ===")
-    print(f"transcript result is: {trans_result_text}")
-    print("============= meeting transcript ===  END  ===")
-
-    # 5. meeting translate
-    prompt_for_translate = ('Your role is a conference interpreter. '
+    # 5. translate
+    print("\n\n============= transcribe and translate === START ===")
+    prompt_for_translate = ('Your role is a translator. '
                             'Please translate the inputted Chinese into English, '
                             'ensuring semantic coherence as much as possible. '
-                            'Below is the conference text:')
-    translate_result = call_llm_with_prompt(prompt_for_translate + trans_result_text)
-    print("\n\n============= meeting translate === START ===")
-    print(f"translate result is: {translate_result}")
-    print("============= meeting translate ===  END  ===")
+                            'Below is the original text:')
+    with open(transcription_result_file_path, 'r', encoding='utf-8') as f:
+        trans_result = f.read()
+        # print("trans_result: ", trans_result)
+        if trans_result:
+            trans_result = json.loads(trans_result)
+            trans_result_text = trans_result['transcripts'][0]['text']
+
+            if trans_result['transcripts'][0]['sentences']:
+                for sentence in trans_result['transcripts'][0]['sentences']:
+                    text = sentence['text']
+                    print("transcribe==>", text)
+                    translate_result = call_llm_with_prompt(prompt_for_translate + text)
+                    print("translate ==>", translate_result)
+
+    print("============= transcribe and translate ===  END  ===")
 
     # 6. meeting summary
-    prompt_for_summary = ('你的角色是会议助手。'
-                          '请根据输入会议文本，从中给出重要摘要信息。摘要要至少列举出3个以上关键点,使用数字小标题并换行分隔，每个关键点一行即可,并给出总结。整体文本简略，总回复不超过80字。'
-                          '以下是会议文本内容：')
+    prompt_for_summary = ('你的角色是文档总结助理。'
+                          '请根据输入文本，从中给出重要摘要信息。摘要要至少列举出3个以上关键点,使用数字小标题并换行分隔，每个关键点一行即可,并给出全文总结。整体文本简略，总回复不超过80字。'
+                          '以下是输入文本内容：')
     summary_result = call_llm_with_prompt(prompt_for_summary + trans_result_text)
-    print("\n\n============= meeting summary === START ===")
-    print(f"summary result is: \n{summary_result}")
-    print("============= meeting summary ===  END  ===")
+    print("\n\n============= summary === START ===")
+    print(summary_result)
+    print("============= summary ===  END  ===")
 
     # 7. meeting QA
-    content_for_system = ('你的角色是会议专家。你需要理解输入的会议内容。并回答用户的问题。'
-                          '以下是会议文本内容：') + trans_result_text
+    content_for_system = ('你的角色是内容归纳专家。你需要理解输入的文本内容。并回答用户的问题。'
+                          '以下是输入文本内容：') + trans_result_text
     question = '人类什么时候发明的电灯'
     content_for_user = f'用户的问题是：{question}'
     qa_result = call_llm_with_messages(content_for_system, content_for_user)
-    print("\n\n============= meeting QA === START ===")
-    print(f"qa question is: {question}")
-    print(f"qa result is: {qa_result}")
-    print("============= meeting QA ===  END  ===")
+    print("\n\n============= QA === START ===")
+    print(f"question is: {question}")
+    print(f"result is: {qa_result}")
+    print("============= QA ===  END  ===")
 
     # remove temp files
     os.remove(temp_opus_file_path)

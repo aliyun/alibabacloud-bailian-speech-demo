@@ -79,8 +79,10 @@ def process_recognition(file_path):
     recognition = Recognition(
         model='paraformer-realtime-v2',
         # 'paraformer-realtime-v1'、'paraformer-realtime-8k-v1'
-        format='pcm',
-        # 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr', you can check the supported formats in the document
+        format='opus',
+        # 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr',
+        # you can check the supported formats in the document
+        # otherwise, we recommend using 'opus', opus is a very efficient zip format
         sample_rate=16000,  # supported 8000、16000
         callback=callback)
 
@@ -110,11 +112,8 @@ def multi_process_recognition():
     ]
 
     # Use the map method to distribute tasks among the pool and collect the results
-    results = process_pool.map(process_recognition, file_list)
-
-    # Close the pool and wait for all processes to complete
-    process_pool.close()
-    process_pool.join()
+    process_pool.map(process_recognition, file_list)
+    exit(0)
 
 
 if __name__ == '__main__':

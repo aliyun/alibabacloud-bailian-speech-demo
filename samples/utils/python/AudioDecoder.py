@@ -30,13 +30,7 @@ class AudioDecodeCallback:
 
 class AudioDecoder:
     """
-    A decoder class responsible for decoding audio streams from files into PCM format.
-
-    Attributes:
-        _callback (AudioDecodeCallback): An instance responsible for handling decoded audio data.
-
-    Methods:
-        decode_audio_by_file(input_file): Decodes audio based on the specified audio file path.
+    A decoder class responsible for decoding audio from files into OPUS format.
     """
 
     def __init__(self, callback: AudioDecodeCallback = None):
@@ -58,13 +52,13 @@ class AudioDecoder:
         try:
             ffmpeg_process = subprocess.Popen(
                 [
-                    'ffmpeg', '-i', input_file, '-f', 's16le', '-ar', '16000', '-ac',
-                    '1', 'pipe:1'
+                    'ffmpeg', '-i', input_file, '-f', 'opus', '-ar', '16000', '-ac',
+                    '1', '-acodec', 'libopus', 'pipe:1'
                 ],
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
-            )  # initialize ffmpeg to decode mp3
+            )  # initialize ffmpeg to decode input audio or video
             
 
             while True:
