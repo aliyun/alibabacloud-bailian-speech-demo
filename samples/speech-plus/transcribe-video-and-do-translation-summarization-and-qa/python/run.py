@@ -3,12 +3,15 @@
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 
+import sys
 import json
 import os
 from http import HTTPStatus
 import requests
 import dashscope
 from dashscope import Generation
+
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
 from samples.utils.python.AudioDecoder import AudioDecoder
 # import ossUtil
 
