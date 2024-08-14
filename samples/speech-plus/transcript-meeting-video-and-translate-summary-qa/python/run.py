@@ -62,7 +62,7 @@ def upload_audio_file_to_oss(audio_file_path: str) -> str:
     # We have returned a preprocessed file link to the sample temp_decoded.opus file.
     # You can use Aliyun OSS(https://help.aliyun.com/zh/oss/user-guide/upload-objects-to-oss)
     # to upload your file and generate an accessible link.
-    return "https://nls-demo-resources.oss-cn-beijing.aliyuncs.com/sample_for_incalculable_value.opus"
+    return "https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/sample_for_incalculable_value.opus"
 
 
 def _download_file(url, local_path):
