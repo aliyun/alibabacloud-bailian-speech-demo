@@ -226,9 +226,9 @@ if __name__ == '__main__':
             if trans_result['transcripts'][0]['sentences']:
                 for sentence in trans_result['transcripts'][0]['sentences']:
                     text = sentence['text']
-                    print("transcribe==>", text)
                     translate_result = call_llm_with_prompt(prompt_for_translate + text)
-                    print("translate ==>", translate_result)
+                    print("transcribe==>", text)
+                    print("translate ==>\033[1;32m", translate_result, "\033[0m") # print with green color
 
     print("============= transcribe and translate ===  END  ===")
 
@@ -249,7 +249,7 @@ if __name__ == '__main__':
     qa_result = call_llm_with_messages(content_for_system, content_for_user)
     print("\n\n============= QA === START ===")
     print(f"question is: {question}")
-    print(f"result is: {qa_result}")
+    print(f"result   is: {qa_result}")
     print("============= QA ===  END  ===")
 
     # remove temp files
