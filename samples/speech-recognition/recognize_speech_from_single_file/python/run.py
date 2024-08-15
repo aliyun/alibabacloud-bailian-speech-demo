@@ -36,7 +36,7 @@ class RecognizeSpeechFromSingleFile:
         recognition = Recognition(
             model='paraformer-realtime-v2',
             # 'paraformer-realtime-v1'、'paraformer-realtime-8k-v1'
-            format='pcm',
+            format='opus',
             # 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr', you can check the supported formats in the document
             sample_rate=16000,  # supported 8000、16000
             callback=None)
@@ -56,11 +56,11 @@ if __name__ == '__main__':
     print('Input file is: %s' % file_path)
 
     decoded_file_path = os.path.join(current_dir,
-                                     "temp_decoded.pcm")
+                                     "temp_decoded.opus")
 
-    # Decode your audio/video file to 16k 16bit mono pcm file to current directory
+    # Suggest decode your audio/video file to 16k 16bit mono opus format file to current directory
     audio_decoder = AudioDecoder()
-    audio_decoder.convert_to_pcm_file(file_path, decoded_file_path)
+    audio_decoder.convert_to_opus_file(file_path, decoded_file_path)
 
     # Initialize recognition
     speech_recognizer = RecognizeSpeechFromSingleFile()

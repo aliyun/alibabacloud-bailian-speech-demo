@@ -3,10 +3,8 @@
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 
-import sys
 import subprocess
 import time
-import ffmpeg
 
 
 class AudioDecodeCallback:
@@ -32,13 +30,7 @@ class AudioDecodeCallback:
 
 class AudioDecoder:
     """
-    A decoder class responsible for decoding audio streams from files into PCM format.
-
-    Attributes:
-        _callback (AudioDecodeCallback): An instance responsible for handling decoded audio data.
-
-    Methods:
-        decode_audio_by_file(input_file): Decodes audio based on the specified audio file path.
+    A decoder class responsible for decoding audio from files into OPUS format.
     """
 
     def __init__(self, callback: AudioDecodeCallback = None):
@@ -57,43 +49,47 @@ class AudioDecoder:
         Args:
             input_file (str): Path to the input audio file.
         """
-        ffmpeg_process = subprocess.Popen(
-            [
-                'ffmpeg', '-i', input_file, '-f', 's16le', '-ar', '16000', '-ac',
-                '1', 'pipe:1'
-            ],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
-        )  # initialize ffmpeg to decode mp3
-        
+        try:
+            ffmpeg_process = subprocess.Popen(
+                [
+                    'ffmpeg', '-i', input_file, '-f', 'opus', '-ar', '16000', '-ac',
+                    '1', '-acodec', 'libopus', 'pipe:1'
+                ],
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+            )  # initialize ffmpeg to decode input audio or video
+            
 
-        while True:
-            # Read bytes from the ffmpeg process stdout
-            in_bytes = ffmpeg_process.stdout.read(3200)
-            time.sleep(0.01)
-            if not in_bytes:
-                break
+            while True:
+                # Read bytes from the ffmpeg process stdout
+                in_bytes = ffmpeg_process.stdout.read(3200)
+                time.sleep(0.01)
+                if not in_bytes:
+                    break
 
-            # Pass the audio data to the callback function
-            self._callback.on_audio_data(in_bytes)
+                # Pass the audio data to the callback function
+                self._callback.on_audio_data(in_bytes)
 
-        # Close the pipes and wait for the ffmpeg process to finish
-        ffmpeg_process.stdin.close()
-        ffmpeg_process.wait()
+            # Close the pipes and wait for the ffmpeg process to finish
+            ffmpeg_process.stdin.close()
+            ffmpeg_process.wait()
+        except subprocess.CalledProcessError as e:
+            # Capturing ffmpeg exceptions, printing error details
+            print(f"An error occurred: {e}")
 
-    def convert_to_pcm_file(self, input_file_to_decode: str, output_file: str):
+    def convert_to_opus_file(self, input_file_to_decode: str, output_file: str):
         """
-        Converts an audio/video file to a PCM format file with a sample rate of 16kHz,
+        Converts an audio/video file to a OPUS format file with a sample rate of 16kHz,
         bit_depth of 16 bits, and mono channel using the ffmpeg library.
 
         This method leverages the ffmpeg library to transform any audio format
-        into a specified PCM format, ensuring the output file meets predefined
+        into a specified OPUS format, ensuring the output file meets predefined
         audio specification requirements.
 
         Parameters:
         - input_file (str): The full path of the audio file to be converted.
-        - output_file (str): The destination storage path for the resulting PCM file.
+        - output_file (str): The destination storage path for the resulting .opus file.
 
         Error Handling:
         Any errors encountered during the conversion process will capture the
@@ -101,27 +97,38 @@ class AudioDecoder:
         """
         try:
             # Using ffmpeg to read the audio stream from input_file
-            # Setting the output format to s16le (little-endian 16-bit integer)
-            # Setting the codec to pcm_s16le to obtain PCM data
+            # Setting the output format to opus
+            # Setting the codec to libopus
             # Setting the number of channels to 1 (mono)
             # Setting the sample rate to 16kHz
             # Executing the conversion operation, allowing to overwrite of existing output files
-            (
-                ffmpeg
-                .input(filename=input_file_to_decode)
-                .output(
-                    output_file,
-                    format='s16le',
-                    acodec='pcm_s16le',
-                    ac=1,
-                    ar='16k'
-                )
-                .run(overwrite_output=True)
-            )
+            # (
+            #     ffmpeg
+            #     .input(filename=input_file_to_decode)
+            #     .output(
+            #         output_file,
+            #         format='opus',
+            #         acodec='libopus',
+            #         ac=1,
+            #         ar='16k'
+            #     )
+            #     .run(overwrite_output=True)
+            # )
+            cmd = [
+                "ffmpeg",
+                "-i", input_file_to_decode,
+                "-c:a", "libopus",
+                "-ac", "1",
+                "-ar", "16000",
+                "-y",  # Overwrite output file without asking
+                output_file
+            ]
+
+            subprocess.run(cmd)
 
             # After successful conversion, print confirmation message
             print(f"The input file has been successfully converted and saved as: {output_file}")
 
-        except ffmpeg.Error as e:
-            # Capturing ffmpeg.Error exceptions, printing error details
-            print(f"An error occurred: {e.stderr.decode()}")
+        except subprocess.CalledProcessError as e:
+            # Capturing ffmpeg exceptions, printing error details
+            print(f"An error occurred: {e}")

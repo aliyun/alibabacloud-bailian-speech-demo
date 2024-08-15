@@ -70,10 +70,7 @@ def multi_process_pool():
     
     # Use the map method to distribute tasks among the pool and collect the results
     process_pool.map(synthesis_one_text_to_speech, task_list)
-    
-    # Close the pool and wait for all processes to complete
-    process_pool.close()
-    process_pool.join()
+    exit(0)
 
 
 

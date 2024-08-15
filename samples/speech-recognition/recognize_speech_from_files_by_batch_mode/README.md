@@ -36,7 +36,7 @@
 
 虽然阿里云百炼语音识别大模型的文件转写API可以兼容多种格式的音视频文件，但由于视频文件尺寸通常较大、传输较为耗时，建议对其进行预处理，仅提取需要进行语音识别的音轨，并进行合理压缩，从而显著降低文件尺寸。这样做将大大加快视频文件转写的吞吐效率。以下步骤展示了如何使用ffmpeg进行有关的预处理。
 
-1. 安装ffmpeg：请前往[ffmpeg官方网站下载](https://www.ffmpeg.org/download.html)。
+1. 安装ffmpeg：请前往[ffmpeg官方网站下载](https://www.ffmpeg.org/download.html)。也可以参考文档[如何安装ffmpeg](../../../docs/QA/ffmpeg.md)。
 
 1. 预处理视频文件：使用ffmpeg提取视频文件中的音轨、降采样到16kHz 16bit Mono、并压缩编码为opus文件进行存储。
     ```

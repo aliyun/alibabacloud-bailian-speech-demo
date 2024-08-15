@@ -7,8 +7,8 @@
 <img src="./docs/image/groups.png" height="200"/>
 
 ## ⭐最新动态⭐
-#### 2024/08/07
-- 优化目录结构和场景示例命名，增加更详细的调用说明。
+#### 2024/08/14
+- ✨ 增加 [视频转写并进行翻译摘要和问答](./samples/speech-plus/transcribe-video-and-do-translation-summarization-and-qa) 示例。
 
 更多历史发布信息请见[变更记录](#point_right-变更记录)。
 
@@ -49,11 +49,11 @@
 
 
 * ### :film_strip: 音视频语音分析理解场景
-| 典型用法 | 使用说明 | 开发示例 |
-| --- | --- | --- |
-| 音视频批量语音识别 | *对音视频文件进行批量语音识别* | [批量音视频文件语音识别（批量模式）](./samples/speech-recognition/recognize_speech_from_files_by_batch_mode) |
-| 音视频批量富信息语音识别 | *对音视频文件中的文本/情绪/事件进行识别* | [批量音视频文件富信息语音识别（批量模式）](./samples/speech-recognition/recognize_speech_and_rich_information_from_files_by_batch_mode)  |
-| 音视频摘要与问答 <img src="./docs/image/logo.svg" height="15"/> | *对音视频文件进行语音识别，并使用大模型进行摘要总结和问答* | Comming Soon                                                                                |
+| 典型用法                                                         | 使用说明 | 开发示例                                                                                                            |
+|--------------------------------------------------------------| --- |-----------------------------------------------------------------------------------------------------------------|
+| 音视频批量语音识别                                                    | *对音视频文件进行批量语音识别* | [批量音视频文件语音识别（批量模式）](./samples/speech-recognition/recognize_speech_from_files_by_batch_mode)                     |
+| 音视频批量富信息语音识别                                                 | *对音视频文件中的文本/情绪/事件进行识别* | [批量音视频文件富信息语音识别（批量模式）](./samples/speech-recognition/recognize_speech_and_rich_information_from_files_by_batch_mode) |
+| 音视频摘要与问答 <img src="./docs/image/logo.svg" height="15"/> | *对音视频文件进行语音识别，并使用大模型进行摘要总结和问答* | [视频转写并进行翻译摘要和问答](./samples/speech-plus/transcribe-video-and-do-translation-summarization-and-qa)|
 
 * ### :speech_balloon: 语音对话聊天场景
 | 典型用法 | 使用说明 | 开发示例                                       |
@@ -69,6 +69,9 @@
 本项目遵循[The MIT License](https://opensource.org/license/MIT)开源协议
 
 ## :point_right: 变更记录
+
+#### 2024/08/14
+- 增加 [视频转写并进行翻译摘要和问答](./samples/speech-plus/transcribe-video-and-do-translation-summarization-and-qa) 示例。
 
 #### 2024/08/07
 - 优化目录结构和场景示例命名，增加更详细的调用说明。
