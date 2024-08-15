@@ -12,7 +12,7 @@ import dashscope
 from dashscope import Generation
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
-from samples.utils.python.AudioDecoder import AudioDecoder
+from AudioDecoder import AudioDecoder
 # import ossUtil
 
 transcription_result_file_path = './transcription_result.json'
