@@ -1,2 +1,3 @@
 dashscope
+requests
 #oss2
