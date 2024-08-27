@@ -165,7 +165,7 @@ def transcribe_audio_file(file_link: str):
     # you can check supported formats and other parameters here: https://help.aliyun.com/document_detail/2712535.html
     # transcription api supports 100 files at most in one job, and each file size should be less than 2GB
     task_response = dashscope.audio.asr.Transcription.async_call(
-        model='paraformer-v2',
+        model='paraformer-v1',
         file_urls=[file_link])
     # This is the description of 'file_urls'.
     # You need to provide a URL from which the file can be downloaded via HTTP.
@@ -228,7 +228,7 @@ if __name__ == '__main__':
                     text = sentence['text']
                     translate_result = call_llm_with_prompt(prompt_for_translate + text)
                     print("transcribe==>", text)
-                    print("translate ==>\033[1;32m", translate_result, "\033[0m") # print with green color
+                    print("translate ==>", translate_result, "\n")
 
     print("============= transcribe and translate ===  END  ===")
 

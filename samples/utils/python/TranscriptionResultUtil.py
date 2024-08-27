@@ -38,7 +38,7 @@ def download_file(url, local_path):
         None
     """
     try:
-        response = requests.get(url, stream=True)
+        response = requests.get(url, stream=True, timeout=10)
         response.raise_for_status()
 
         with open(local_path, 'wb') as f:
