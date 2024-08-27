@@ -3,6 +3,8 @@
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 import json
+import random
+import time
 import requests
 from dashscope.api_entities.dashscope_response import TranscriptionResponse
 
@@ -40,14 +42,14 @@ def download_file(url, local_path):
     try:
         response = requests.get(url, stream=True, timeout=10)
         response.raise_for_status()
-
-        with open(local_path, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
-
-        # print(f"File downloaded successfully and saved to: {local_path}")
     except requests.RequestException as e:
-        print(f"Failed to download the file: {e}")
+        print(f"Failed to download the file: {e} ,retrying...")
+        time.sleep(random.randint(1, 5))
+        response = requests.get(url, allow_redirects=True, verify=False, timeout=15)
+
+    with open(local_path, 'wb') as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            f.write(chunk)
 
 
 def read_file_and_print_content(file_path):

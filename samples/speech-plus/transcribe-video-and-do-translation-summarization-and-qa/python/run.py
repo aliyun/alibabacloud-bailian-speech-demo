@@ -190,7 +190,7 @@ def transcribe_audio_file(file_link: str):
                 print("get transcription_url: ", transcription_url)
                 if transcription_url:
                     # download the transcription result
-                    _download_file(transcription_url, transcription_result_file_path)
+                    _download_file(transcription_url, os.path.join(current_dir,transcription_result_file_path))
 
 
 if __name__ == '__main__':
@@ -216,7 +216,7 @@ if __name__ == '__main__':
                             'Please translate the inputted Chinese into English, '
                             'ensuring semantic coherence as much as possible. '
                             'Below is the original text:')
-    with open(transcription_result_file_path, 'r', encoding='utf-8') as f:
+    with open(os.path.join(current_dir,transcription_result_file_path), 'r', encoding='utf-8') as f:
         trans_result = f.read()
         # print("trans_result: ", trans_result)
         if trans_result:
@@ -253,5 +253,5 @@ if __name__ == '__main__':
     print("============= QA ===  END  ===")
 
     # remove temp files
-    os.remove(temp_opus_file_path)
-    os.remove(transcription_result_file_path)
+    os.remove(os.path.join(current_dir,temp_opus_file_path))
+    os.remove(os.path.join(current_dir,transcription_result_file_path))
