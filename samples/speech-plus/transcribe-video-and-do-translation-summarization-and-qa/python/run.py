@@ -3,10 +3,12 @@
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 
+import random
 import sys
 import json
 import os
 from http import HTTPStatus
+import time
 import requests
 import dashscope
 from dashscope import Generation
@@ -80,16 +82,16 @@ def _download_file(url, local_path):
         None
     """
     try:
-        response = requests.get(url, stream=True)
+        response = requests.get(url, stream=True, timeout=10)
         response.raise_for_status()
-
-        with open(local_path, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
-
-        print(f"File downloaded successfully and saved to: {local_path}")
     except requests.RequestException as e:
-        print(f"Failed to download the file: {e}")
+        print(f"Failed to download the file: {e} ,retrying...")
+        time.sleep(random.randint(1, 5))
+        response = requests.get(url, stream=True, allow_redirects=True, timeout=15) 
+
+    with open(local_path, 'wb') as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            f.write(chunk)
 
 
 def call_llm_with_prompt(prompt: str) -> str:
