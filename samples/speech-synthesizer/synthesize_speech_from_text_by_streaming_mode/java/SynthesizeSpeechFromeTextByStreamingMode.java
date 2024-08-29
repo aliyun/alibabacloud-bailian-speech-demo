@@ -3,7 +3,7 @@
  * MIT License (https://opensource.org/licenses/MIT)
  */
 
- package org.example.ttsv2;
+ package org.aliyun.bailian;
 
  import com.alibaba.dashscope.audio.tts.SpeechSynthesisResult;
  import com.alibaba.dashscope.audio.ttsv2.SpeechSynthesisParam;
