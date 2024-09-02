@@ -85,9 +85,9 @@ def _download_file(url, local_path):
         response = requests.get(url, stream=True, timeout=10)
         response.raise_for_status()
     except requests.RequestException as e:
-        print(f"Failed to download the file: {e} ,retrying...")
         time.sleep(random.randint(1, 5))
         response = requests.get(url, stream=True, allow_redirects=True, timeout=15) 
+        print(f"Failed to download the file: {e} ,retrying!")
 
     with open(local_path, 'wb') as f:
         for chunk in response.iter_content(chunk_size=8192):
