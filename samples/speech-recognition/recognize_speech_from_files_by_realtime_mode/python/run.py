@@ -88,6 +88,8 @@ def process_recognition(file_path):
 
     # Start recognition with the audio files
     recognition.start()
+    # This interface does not support PCM RAW format for compression.
+    # You can convert to WAV format for input.
     audio_decoder.decode_audio_in_blocks(file_path)
     # Stop recognition
     recognition.stop()
