@@ -116,6 +116,7 @@ class RealtimeRecognizeTask implements Runnable {
                 }
                 // Send the ByteBuffer to the recognition instance
                 recognizer.sendAudioFrame(byteBuffer);
+                buffer = new byte[32000 * 10];
             }
             System.out.println(LocalDateTime.now());
         } catch (Exception e) {
