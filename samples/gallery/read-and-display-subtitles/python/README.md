@@ -56,4 +56,4 @@ SubtitlePlayer是一个包含实时音频播放器的简单GUI界面。它会扫
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持
-<img src="../../../docs/image/groups.png" width="400"/>
+<img src="../../../../docs/image/groups.png" width="400"/>
