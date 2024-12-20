@@ -56,6 +56,6 @@ result is: 人类发明电灯大约在一百多年前，这标志着电灯首次
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持
-<img src="../../../../docs/image/groups.png" width="400"/>
+<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
 
     

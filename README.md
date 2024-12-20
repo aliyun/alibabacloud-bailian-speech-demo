@@ -4,7 +4,7 @@
 
 开发者可以通过阿里云百炼提供的模型调用 :moneybag: **免费额度** :moneybag: 试用本仓库中的各个示例，还可以直接将这些示例集成进自己的项目中进一步开发。在开发过程中如有任何疑问，都可以通过我们的钉钉 / 微信群进行沟通交流。
 
-<img src="./docs/image/groups.png" height="200"/>
+<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" height="200"/>
 
 ## ⭐最新动态⭐
 #### 2024/08/14

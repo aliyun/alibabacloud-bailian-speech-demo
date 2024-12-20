@@ -71,4 +71,4 @@
 在成功完成以上步骤后，请转到[应用场景与开发示例](https://github.com/aliyun/alibabacloud-bailian-speech-demo#point_right-应用场景与开发示例)章节，根据您所感兴趣的应用场景选择示例运行。
 
 ## :point_right: 技术支持
-<img src="docs/image/groups.png" width="400"/>
+<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
