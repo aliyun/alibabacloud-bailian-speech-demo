@@ -58,7 +58,7 @@
 * ### :speech_balloon: 语音对话聊天场景
 | 典型用法 | 使用说明 | 开发示例                                       |
 | --- | --- |--------------------------------------------|
-| 语音对话聊天 <img src="./docs/image/logo.svg" height="15"/>  | *通过语音与大语言模型进行对话聊天* | Comming Soon |
+| 语音对话聊天 <img src="./docs/image/logo.svg" height="15"/>  | *通过语音与大语言模型进行对话聊天* | [阿里云文档](https://help.aliyun.com/zh/isi/developer-reference/voice-dialogue) |
 
 ## :point_right: 常见问题
 
