@@ -136,7 +136,7 @@ public class CloneVoiceAndSynthesisTextAndPlay {
         "https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/cosyvoice/210024_happy.wav";
     Voice yourClonedVoice = CreateCloneVoice(audioUrl);
     SyncAudioDataToPlayer(yourClonedVoice.getVoiceId());
-    DeleteVoiceByPrefix("demo");
+    // DeleteVoiceByPrefix("demo");
     System.exit(0);
   }
 

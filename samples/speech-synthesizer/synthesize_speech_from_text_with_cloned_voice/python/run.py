@@ -50,7 +50,7 @@ def create_clone_voice(audio_url: str):
 def delete_voice_by_prefix(prefix):
     voice_clone_service = VoiceEnrollmentService()
     voices_list = voice_clone_service.list_voices(
-        prefix=prefix
+        prefix=prefix,
         page_index=0,
         page_size=10,
     )
@@ -134,4 +134,4 @@ if __name__ == '__main__':
     # your_cloned_voice = 'cosyvoice-demo-xxxxxx'
     synthesis_text_to_speech_and_play(text_to_synthesize, your_cloned_voice)
     ## you can deleted voices filtered by prefix
-    delete_voice_by_prefix('demo')
+    # delete_voice_by_prefix('demo')
