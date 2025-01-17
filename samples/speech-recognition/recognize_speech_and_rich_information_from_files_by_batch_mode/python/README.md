@@ -24,10 +24,9 @@
 python3 run.py
 ```
 
-运行示例，录音文件识别服务将会将提交的文件列表进行后台转写。转写成功后，每个文件的识别结果，将会存储在一个远程JSON文件中，您可以工作URL在浏览器中查看或者下载文件进行后续处理。
+运行示例，录音文件识别服务将会将提交的文件列表进行后台转写。转写成功后，每个文件的识别结果，将会使用parse_sensevoice_result工具解析并打印在终端。
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持
 <img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
 
-    

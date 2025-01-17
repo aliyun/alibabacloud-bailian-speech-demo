@@ -20,7 +20,7 @@
 | 推荐模型          | API详情                                                                                             |
 |---------------|---------------------------------------------------------------------------------------------------|
 | paraformer-v2 | [Paraformer录音文件识别](https://help.aliyun.com/zh/dashscope/developer-reference/api-details-13)|
-| qwen-max | [通义千问大语言模型](https://help.aliyun.com/zh/model-studio/developer-reference/what-is-qwen-llm?spm=a2c4g.11186623.0.0.5dbb76776EGFHK)|
+| qwen-plus | [通义千问大语言模型](https://help.aliyun.com/zh/model-studio/developer-reference/what-is-qwen-llm?spm=a2c4g.11186623.0.0.5dbb76776EGFHK)|
 
 [comment]: # (dependency of the sample)
 ### :point_right: 依赖说明
@@ -34,4 +34,4 @@
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
+<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/cosyvoice/group-10241220.png" width="400"/>

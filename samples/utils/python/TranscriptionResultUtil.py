@@ -1,10 +1,10 @@
-# coding=utf-8
 # !/usr/bin/env python3
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 import json
 import random
 import time
+
 import requests
 from dashscope.api_entities.dashscope_response import TranscriptionResponse
 
@@ -21,7 +21,8 @@ def handle_transcription_result(transcribe_response: TranscriptionResponse):
                 transcription_url = result['transcription_url']
                 if transcription_url:
                     # download the transcription result
-                    __local_file_path = "./" + str(__result_turn) + "_transcription_result.json"
+                    __local_file_path = './' + str(
+                        __result_turn) + '_transcription_result.json'
                     download_file(transcription_url, __local_file_path)
                     # read the transcription result
                     read_file_and_print_content(__local_file_path)
@@ -43,9 +44,12 @@ def download_file(url, local_path):
         response = requests.get(url, stream=True, timeout=10)
         response.raise_for_status()
     except requests.RequestException as e:
-        print(f"Failed to download the file: {e} ,retrying...")
+        print(f'Failed to download the file: {e} ,retrying...')
         time.sleep(random.randint(1, 5))
-        response = requests.get(url, allow_redirects=True, verify=False, timeout=15)
+        response = requests.get(url,
+                                allow_redirects=True,
+                                verify=False,
+                                timeout=15)
 
     with open(local_path, 'wb') as f:
         for chunk in response.iter_content(chunk_size=8192):
@@ -67,9 +71,11 @@ def read_file_and_print_content(file_path):
 
         if trans_result:
             trans_result = json.loads(trans_result)
-            print("============= transcription for file : ", trans_result['file_url'], " === START ===")
+            print('============= transcription for file : ',
+                  trans_result['file_url'], ' === START ===')
             for transcript in trans_result['transcripts']:
                 for sentence in transcript['sentences']:
                     text = sentence['text']
-                    print("==>: ", text)
-            print("============= transcription for file : ", trans_result['file_url'], " ===  END  ===\n\n")
+                    print('==>: ', text)
+            print('============= transcription for file : ',
+                  trans_result['file_url'], ' ===  END  ===\n\n')

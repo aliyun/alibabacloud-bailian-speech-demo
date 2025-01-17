@@ -1,4 +1,3 @@
-# coding=utf-8
 # !/usr/bin/env python3
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
@@ -8,10 +7,14 @@ import os
 import sys
 
 import dashscope
+
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                 '../../../utils/python'))
+
+from AudioDecoder import AudioDecoder
 from dashscope.audio.asr import Recognition, RecognitionResult
 
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
-from AudioDecoder import AudioDecoder
 
 def init_dashscope_api_key():
     """
@@ -20,7 +23,8 @@ def init_dashscope_api_key():
     """
 
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+        dashscope.api_key = os.environ[
+            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
     else:
         dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
 
@@ -42,7 +46,15 @@ class RecognizeSpeechFromSingleFile:
             callback=None)
 
         # Start recognition with the audio file
-        return recognition.call(file_path)
+        result = recognition.call(file_path)
+        print(
+            '[Metric] requestId: {}, first package delay ms: {}, last package delay ms: {}'
+            .format(
+                recognition.get_last_request_id(),
+                recognition.get_first_package_delay(),
+                recognition.get_last_package_delay(),
+            ))
+        return result
 
 
 # main function
@@ -52,11 +64,10 @@ if __name__ == '__main__':
     # Please replace the path with your audio file path
     current_dir = os.path.dirname(os.path.abspath(__file__))
     file_path = os.path.join(current_dir, '../../..', 'sample-data',
-                             "sample_video_poetry.mp4")
+                             'sample_video_poetry.mp4')
     print('Input file is: %s' % file_path)
 
-    decoded_file_path = os.path.join(current_dir,
-                                     "temp_decoded.opus")
+    decoded_file_path = os.path.join(current_dir, 'temp_decoded.opus')
 
     # Suggest decode your audio/video file to 16k 16bit mono opus format file to current directory
     audio_decoder = AudioDecoder()
@@ -64,15 +75,17 @@ if __name__ == '__main__':
 
     # Initialize recognition
     speech_recognizer = RecognizeSpeechFromSingleFile()
-    print("Recognizing speech ...")
+    print('Recognizing speech ...')
     result = speech_recognizer.recognize_file(decoded_file_path)
 
     # Check the result
     file_json = open('result.json', 'wb')
-    file_json.write(json.dumps(result.output, indent=4, ensure_ascii=False).encode('utf-8'))
+    file_json.write(
+        json.dumps(result.output, indent=4,
+                   ensure_ascii=False).encode('utf-8'))
     file_json.close()
-    print("Full recognition result is saved into file: result.json")
-    print("\nThe brief result is:")
+    print('Full recognition result is saved into file: result.json')
+    print('\nThe brief result is:')
 
     if result.status_code == 200 and result.output:
         if result.output.__contains__('sentence'):

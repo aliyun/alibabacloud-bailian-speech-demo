@@ -1,4 +1,3 @@
-# coding=utf-8
 # !/usr/bin/env python3
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
@@ -9,8 +8,9 @@ This module defines a function `uploadFileAndGetLink`, which uploads a local fil
 and returns a temporary access link after successful upload.
 """
 
-import oss2
 import os
+
+import oss2
 from oss2.credentials import EnvironmentVariableCredentialsProvider
 
 
@@ -30,7 +30,8 @@ def upload_file_and_get_link(local_path: str, file_name: str) -> str:
     auth = oss2.ProviderAuth(EnvironmentVariableCredentialsProvider())
 
     # Initialize the Bucket instance
-    bucket = oss2.Bucket(auth, 'https://oss-cn-hangzhou.aliyuncs.com', 'examplebucket')
+    bucket = oss2.Bucket(auth, 'https://oss-cn-hangzhou.aliyuncs.com',
+                         'examplebucket')
 
     # Open the local file for uploading
     with open(local_path, 'rb') as fileobj:

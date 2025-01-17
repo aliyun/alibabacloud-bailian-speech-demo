@@ -1,0 +1,4 @@
+dashscope
+ffmpeg-python
+pyaudio
+wxPython

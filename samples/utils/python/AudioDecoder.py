@@ -1,4 +1,3 @@
-# coding=utf-8
 # !/usr/bin/env python3
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
@@ -17,7 +16,6 @@ class AudioDecodeCallback:
     Methods:
         on_audio_data(audio_data): Called whenever new audio data is available.
     """
-
     def on_audio_data(self, audio_data):
         """
         Invoked when new audio data becomes available.
@@ -32,7 +30,6 @@ class AudioDecoder:
     """
     A decoder class responsible for decoding audio from files into OPUS format.
     """
-
     def __init__(self, callback: AudioDecodeCallback = None):
         """
         Initializes the audio decoder.
@@ -52,14 +49,13 @@ class AudioDecoder:
         try:
             ffmpeg_process = subprocess.Popen(
                 [
-                    'ffmpeg', '-i', input_file, '-f', 'opus', '-ar', '16000', '-ac',
-                    '1', '-acodec', 'libopus', 'pipe:1'
+                    'ffmpeg', '-i', input_file, '-f', 'opus', '-ar', '16000',
+                    '-ac', '1', '-acodec', 'libopus', 'pipe:1'
                 ],
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
             )  # initialize ffmpeg to decode input audio or video
-            
 
             while True:
                 # Read bytes from the ffmpeg process stdout
@@ -76,9 +72,10 @@ class AudioDecoder:
             ffmpeg_process.wait()
         except subprocess.CalledProcessError as e:
             # Capturing ffmpeg exceptions, printing error details
-            print(f"An error occurred: {e}")
+            print(f'An error occurred: {e}')
 
-    def convert_to_opus_file(self, input_file_to_decode: str, output_file: str):
+    def convert_to_opus_file(self, input_file_to_decode: str,
+                             output_file: str):
         """
         Converts an audio/video file to a OPUS format file with a sample rate of 16kHz,
         bit_depth of 16 bits, and mono channel using the ffmpeg library.
@@ -115,20 +112,26 @@ class AudioDecoder:
             #     .run(overwrite_output=True)
             # )
             cmd = [
-                "ffmpeg",
-                "-i", input_file_to_decode,
-                "-c:a", "libopus",
-                "-ac", "1",
-                "-ar", "16000",
-                "-y",  # Overwrite output file without asking
+                'ffmpeg',
+                '-i',
+                input_file_to_decode,
+                '-c:a',
+                'libopus',
+                '-ac',
+                '1',
+                '-ar',
+                '16000',
+                '-y',  # Overwrite output file without asking
                 output_file
             ]
 
             subprocess.run(cmd)
 
             # After successful conversion, print confirmation message
-            print(f"The input file has been successfully converted and saved as: {output_file}")
+            print(
+                f'The input file has been successfully converted and saved as: {output_file}'
+            )
 
         except subprocess.CalledProcessError as e:
             # Capturing ffmpeg exceptions, printing error details
-            print(f"An error occurred: {e}")
+            print(f'An error occurred: {e}')

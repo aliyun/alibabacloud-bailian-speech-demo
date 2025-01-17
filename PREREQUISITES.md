@@ -21,7 +21,7 @@
 
 
 1. ### 创建阿里云百炼模型服务API-KEY并将其配置环境变量
-   
+
     阿里云百炼模型服务的所有模型均通过统一的API-KEY进行调用，您需要通过控制台创建自己的API-KEY。有关创建阿里云百炼API-KEY的的操作，请参见[API-KEY管理](https://help.aliyun.com/zh/model-studio/user-guide/api-key-management)
 
     通过在环境变量中配置API-KEY，您可以避免在运行示例代码时通过明文显式的指定API-KEY，从而降低API-KEY泄漏的风险。有关在环境变量中配置API-KEY的操作，请参见[通过环境变量配置API-KEY](https://help.aliyun.com/zh/model-studio/developer-reference/configure-api-key-through-environment-variables)。
@@ -58,7 +58,7 @@
             <version>the-latest-version</version>
         </dependency>
         ```
-        
+
         或者通过gradle依赖安装。
 
         ```bash

@@ -1,4 +1,3 @@
-# coding=utf-8
 #!/usr/bin/env python3
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
@@ -11,12 +10,15 @@ import dashscope
 from dashscope import Generation
 from dashscope.audio.tts_v2 import *
 
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
-from RealtimeMp3Player import RealtimeMp3Player
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                 '../../../utils/python'))
 
+from RealtimeMp3Player import RealtimeMp3Player
 
 system_text = '你是一个闲聊型语音AI助手，主要任务是和用户展开日常性的友善聊天。请不要回复使用任何格式化文本，回复要求口语化，不要使用markdown格式或者列表。'
 query_to_llm = '番茄炒鸡蛋怎么做？'
+
 
 def init_dashscope_api_key():
     '''
@@ -24,7 +26,8 @@ def init_dashscope_api_key():
     https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     '''
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+        dashscope.api_key = os.environ[
+            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
     else:
         dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
 
@@ -39,7 +42,7 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
     player = RealtimeMp3Player()
     # start player
     player.start()
-    
+
     # Define a callback to handle the result
 
     class Callback(ResultCallback):
@@ -72,19 +75,22 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
     )
 
     # Prepare for the LLM call
-    messages = [
-        {'role': 'system', 'content': system_text},
-        {'role': 'user', 'content': query_text}
-        ]
-    print('>>> query: '+query_text)
+    messages = [{
+        'role': 'system',
+        'content': system_text
+    }, {
+        'role': 'user',
+        'content': query_text
+    }]
+    print('>>> query: ' + query_text)
     responses = Generation.call(
-        model='qwen-long',
+        model='qwen-plus',
         messages=messages,
         result_format='message',  # set result format as 'message'
         stream=True,  # enable stream output
         incremental_output=True,  # enable incremental output
     )
-    print('>>> answer: ', end = '')
+    print('>>> answer: ', end='')
     for response in responses:
         if response.status_code == HTTPStatus.OK:
             # send llm result to synthesizer
@@ -103,7 +109,10 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
     synthesizer.streaming_complete()
     # add new line after llm outputs
     print('')
-    print('>>> playback completed, requestId: ', synthesizer.get_last_request_id())
+    print('>>> playback completed')
+    print('[Metric] requestId: {}, first package delay ms: {}'.format(
+        synthesizer.get_last_request_id(),
+        synthesizer.get_first_package_delay()))
     # stop realtime mp3 player
     player.stop()
 

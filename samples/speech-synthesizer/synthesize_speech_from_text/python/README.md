@@ -15,6 +15,7 @@
     ```commandline
     pip3 install -r requirements.txt
     ```
+    请参考[文档](https://github.com/kkroening/ffmpeg-python)安装ffmpeg
 
 [comment]: # (how to run the sample and expected results)
 ### :point_right: 运行示例

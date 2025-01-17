@@ -1,25 +1,29 @@
-# coding=utf-8
 # !/usr/bin/env python3
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 
-import random
-import sys
 import json
 import os
-from http import HTTPStatus
+import random
+import sys
 import time
-import requests
+from http import HTTPStatus
+
 import dashscope
 from dashscope import Generation
+import requests
 
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                 '../../../utils/python'))
+
 from AudioDecoder import AudioDecoder
+
 # import ossUtil
 
 transcription_result_file_path = './transcription_result.json'
 temp_opus_file_path = './temp_decoded.opus'
-llm_model = 'qwen-max'
+llm_model = 'qwen-plus'
 
 
 def init_dashscope_api_key():
@@ -29,7 +33,8 @@ def init_dashscope_api_key():
     """
 
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+        dashscope.api_key = os.environ[
+            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
     else:
         dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
 
@@ -67,7 +72,7 @@ def upload_audio_file_to_oss(audio_file_path: str) -> str:
     # We have returned a preprocessed file link to the sample temp_decoded.opus file.
     # You can use Aliyun OSS(https://help.aliyun.com/zh/oss/user-guide/upload-objects-to-oss)
     # to upload your file and generate an accessible link.
-    return "https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/sample_for_incalculable_value.opus"
+    return 'https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/sample_for_incalculable_value.opus'
 
 
 def _download_file(url, local_path):
@@ -86,8 +91,11 @@ def _download_file(url, local_path):
         response.raise_for_status()
     except requests.RequestException as e:
         time.sleep(random.randint(1, 5))
-        response = requests.get(url, stream=True, allow_redirects=True, timeout=15) 
-        print(f"Failed to download the file: {e} ,retrying!")
+        response = requests.get(url,
+                                stream=True,
+                                allow_redirects=True,
+                                timeout=15)
+        print(f'Failed to download the file: {e} ,retrying!')
 
     with open(local_path, 'wb') as f:
         for chunk in response.iter_content(chunk_size=8192):
@@ -136,8 +144,13 @@ def call_llm_with_messages(system_content: str, user_content: str):
 
         Return Value: LLM Response
     """
-    messages = [{'role': 'system', 'content': system_content},
-                {'role': 'user', 'content': user_content}]
+    messages = [{
+        'role': 'system',
+        'content': system_content
+    }, {
+        'role': 'user',
+        'content': user_content
+    }]
 
     response = dashscope.Generation.call(
         model=llm_model,
@@ -147,10 +160,10 @@ def call_llm_with_messages(system_content: str, user_content: str):
     if response.status_code == HTTPStatus.OK:
         return response.output.choices[0]['message']['content']
     else:
-        print('Request id: %s, Status code: %s, error code: %s, error message: %s' % (
-            response.request_id, response.status_code,
-            response.code, response.message
-        ))
+        print(
+            'Request id: %s, Status code: %s, error code: %s, error message: %s'
+            % (response.request_id, response.status_code, response.code,
+               response.message))
 
 
 def transcribe_audio_file(file_link: str):
@@ -167,8 +180,7 @@ def transcribe_audio_file(file_link: str):
     # you can check supported formats and other parameters here: https://help.aliyun.com/document_detail/2712535.html
     # transcription api supports 100 files at most in one job, and each file size should be less than 2GB
     task_response = dashscope.audio.asr.Transcription.async_call(
-        model='paraformer-v2',
-        file_urls=[file_link])
+        model='paraformer-v2', file_urls=[file_link])
     # This is the description of 'file_urls'.
     # You need to provide a URL from which the file can be downloaded via HTTP.
     # Typically, we can **store these files in public cloud storage services (such as Alibaba Cloud OSS)**
@@ -180,7 +192,10 @@ def transcribe_audio_file(file_link: str):
     transcribe_response = dashscope.audio.asr.Transcription.wait(
         task=task_response.output.task_id)
     if transcribe_response.status_code == HTTPStatus.OK:
-        print(json.dumps(transcribe_response.output, indent=4, ensure_ascii=False))
+        print(
+            json.dumps(transcribe_response.output,
+                       indent=4,
+                       ensure_ascii=False))
         print('file transcription done!')
         # you will get the transcription result in the transcribe_response.output by param : transcription_url
         # transcription_url is a downloadable file of json format transcription result
@@ -188,18 +203,22 @@ def transcribe_audio_file(file_link: str):
         if transcribe_response.output.task_status == 'SUCCEEDED':
             transcription_result = transcribe_response.output.get('results')
             if transcription_result:
-                transcription_url = json.loads(json.dumps(transcription_result))[0]['transcription_url']
-                print("get transcription_url: ", transcription_url)
+                transcription_url = json.loads(
+                    json.dumps(transcription_result))[0]['transcription_url']
+                print('get transcription_url: ', transcription_url)
                 if transcription_url:
                     # download the transcription result
-                    _download_file(transcription_url, os.path.join(current_dir,transcription_result_file_path))
+                    _download_file(
+                        transcription_url,
+                        os.path.join(current_dir,
+                                     transcription_result_file_path))
 
 
 if __name__ == '__main__':
     # Please replace the path with your audio file path
     current_dir = os.path.dirname(os.path.abspath(__file__))
     video_file_path = os.path.join(current_dir, '../../..', 'sample-data',
-                                   "sample_for_incalculable_value.mp4")
+                                   'sample_for_incalculable_value.mp4')
 
     # 0. init dashscope api key
     init_dashscope_api_key()
@@ -213,12 +232,15 @@ if __name__ == '__main__':
 
     # 4. read the transcription result
     # 5. translate
-    print("\n\n============= transcribe and translate === START ===")
-    prompt_for_translate = ('Your role is a translator. '
-                            'Please translate the inputted Chinese into English, '
-                            'ensuring semantic coherence as much as possible. '
-                            'Below is the original text:')
-    with open(os.path.join(current_dir,transcription_result_file_path), 'r', encoding='utf-8') as f:
+    print('\n\n============= transcribe and translate === START ===')
+    prompt_for_translate = (
+        'Your role is a translator. '
+        'Please translate the inputted Chinese into English, '
+        'ensuring semantic coherence as much as possible. '
+        'Below is the original text:')
+    with open(os.path.join(current_dir, transcription_result_file_path),
+              'r',
+              encoding='utf-8') as f:
         trans_result = f.read()
         # print("trans_result: ", trans_result)
         if trans_result:
@@ -228,20 +250,23 @@ if __name__ == '__main__':
             if trans_result['transcripts'][0]['sentences']:
                 for sentence in trans_result['transcripts'][0]['sentences']:
                     text = sentence['text']
-                    translate_result = call_llm_with_prompt(prompt_for_translate + text)
-                    print("transcribe==>", text)
-                    print("translate ==>", translate_result, "\n")
+                    translate_result = call_llm_with_prompt(
+                        prompt_for_translate + text)
+                    print('transcribe==>', text)
+                    print('translate ==>', translate_result, '\n')
 
-    print("============= transcribe and translate ===  END  ===")
+    print('============= transcribe and translate ===  END  ===')
 
     # 6. meeting summary
-    prompt_for_summary = ('你的角色是文档总结助理。'
-                          '请根据输入文本，从中给出重要摘要信息。摘要要至少列举出3个以上关键点,使用数字小标题并换行分隔，每个关键点一行即可,并给出全文总结。整体文本简略，总回复不超过80字。'
-                          '以下是输入文本内容：')
-    summary_result = call_llm_with_prompt(prompt_for_summary + trans_result_text)
-    print("\n\n============= summary === START ===")
+    prompt_for_summary = (
+        '你的角色是文档总结助理。'
+        '请根据输入文本，从中给出重要摘要信息。摘要要至少列举出3个以上关键点,使用数字小标题并换行分隔，每个关键点一行即可,并给出全文总结。整体文本简略，总回复不超过80字。'
+        '以下是输入文本内容：')
+    summary_result = call_llm_with_prompt(prompt_for_summary +
+                                          trans_result_text)
+    print('\n\n============= summary === START ===')
     print(summary_result)
-    print("============= summary ===  END  ===")
+    print('============= summary ===  END  ===')
 
     # 7. meeting QA
     content_for_system = ('你的角色是内容归纳专家。你需要理解输入的文本内容。并回答用户的问题。'
@@ -249,11 +274,11 @@ if __name__ == '__main__':
     question = '人类什么时候发明的电灯'
     content_for_user = f'用户的问题是：{question}'
     qa_result = call_llm_with_messages(content_for_system, content_for_user)
-    print("\n\n============= QA === START ===")
-    print(f"question is: {question}")
-    print(f"result   is: {qa_result}")
-    print("============= QA ===  END  ===")
+    print('\n\n============= QA === START ===')
+    print(f'question is: {question}')
+    print(f'result   is: {qa_result}')
+    print('============= QA ===  END  ===')
 
     # remove temp files
-    os.remove(os.path.join(current_dir,temp_opus_file_path))
-    os.remove(os.path.join(current_dir,transcription_result_file_path))
+    os.remove(os.path.join(current_dir, temp_opus_file_path))
+    os.remove(os.path.join(current_dir, transcription_result_file_path))

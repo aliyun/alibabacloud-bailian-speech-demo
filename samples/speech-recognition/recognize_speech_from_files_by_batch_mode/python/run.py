@@ -1,4 +1,3 @@
-# coding=utf-8
 #!/usr/bin/env python3
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
@@ -7,11 +6,16 @@ import json
 import os
 import sys
 from http import HTTPStatus
+
 import dashscope
 from dashscope.api_entities.dashscope_response import TranscriptionResponse
 
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                 '../../../utils/python'))
+
 from TranscriptionResultUtil import handle_transcription_result
+
 
 def init_dashscope_api_key():
     """
@@ -20,7 +24,8 @@ def init_dashscope_api_key():
     """
 
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+        dashscope.api_key = os.environ[
+            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
     else:
         dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
 
@@ -52,7 +57,8 @@ def submit_transcription_job() -> TranscriptionResponse:
     return task_response
 
 
-def retrieve_transcription_result(transcription_response: TranscriptionResponse) -> None:
+def retrieve_transcription_result(
+        transcription_response: TranscriptionResponse) -> None:
     """
         get the transcription result
     """
@@ -60,8 +66,11 @@ def retrieve_transcription_result(transcription_response: TranscriptionResponse)
     transcribe_response = dashscope.audio.asr.Transcription.wait(
         task=transcription_response.output.task_id)
     if transcribe_response.status_code == HTTPStatus.OK:
-        print("transcription result : ")
-        print(json.dumps(transcribe_response.output, indent=4, ensure_ascii=False))
+        print('transcription result : ')
+        print(
+            json.dumps(transcribe_response.output,
+                       indent=4,
+                       ensure_ascii=False))
         # you will get the transcription result in the transcribe_response.output by param : transcription_url
         # transcription_url is a downloadable file of json format transcription result
         handle_transcription_result(transcribe_response)
@@ -71,4 +80,5 @@ def retrieve_transcription_result(transcription_response: TranscriptionResponse)
 if __name__ == '__main__':
     init_dashscope_api_key()
     transcription_response = submit_transcription_job()
+    print('transcription task id: ', transcription_response.output.task_id)
     retrieve_transcription_result(transcription_response)

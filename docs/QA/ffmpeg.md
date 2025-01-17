@@ -18,7 +18,7 @@ brew install ffmpeg
 1. 下载安装包：请参考[ffmpeg官网](https://www.ffmpeg.org/download.html#build-windows) ，下载已经编译好的可执行文件。
 2. 解压缩：将下载好的zip/7z文件解压缩，并且进入`bin`目录，复制`bin`目录的路径。
 3. 在`设置`中搜索`编辑系统环境变量`，在`环境变量`子窗口中选择编辑用户变量`Path`，选择`新建`并将ffmpeg的bin路径复制到新建的变量中。
-   
+
 ## 如何通过源码安装ffmpeg
 
 在Linux系统或其他不支持直接安装ffmpeg的操作系统中，可以通过源码安装ffmpeg。

@@ -1,12 +1,26 @@
 # 阿里云百炼 - 通义语音大模型 - 开发示例代码
 
-本仓库以示例代码的形式向开发者展示如何通过<strong>阿里云百炼</strong>调用<strong>通义语音大模型</strong>（包括[CosyVoice](https://fun-audio-llm.github.io/)、[Paraformer](https://github.com/modelscope/FunASR)、[SenseVoice](https://fun-audio-llm.github.io/)等），从而实现<strong>语音识别</strong>（语音转文字）、<strong>语音生成</strong>（文字转语音）等基础功能。以及如何结合阿里云百炼支持的大语言模型（包括通义千问、百川、月之暗面、零一万物、MiniMax等），从而实现<strong>语音聊天对话</strong>、<strong>语音分析理解</strong>、<strong>语音翻译</strong>等高阶AI功能。
+本仓库以示例代码的形式向开发者展示如何通过<strong>阿里云百炼</strong>调用<strong>通义语音大模型</strong>（包括[CosyVoice](https://fun-audio-llm.github.io/)、[Paraformer](https://github.com/modelscope/FunASR)、[SenseVoice](https://fun-audio-llm.github.io/)、[Gummy](https://fun-audio-llm.github.io/)等），从而实现<strong>语音识别</strong>（语音转文字）、<strong>语音生成</strong>（文字转语音）等基础功能。以及如何结合阿里云百炼支持的大语言模型（包括通义千问、百川、月之暗面、零一万物、MiniMax等），从而实现<strong>语音聊天对话</strong>、<strong>语音分析理解</strong>、<strong>语音翻译</strong>等高阶AI功能。
 
 开发者可以通过阿里云百炼提供的模型调用 :moneybag: **免费额度** :moneybag: 试用本仓库中的各个示例，还可以直接将这些示例集成进自己的项目中进一步开发。在开发过程中如有任何疑问，都可以通过我们的钉钉 / 微信群进行沟通交流。
 
 <img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" height="200"/>
 
 ## ⭐最新动态⭐
+#### 2025/01/17
+- ✨ 增加 [麦克风实时语音翻译](./samples/speech-recognition/translate_speech_from_microphone_for_realtime_stream) 示例。
+- ✨ 增加 [批量音视频文件语音翻译（实时模式）](./samples/speech-recognition/translate_speech_from_files_by_realtime_mode/) 示例。
+- ✨ 增加 [麦克风实时一句话语音识别和翻译](./samples/speech-recognition/translate_speech_from_microphone_for_one_sentence/) 示例。
+- ✨ 增加 [复刻你的音色进行语音合成并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_text_with_cloned_voice/) 示例。
+- ✨ 增加 [Gallery](./samples/gallery/) 示例代码目录，包括通过百炼的语音服务实现的有趣项目示例，包括：
+  - [按句展示语音合成字幕](./samples/gallery/read-and-display-subtitles/)
+  - [分角色朗读故事](./samples/gallery/reading-story-in-multiple-role/)
+  - [语音识别并实时上屏](./samples/gallery/record-from-microphone-and-display-realtime-subtitle/)
+  - [中文语音翻译成英文并实时播放](./samples/gallery/translate-audio-from-microphone-and-play-in-realtime/)
+  - [AI Assistant网页版语音助手](./samples/gallery/input-text-out-audio-html-ai-assistant/)
+  - [在网页中录音并进行语音识别](./samples/gallery/input-audio-out-text-html/)
+  - ✨ 优化Java示例代码结构，每一个示例代码都包含一个独立的 Maven 项目。
+
 #### 2024/08/14
 - ✨ 增加 [视频转写并进行翻译摘要和问答](./samples/speech-plus/transcribe-video-and-do-translation-summarization-and-qa) 示例。
 
@@ -24,6 +38,7 @@
 | 典型用法 | 使用说明 | 开发示例                                                                          |
 | --- | --- |-------------------------------------------------------------------------------|
 | 麦克风语音识别 | *实时从麦克风录音并进行语音识别* | [麦克风实时语音识别](./samples/speech-recognition/recognize_speech_from_microphone)    |
+| 麦克风实时语音翻译 | *实时从麦克风录音并进行语音翻译* | [麦克风实时语音翻译](./samples/speech-recognition/translate_speech_from_microphone_for_realtime_stream)    |
 | 音视频文件语音识别 | *对音视频文件进行语音识别* | [单个音视频文件语音识别](./samples/speech-recognition/recognize_speech_from_single_file) |
 | 语音合成 | *将文字合成为语音并保存到文件* | [语音合成并保存（简单模式）](./samples/speech-synthesizer/synthesize_speech_from_text)         |
 
@@ -31,7 +46,8 @@
 | 典型用法 | 使用说明 | 开发示例                                                                                        |
 | --- | --- |---------------------------------------------------------------------------------------------|
 | 实时通话语音识别 | *实时对电话系统通话进行语音识别* | [麦克风实时语音识别](./samples/speech-recognition/recognize_speech_from_microphone)                    |
-| 实时回复语音合成 | *对客服机器人回复进行语音合成* | [语音合成并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode)                       |
+| 实时回复语音合成 | *对客服机器人回复进行语音合成* | [语音合成并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode)
+| 定制音色语音合成 | *使用定制音色进行语音合成* | [复刻你的音色进行语音合成并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_text_with_cloned_voice)                       |
 | 通话录音批量语音识别 | *对客服中心通话录音文件进行批量语音识别* | [批量音视频文件语音识别（批量模式）](./samples/speech-recognition/recognize_speech_from_files_by_batch_mode) |
 
 
@@ -45,7 +61,9 @@
 | 典型用法 | 使用说明 | 开发示例                                                                                        |
 | --- | --- |---------------------------------------------------------------------------------------------|
 | 实时会议语音识别 | *实时对会议语音进行语音识别* | [麦克风实时语音识别](./samples/speech-recognition/recognize_speech_from_microphone)                    |
+| 实时会议语音翻译 | *实时对会议语音进行语音翻译* | [麦克风实时语音翻译](./samples/speech-recognition/translate_speech_from_microphone_for_realtime_stream/)                    |
 | 会议录音批量语音识别 | *对会议录音文件进行批量语音识别* | [批量音视频文件语音识别（批量模式）](./samples/speech-recognition/recognize_speech_from_files_by_batch_mode) |
+| 会议录音批量语音翻译 | *对会议录音文件进行批量语音翻译* | [批量音视频文件语音翻译（批量模式）](./samples/speech-recognition/translate_speech_from_files_by_realtime_mode) |
 
 
 * ### :film_strip: 音视频语音分析理解场景
@@ -58,17 +76,40 @@
 * ### :speech_balloon: 语音对话聊天场景
 | 典型用法 | 使用说明 | 开发示例                                       |
 | --- | --- |--------------------------------------------|
+| 一句话实时语音识别和翻译             | *实时从麦克风录音，断句并进行语音识别和翻译* | [麦克风实时一句话语音识别和翻译](./samples/speech-recognition/translate_speech_from_microphone_for_one_sentence/)                     |
 | 语音对话聊天 <img src="./docs/image/logo.svg" height="15"/>  | *通过语音与大语言模型进行对话聊天* | [阿里云文档](https://help.aliyun.com/zh/isi/developer-reference/voice-dialogue) |
+
+## :point_right: 高并发调用
+
+如果您使用Java搭建语音服务，请参考`高并发示例文档`获得最佳的性能。
+- [Paraformer](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-in-high-concurrency-scenarios)实时语音识别。
+- [Sambert](https://help.aliyun.com/zh/model-studio/developer-reference/sambert-in-high-concurrency-scenarios)语音合成。
+- [Cosyvoice](https://help.aliyun.com/zh/model-studio/developer-reference/high-concurrency-scenarios)大模型语音合成。
+
+
+## :video_game: [Gallery](./samples/gallery)
+
+[Gallery](./samples/gallery) 是为开发者们精心策划的灵感资源库，已包含使用百炼 AI 能力开发的一些有趣应用程序。
+
+我们诚邀更多开发者加入，共同探索和建设这个广阔的技术天地。您的贡献不仅可以丰富我们的资源库，还将为更多开发者提供灵感和帮助，激发更多创新的可能性。无论是分享您的项目和代码，还是提出改进建议，我们都非常期待您的参与。让我们共同努力，打造一个更强大、更具创意的开发者社区！
+
 
 ## :point_right: 常见问题
 
-常见问题请参考[QA文档](docs/QA/qa.md)
+Paraformer调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
+CosyVoice调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 
 ## :point_right: 许可协议
 
 本项目遵循[The MIT License](https://opensource.org/license/MIT)开源协议
 
 ## :point_right: 变更记录
+
+#### 2025/01/17
+- 调整demo结构，java示例统一为maven项目。
+- 增加声音复刻示例。
+- 增加调用gummy语音翻译模型示例。
+- 增加 Gallery 示例代码目录，及示例项目。
 
 #### 2024/08/14
 - 增加 [视频转写并进行翻译摘要和问答](./samples/speech-plus/transcribe-video-and-do-translation-summarization-and-qa) 示例。
@@ -81,10 +122,9 @@
 - 增加朗读故事并实时展示字幕的 python/java 示例。
 - 增加使用网页播放流式音频的AI Assistant示例。
 - 各示例根节点目录增加更详细的运行说明。
-- VoiceChat示例运行代码优化。
 
 #### 2024/07/19
-- 更新文档结构。增加VoiceChat示例、增加语音质检示例。
+- 更新文档结构。增加语音质检示例。
 
 #### 2024/07/17
 - 更新说明文档。

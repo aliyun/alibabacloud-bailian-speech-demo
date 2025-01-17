@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Audio Stream with MSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+            width: 80%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-bottom: 1rem;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        .input-container {
+            display: flex;
+            width: 100%;
+        }
+        #textInput {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+        #sendButton {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #sendButton:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 0.5rem;
+            max-width: 60%;
+            word-wrap: break-word;
+        }
+        .user-message {
+            align-self: flex-end;
+            background-color: #007bff;
+            color: #fff;
+        }
+        .response-message {
+            align-self: flex-start;
+            background-color: #ddd;
+            color: #000;
+        }
+        #audioPlayer {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Assistant</h1>
+        <audio id="audioPlayer" controls></audio>
+        <div id="chat" class="chat-container"></div>
+        <div class="input-container">
+            <input type="text" id="textInput" placeholder="Type your question here...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+    <script type="module">
+        import { WavStreamPlayer } from './wavetoollib/wav_stream_player.js';
+        document.addEventListener('DOMContentLoaded', function () {
+            const sendButton = document.getElementById('sendButton');
+            const textInput = document.getElementById('textInput');
+            const chat = document.getElementById('chat');
+            let activeResponseMessage = null;
+
+            let player_connected = false;
+            let session_id = 0;
+            let waveStreamPlayer = new WavStreamPlayer({sampleRate: 16000});
+
+            // 添加用户消息
+            function addUserMessage(text) {
+                addMessage(text, 'user-message');
+            }
+
+            // 添加响应消息
+            function addResponseMessage(text) {
+                if (!activeResponseMessage) {
+                    activeResponseMessage = addMessage('', 'response-message');
+                }
+                activeResponseMessage.textContent += text;
+                chat.scrollTop = chat.scrollHeight;
+            }
+
+            // 添加消息到聊天框
+            function addMessage(text, className) {
+                const message = document.createElement('div');
+                message.className = `message ${className}`;
+                message.textContent = text;
+                chat.appendChild(message);
+                chat.scrollTop = chat.scrollHeight;
+                return message;
+            }
+
+            // WebSocket 连接和处理
+            function connectAndStreamAudio(text) {
+                const ws = new WebSocket('ws://localhost:11111');
+                ws.binaryType = "arraybuffer";
+
+                ws.onopen = () => {
+                    console.log('WebSocket connection opened');
+                    ws.send(JSON.stringify({ text: text }));
+                    activeResponseMessage = null;
+                };
+
+                ws.onmessage = (event) => {
+                    const data = event.data;
+                    if (typeof data === 'string') {
+                        console.log("recv text: ", data);
+                        addResponseMessage(data);
+                    } else if (data instanceof ArrayBuffer) {
+                        console.log("recv audio size (bytes): ", data.byteLength);
+                        waveStreamPlayer.add16BitPCM(data, 'track_'+session_id);
+                    }
+                };
+
+                ws.onclose = () => {
+                    console.log('WebSocket connection closed');
+                };
+
+                ws.onerror = (error) => {
+                    console.error('WebSocket error', error);
+                };
+            }
+
+            // 发送按钮点击事件
+            sendButton.addEventListener('click', async () => {
+                const text = textInput.value.trim();
+                if (text !== '') {
+                    addUserMessage(text);
+                    textInput.value = '';
+                    connectAndStreamAudio(text);
+                } else {
+                    alert('Please enter a question.');
+                }
+                waveStreamPlayer.interrupt();
+                if (!player_connected) {
+                    waveStreamPlayer.connect();
+                    player_connected = true;
+                }
+                session_id += 1;
+            });
+
+            // 回车键发送消息
+            textInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

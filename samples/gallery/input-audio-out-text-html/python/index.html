@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ASR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+            width: 80%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-bottom: 1rem;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        .input-container {
+            display: flex;
+            width: 100%;
+        }
+        #textInput {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+        #sendButton {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #sendButton:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 0.5rem;
+            max-width: 60%;
+            word-wrap: break-word;
+        }
+        .user-message {
+            align-self: flex-end;
+            background-color: #007bff;
+            color: #fff;
+        }
+        .response-message {
+            align-self: flex-start;
+            background-color: #ddd;
+            color: #000;
+        }
+        #audioPlayer {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="chat" class="chat-container"></div>
+        <div class="buttons">
+            <button id="startButton">开始录音</button>
+            <button id="stopButton" disabled>停止录音</button>
+        </div>
+    </div>
+    <script>
+        let ws;
+        let mediaRecorder;
+        let audioContext;
+        let scriptProcessor;
+
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const chat = document.getElementById('chat');
+        let activeResponseMessage = addMessage('>', 'response-message');
+
+
+        // 添加响应消息
+        function addResponseMessage(msg) {
+            const jsonObject = JSON.parse(msg)
+            let text = jsonObject.text;
+            let is_end = jsonObject.is_end;
+            activeResponseMessage.textContent = text;
+            if (is_end) {
+                activeResponseMessage = addMessage('>', 'response-message');
+            }
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        // 添加消息到聊天框
+        function addMessage(text, className) {
+            const message = document.createElement('div');
+            message.className = `message ${className}`;
+            message.textContent = text;
+            chat.appendChild(message);
+            chat.scrollTop = chat.scrollHeight;
+            return message;
+        }
+
+        startButton.onclick = async () => {
+            try {
+                // 连接WebSocket
+                ws = new WebSocket('ws://localhost:9090');
+
+                ws.onmessage = (event) => {
+                    const data = event.data;
+                    if (typeof data === 'string') {
+                        console.log("recv msg: ", data);
+                        addResponseMessage(data);
+                    }
+                };
+
+                // 获取麦克风权限
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+                // 创建音频上下文
+                audioContext = new AudioContext({sampleRate: 16000});
+                const source = audioContext.createMediaStreamSource(stream);
+                // 修改这里，使用2048作为buffer size
+                scriptProcessor = audioContext.createScriptProcessor(2048, 1, 1);
+
+                // 处理音频数据
+                scriptProcessor.onaudioprocess = (audioProcessingEvent) => {
+                    if (ws.readyState === WebSocket.OPEN) {
+                        const inputBuffer = audioProcessingEvent.inputBuffer;
+                        const inputData = inputBuffer.getChannelData(0);
+
+                        // 将Float32Array转换为Int16Array
+                        const pcmData = new Int16Array(inputData.length);
+                        for (let i = 0; i < inputData.length; i++) {
+                            pcmData[i] = inputData[i] * 32767;
+                        }
+
+                        ws.send(pcmData.buffer);
+                    }
+                };
+
+                // 连接节点
+                source.connect(scriptProcessor);
+                scriptProcessor.connect(audioContext.destination);
+
+                startButton.disabled = true;
+                stopButton.disabled = false;
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        stopButton.onclick = () => {
+            if (scriptProcessor) {
+                scriptProcessor.disconnect();
+                audioContext.close();
+            }
+            if (ws) {
+                ws.close();
+            }
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        };
+    </script>
+</body>
+</html>

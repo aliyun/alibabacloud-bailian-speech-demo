@@ -1,22 +1,29 @@
-# coding=utf-8
 #!/usr/bin/env python3
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 
 import subprocess
 import threading
+
 import pyaudio
 
 
 # Define a callback to handle the result
 class RealtimeMp3Player:
-    def __init__(self, verbose = False):
+    def __init__(self, verbose=False):
         self.ffmpeg_process = None
         self._stream = None
         self._player = None
         self.play_thread = None
         self.stop_event = threading.Event()
         self.verbose = verbose
+
+    def reset(self):
+        self.ffmpeg_process = None
+        self._stream = None
+        self._player = None
+        self.play_thread = None
+        self.stop_event = threading.Event()
 
     def start(self):
         self._player = pyaudio.PyAudio()  # initialize pyaudio to play audio
@@ -26,8 +33,8 @@ class RealtimeMp3Player:
         try:
             self.ffmpeg_process = subprocess.Popen(
                 [
-                    'ffmpeg', '-i', 'pipe:0', '-f', 's16le', '-ar', '22050', '-ac',
-                    '1', 'pipe:1'
+                    'ffmpeg', '-i', 'pipe:0', '-f', 's16le', '-ar', '22050',
+                    '-ac', '1', 'pipe:1'
                 ],
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
@@ -37,7 +44,7 @@ class RealtimeMp3Player:
                 print('mp3 audio player is started')
         except subprocess.CalledProcessError as e:
             # Capturing ffmpeg exceptions, printing error details
-            print(f"An error occurred: {e}")                
+            print(f'An error occurred: {e}')
 
     def stop(self):
         try:
@@ -53,7 +60,7 @@ class RealtimeMp3Player:
                 print('mp3 audio player is stopped')
         except subprocess.CalledProcessError as e:
             # Capturing ffmpeg exceptions, printing error details
-            print(f"An error occurred: {e}")              
+            print(f'An error occurred: {e}')
 
     def play_audio(self):
         # play audio with pcm data decode by ffmpeg
@@ -66,7 +73,7 @@ class RealtimeMp3Player:
                     break
         except subprocess.CalledProcessError as e:
             # Capturing ffmpeg exceptions, printing error details
-            print(f"An error occurred: {e}")                  
+            print(f'An error occurred: {e}')
 
     def write(self, data: bytes) -> None:
         # print('write audio data:', len(data))
@@ -80,4 +87,4 @@ class RealtimeMp3Player:
                 self.play_thread.start()
         except subprocess.CalledProcessError as e:
             # Capturing ffmpeg exceptions, printing error details
-            print(f"An error occurred: {e}")    
+            print(f'An error occurred: {e}')

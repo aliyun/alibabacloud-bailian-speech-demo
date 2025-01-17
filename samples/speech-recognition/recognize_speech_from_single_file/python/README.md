@@ -36,4 +36,3 @@ python3 run.py
 ### :point_right: 技术支持
 <img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
 
-    

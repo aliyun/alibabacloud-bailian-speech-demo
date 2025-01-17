@@ -19,6 +19,7 @@
     ```commandline
     pip3 install -r requirements.txt
     ```
+    请参考[文档](https://github.com/kkroening/ffmpeg-python)安装ffmpeg
 
 [comment]: # (how to run the sample and expected results)
 ### :point_right: 运行示例
@@ -35,11 +36,11 @@ python3 run.py
 >>>提问：番茄炒鸡蛋怎么做？
 >>>回答：做番茄炒鸡蛋挺简单的，你先准备好材料：几个新鲜的番茄和几个鸡蛋。先把鸡蛋打在碗里，加一点点盐，然后用筷子搅匀。
 接着热锅凉油，油温上来后就把鸡蛋液倒进去，等它稍微凝固一点就可以用铲子翻炒几下，鸡蛋变金黄色就可以盛出来备用。
-                                                            
+
 然后锅里再加点油，把切好的番茄块放进去翻炒，番茄会出一些汁水，你可以根据口味加点糖中和酸味。等番茄差不多了，就把刚才炒好
 的鸡蛋倒回去一起翻炒均匀，最后尝尝味道，如果需要可以再调一下味，撒点葱花就可以出锅啦！
 
-试试看吧，记得注意火候哦！                                                                                              synthesize and play over with requestId:  09690564096a47a5b7fae07dbb615117 
+试试看吧，记得注意火候哦！                                                                                              synthesize and play over with requestId:  09690564096a47a5b7fae07dbb615117
 ```
 
 您可以通过修改`query_to_llm`更改提问内容。

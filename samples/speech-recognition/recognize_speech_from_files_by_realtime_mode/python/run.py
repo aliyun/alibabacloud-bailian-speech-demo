@@ -1,16 +1,20 @@
-# coding=utf-8
 # !/usr/bin/env python3
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 
+import multiprocessing
 import os
 import sys
-import multiprocessing
-import dashscope
-from dashscope.audio.asr import Recognition, RecognitionCallback, RecognitionResult
 
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../utils/python'))
-from AudioDecoder import AudioDecoder, AudioDecodeCallback
+import dashscope
+
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                 '../../../utils/python'))
+
+from AudioDecoder import AudioDecodeCallback, AudioDecoder
+from dashscope.audio.asr import (Recognition, RecognitionCallback,
+                                 RecognitionResult)
 
 
 def init_dashscope_api_key():
@@ -20,7 +24,8 @@ def init_dashscope_api_key():
     """
 
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+        dashscope.api_key = os.environ[
+            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
     else:
         dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
 
@@ -43,7 +48,9 @@ class MyRecognitionCallback(RecognitionCallback):
         print(f'[{self.tag}] Recognition started')  # recognition open
 
     def on_complete(self) -> None:
-        print(f'\n\n[{self.tag}] ========= transcription for file : {self.file_path} =========  ')
+        print(
+            f'\n\n[{self.tag}] ========= transcription for file : {self.file_path} =========  '
+        )
         print(f'[{self.tag}] Results ==> ', self.text)
         print(f'[{self.tag}] Recognition completed')  # recognition complete
 
@@ -58,7 +65,6 @@ class MyRecognitionCallback(RecognitionCallback):
             # print(f'[{self.tag}]RecognitionCallback text: ', sentence['text']) partial recognition result
             if RecognitionResult.is_sentence_end(sentence):
                 self.text = self.text + sentence['text']
-
 
     def on_close(self) -> None:
         print(f'[{self.tag}] RecognitionCallback closed')
@@ -93,6 +99,13 @@ def process_recognition(file_path):
     audio_decoder.decode_audio_in_blocks(file_path)
     # Stop recognition
     recognition.stop()
+    print(
+        '[Metric] requestId: {}, first package delay ms: {}, last package delay ms: {}'
+        .format(
+            recognition.get_last_request_id(),
+            recognition.get_first_package_delay(),
+            recognition.get_last_package_delay(),
+        ))
     return callback.text
 
 
