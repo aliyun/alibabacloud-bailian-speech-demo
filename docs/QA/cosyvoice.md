@@ -176,6 +176,8 @@ ln -s /etc/ssl/* /Library/Frameworks/Python.framework/Versions/3.9/etc/openssl
 ```
 执行上面这两条命令手动定位证书。第2条命令注意选择您本地环境python版本的对应目录。
 
+请在执行完上述脚本后重新开启终端，清除缓存后重试。
+
 ### 缺少必要参数
 Java报错：
 1. `Parameter invalid: StreamInputTtsParam is null`
