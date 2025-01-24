@@ -76,7 +76,7 @@ async def LlmTask(query, websocket):
     synthesizer = SpeechSynthesizer(
         model='cosyvoice-v1',
         voice='longxiaochun',
-        format=AudioFormat.PCM_16000HZ_MONO_16BIT,
+        format=AudioFormat.PCM_22050HZ_MONO_16BIT,
         callback=synthesizer_callback,
     )
 

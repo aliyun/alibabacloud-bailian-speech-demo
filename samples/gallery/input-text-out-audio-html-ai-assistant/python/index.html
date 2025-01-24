@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text to Audio Stream with MSE</title>
+    <title>PCM Audio Stream</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -84,15 +84,11 @@
             background-color: #ddd;
             color: #000;
         }
-        #audioPlayer {
-            display: none;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>AI Assistant</h1>
-        <audio id="audioPlayer" controls></audio>
         <div id="chat" class="chat-container"></div>
         <div class="input-container">
             <input type="text" id="textInput" placeholder="Type your question here...">
@@ -100,23 +96,115 @@
         </div>
     </div>
     <script type="module">
-        import { WavStreamPlayer } from './wavetoollib/wav_stream_player.js';
+        class PCMAudioPlayer {
+            constructor(sampleRate) {
+                this.sampleRate = sampleRate;
+                this.audioContext = null;
+                this.audioQueue = [];
+                this.isPlaying = false;
+                this.currentSource = null;
+                const bufferThreshold = 2;
+            }
+
+            connect() {
+                if (!this.audioContext) {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+
+            pushPCM(arrayBuffer) {
+                this.audioQueue.push(arrayBuffer);
+                this._playNextAudio();
+            }
+
+            /**
+             * 将arrayBuffer转为audioBuffer
+             */
+            _bufferPCMData(pcmData) {
+                const sampleRate = this.sampleRate; // 设置为 PCM 数据的采样率
+                const length = pcmData.byteLength / 2; // 假设 PCM 数据为 16 位，需除以 2
+                const audioBuffer = this.audioContext.createBuffer(1, length, sampleRate);
+                const channelData = audioBuffer.getChannelData(0);
+                const int16Array = new Int16Array(pcmData); // 将 PCM 数据转换为 Int16Array
+
+                for (let i = 0; i < length; i++) {
+                    // 将 16 位 PCM 转换为浮点数 (-1.0 到 1.0)
+                    channelData[i] = int16Array[i] / 32768; // 16 位数据转换范围
+                }
+                let audioLength = length/sampleRate*1000;
+                console.log(`prepare audio: ${length} samples, ${audioLength} ms`)
+
+                return audioBuffer;
+            }
+
+            async _playAudio(arrayBuffer) {
+                if (this.audioContext.state === 'suspended') {
+                    await this.audioContext.resume();
+                }
+
+                const audioBuffer = this._bufferPCMData(arrayBuffer);
+
+                this.currentSource = this.audioContext.createBufferSource();
+                this.currentSource.buffer = audioBuffer;
+                this.currentSource.connect(this.audioContext.destination);
+
+                this.currentSource.onended = () => {
+                    console.log('Audio playback ended.');
+                    this.isPlaying = false;
+                    this.currentSource = null;
+                    this._playNextAudio(); // Play the next audio in the queue
+                };
+                this.currentSource.start();
+                this.isPlaying = true;
+            }
+
+            _playNextAudio() {
+                if (this.audioQueue.length > 0 && !this.isPlaying) {
+                    // 计算总的字节长度
+                    const totalLength = this.audioQueue.reduce((acc, buffer) => acc + buffer.byteLength, 0);
+                    const combinedBuffer = new Uint8Array(totalLength);
+                    let offset = 0;
+
+                    // 将所有 audioQueue 中的 buffer 拼接到一个新的 Uint8Array 中
+                    for (const buffer of this.audioQueue) {
+                        combinedBuffer.set(new Uint8Array(buffer), offset);
+                        offset += buffer.byteLength;
+                    }
+
+                    // 清空 audioQueue，因为我们已经拼接完所有数据
+                    this.audioQueue = [];
+                    // 发送拼接的 audio 数据给 playAudio
+                    this._playAudio(combinedBuffer.buffer);
+                }
+            }
+            stop() {
+                if (this.currentSource) {
+                    this.currentSource.stop(); // 停止当前音频播放
+                    this.currentSource = null; // 清除音频源引用
+                    this.isPlaying = false; // 更新播放状态
+                }
+                this.audioQueue = []; // 清空音频队列
+                console.log('Playback stopped and queue cleared.');
+            }
+
+        }
+
+
         document.addEventListener('DOMContentLoaded', function () {
             const sendButton = document.getElementById('sendButton');
             const textInput = document.getElementById('textInput');
             const chat = document.getElementById('chat');
+
             let activeResponseMessage = null;
+            let player = new PCMAudioPlayer(22050);
 
-            let player_connected = false;
-            let session_id = 0;
-            let waveStreamPlayer = new WavStreamPlayer({sampleRate: 16000});
+            let ws = null;
 
-            // 添加用户消息
+
             function addUserMessage(text) {
                 addMessage(text, 'user-message');
             }
 
-            // 添加响应消息
             function addResponseMessage(text) {
                 if (!activeResponseMessage) {
                     activeResponseMessage = addMessage('', 'response-message');
@@ -125,7 +213,6 @@
                 chat.scrollTop = chat.scrollHeight;
             }
 
-            // 添加消息到聊天框
             function addMessage(text, className) {
                 const message = document.createElement('div');
                 message.className = `message ${className}`;
@@ -135,9 +222,11 @@
                 return message;
             }
 
-            // WebSocket 连接和处理
             function connectAndStreamAudio(text) {
-                const ws = new WebSocket('ws://localhost:11111');
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.close();
+                }
+                ws = new WebSocket('ws://localhost:11111');
                 ws.binaryType = "arraybuffer";
 
                 ws.onopen = () => {
@@ -152,8 +241,8 @@
                         console.log("recv text: ", data);
                         addResponseMessage(data);
                     } else if (data instanceof ArrayBuffer) {
-                        console.log("recv audio size (bytes): ", data.byteLength);
-                        waveStreamPlayer.add16BitPCM(data, 'track_'+session_id);
+                        console.log("recv PCM audio size (bytes): ", data.byteLength);
+                        player.pushPCM(data);
                     }
                 };
 
@@ -166,25 +255,19 @@
                 };
             }
 
-            // 发送按钮点击事件
             sendButton.addEventListener('click', async () => {
                 const text = textInput.value.trim();
                 if (text !== '') {
+                    player.connect()
+                    player.stop()
                     addUserMessage(text);
                     textInput.value = '';
                     connectAndStreamAudio(text);
                 } else {
                     alert('Please enter a question.');
                 }
-                waveStreamPlayer.interrupt();
-                if (!player_connected) {
-                    waveStreamPlayer.connect();
-                    player_connected = true;
-                }
-                session_id += 1;
             });
 
-            // 回车键发送消息
             textInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     sendButton.click();
