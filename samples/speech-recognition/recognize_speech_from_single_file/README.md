@@ -1,6 +1,6 @@
 [comment]: # (title and brief introduction of the sample)
-## 单个音视频文件语音识别
-本示例展示了如何对一个音视频文件进行语音识别。示例首先提取音视频文件中的音轨、转码为16kHz 16bit MONO PCM格式，并保存为一个临时文件，然后调用阿里云百炼语音识别大模型实时语音识别API，实现语音转文字的过程。
+## 语音识别本地的单个文件
+本示例展示了如何对一个本地音视频文件进行语音识别。示例会读取本地的wav格式音频文件，并调用阿里云百炼语音识别大模型API，实现语音转文字的过程。
 
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景
@@ -25,8 +25,9 @@
 
 完整的识别结果会以json格式保存在```result.json```文件中。完整结果包含句级别和字级别的时间戳信息等。语音识别的纯文本会同时在控制台打印：
 ```text
-The brief result is:
-横看成岭侧成峰，远近高低各不同。不识庐山真面目，只缘身在此山中。
+The brief result is:          
+Hello world, 这里是阿里巴巴语音实验室。                                                                          
+[Metric] requestId: 3d53b7bf-0bb2-4b4d-96e2-f42caa3eab92, first package delay ms: 1505, last package delay ms: 244 
 ```
 
 [comment]: # (technical support of the sample)

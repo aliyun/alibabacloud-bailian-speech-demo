@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## 单个音视频文件语音识别
+## 语音识别本地的单个文件
 ## Java
 
 [comment]: # (prerequisites)
@@ -19,7 +19,7 @@
 
 您可以通过运行run.sh (Linux, Mac系统)或run.bat (Windows系统)来运行本示例。
 
-示例程序会通过调用call()接口提交文件，并同步返回识别结果。
+示例程序会通过调用call()接口提交文件，并同步返回识别结果。完整的识别结果会以json格式保存在```result.json```文件中。完整结果包含句级别和字级别的时间戳信息等。
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持

@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class RecognizeSpeechFromFileBySyncRealtimeApi {
+public class RecognizeSpeechFromSingleFile {
   public static void main(String[] args) throws NoApiKeyException {
     // Create recognition params
     // you can customize the recognition parameters, like model, format,
@@ -27,7 +27,7 @@ public class RecognizeSpeechFromFileBySyncRealtimeApi {
     RecognitionParam param =
         RecognitionParam.builder()
             .model("paraformer-realtime-v2")
-            .format("pcm") // 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr', you
+            .format("wav") // 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr', you
             // can check the supported formats in the document
             .sampleRate(16000) // supported 8000、16000
             .apiKey(getDashScopeApiKey()) // set your apikey in config.Environments.yourApikey
