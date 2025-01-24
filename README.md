@@ -39,7 +39,7 @@
 | --- | --- |-------------------------------------------------------------------------------|
 | 麦克风语音识别 | *实时从麦克风录音并进行语音识别* | [麦克风实时语音识别](./samples/speech-recognition/recognize_speech_from_microphone)    |
 | 麦克风实时语音翻译 | *实时从麦克风录音并进行语音翻译* | [麦克风实时语音翻译](./samples/speech-recognition/translate_speech_from_microphone_for_realtime_stream)    |
-| 音视频文件语音识别 | *对音视频文件进行语音识别* | [单个音视频文件语音识别](./samples/speech-recognition/recognize_speech_from_single_file) |
+| 音视频文件语音识别 | *对音视频文件进行语音识别* | [语音识别本地的单个文件](./samples/speech-recognition/recognize_speech_from_single_file) |
 | 语音合成 | *将文字合成为语音并保存到文件* | [语音合成并保存（简单模式）](./samples/speech-synthesizer/synthesize_speech_from_text)         |
 
 * ### :telephone: 电话客服中心机器人及对话分析理解场景
@@ -104,6 +104,10 @@ CosyVoice调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 本项目遵循[The MIT License](https://opensource.org/license/MIT)开源协议
 
 ## :point_right: 变更记录
+
+#### 2025/01/24
+- 增加调用call api识别本地单个文件示例，将识别本地视频文件并转opus格式放入gallery。
+- 更换html流式音频播放器，wavtools在移动端和Safari有杂音。
 
 #### 2025/01/17
 - 调整demo结构，java示例统一为maven项目。
