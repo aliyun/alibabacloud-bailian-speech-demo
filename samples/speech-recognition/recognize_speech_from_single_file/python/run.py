@@ -10,6 +10,7 @@ import dashscope
 
 from dashscope.audio.asr import *
 
+
 def init_dashscope_api_key():
     """
     Set your DashScope API-key. More information:
