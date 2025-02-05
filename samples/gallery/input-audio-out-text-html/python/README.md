@@ -42,3 +42,7 @@ python -m http.server 9000
 之后您可以在浏览器输入`http://localhost:9000`打开测试网页。输入提问并点击`开始录音`按钮发送消息后对麦克风说话。
 
 <img src="../../../../docs/image/html-asr.png" width="400"/>
+
+## 关于录音的说明
+
+在`audio_recorder.js`中，我们使用 Web Audio API 开发了 PCMAudioRecorder 录制PCM格式的音频，并通过 AudioWorkletNode 异步将采样点从浮点数转化为16bit的Int16Array并通过回调返回。buffer默认大小为1600采样点，即100ms。

@@ -13,6 +13,7 @@ class MyRecognitionCallback(RecognitionCallback):
         self.text = ''
         self.websocket = websocket
         self.loop = loop
+        self.send_events = []
 
     def on_open(self) -> None:
         print(f'[{self.tag}] Recognition started')  # recognition open
@@ -26,6 +27,11 @@ class MyRecognitionCallback(RecognitionCallback):
         print(f'[{self.tag}] RecognitionCallback error: ', result.message)
         exit(0)
 
+    async def send_asr_result(self, message: str,
+                              event: asyncio.Event) -> None:
+        await self.websocket.send(message)
+        event.set()
+
     def on_event(self, result: RecognitionResult) -> None:
         sentence = result.get_sentence()
         if 'text' in sentence:
@@ -34,8 +40,11 @@ class MyRecognitionCallback(RecognitionCallback):
                 is_end = True
             print(sentence['text'])
             msg = {'text': sentence['text'], 'is_end': is_end}
+            event = asyncio.Event()
+            self.send_events.append(event)
             self.loop.call_soon_threadsafe(
-                asyncio.create_task, self.websocket.send(json.dumps(msg)))
+                asyncio.create_task,
+                self.send_asr_result(json.dumps(msg), event))
 
     def on_close(self) -> None:
         print(f'[{self.tag}] RecognitionCallback closed')
@@ -60,6 +69,8 @@ class AudioServer:
             callback=callback)
 
         recognition.start()
+
+        outfile = open('audio.pcm', 'wb')
         try:
             print('Client connected')
             while True:
@@ -67,12 +78,23 @@ class AudioServer:
                 if isinstance(data, bytes):
                     # print("Received data:", len(data))
                     recognition.send_audio_frame(data)
-                # await asyncio.sleep(0.05)
+                    outfile.write(data)
+                if isinstance(data, str):
+                    print('Received message:', data)
+                    if data == 'stop':
+                        break
         except websockets.exceptions.ConnectionClosed:
             print('Client disconnected')
         except Exception as e:
             print(f'Error: {e}')
         recognition.stop()
+
+        # wait until all asr results are sent
+        for event in callback.send_events:
+            await event.wait()
+
+        await websocket.send('asr stopped')
+        print('asr stopped')
 
     def close(self):
         print('server is closed')

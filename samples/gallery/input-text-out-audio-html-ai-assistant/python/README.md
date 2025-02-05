@@ -35,13 +35,20 @@ pip3 install websockets //安装websocket服务依赖
 python demo_server.py
 ```
 
-之后请在浏览器打开`index.html`测试网页，输入提问并点击`Send`按钮发送消息后，会自动调用百炼SDK的接口，并在收到大模型的回复并且立刻朗读。本示例可以支持多轮交互，默认缓存十轮历史对话消息。
+之后请在本目录运行一个http服务，用于支持通过浏览器访问当前目录的文件。
+```
+python -m http.server 9000
+```
+
+之后您可以在浏览器输入`http://localhost:9000`打开测试网页。输入提问并点击`Send`按钮发送消息后，会自动调用百炼SDK的接口，并在收到大模型的回复并且立刻朗读。
+
+本示例可以支持多轮交互，默认缓存十轮历史对话消息。
 
 <img src="../../../../docs/image/ai-assistant.png" width="400"/>
 
 ### 关于播放器的说明
 
-在本示例中，我们使用 Web Audio API 开发了PCMAudioPlayer播放器播放流式PCM格式的音频，将16bit采样点转化为float写入audioBuffer播放，并且在上一段音频播放结束的onended回调中立刻播放下一段音频。
+在`audio_player.js`中，我们使用 Web Audio API 开发了 PCMAudioPlayer 播放器播放流式PCM格式的音频，将16bit采样点转化为float写入audioBuffer播放，并且在上一段音频播放结束的onended回调中立刻播放下一段音频。
 >注意⚠️ ：
 >1. 使用MediaSource播放流式音频是一个更加简洁的方案，但是MediaSource不支持如下浏览器：Safari、基于Safari的iOS WebView、微信小程序。更多兼容信息参见 [MediaSource](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaSource)
 >2. 使用[openai-realtime-console](https://github.com/openai/openai-realtime-console/tree/websockets)中集成的wavtools在移动端和safari浏览器中播放时会有噪声。

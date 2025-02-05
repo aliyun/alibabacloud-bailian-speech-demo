@@ -96,16 +96,16 @@
             <button id="stopButton" disabled>停止录音</button>
         </div>
     </div>
-    <script>
-        let ws;
-        let mediaRecorder;
-        let audioContext;
-        let scriptProcessor;
+    <script type='module'>
+        import PCMAudioRecorder from './audio_recorder.js';
 
         const startButton = document.getElementById('startButton');
         const stopButton = document.getElementById('stopButton');
         const chat = document.getElementById('chat');
         let activeResponseMessage = addMessage('>', 'response-message');
+
+        let recorder = new PCMAudioRecorder();
+        let ws = null;
 
 
         // 添加响应消息
@@ -138,39 +138,21 @@
                 ws.onmessage = (event) => {
                     const data = event.data;
                     if (typeof data === 'string') {
-                        console.log("recv msg: ", data);
-                        addResponseMessage(data);
-                    }
-                };
-
-                // 获取麦克风权限
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
-                // 创建音频上下文
-                audioContext = new AudioContext({sampleRate: 16000});
-                const source = audioContext.createMediaStreamSource(stream);
-                // 修改这里，使用2048作为buffer size
-                scriptProcessor = audioContext.createScriptProcessor(2048, 1, 1);
-
-                // 处理音频数据
-                scriptProcessor.onaudioprocess = (audioProcessingEvent) => {
-                    if (ws.readyState === WebSocket.OPEN) {
-                        const inputBuffer = audioProcessingEvent.inputBuffer;
-                        const inputData = inputBuffer.getChannelData(0);
-
-                        // 将Float32Array转换为Int16Array
-                        const pcmData = new Int16Array(inputData.length);
-                        for (let i = 0; i < inputData.length; i++) {
-                            pcmData[i] = inputData[i] * 32767;
+                        if (data == 'asr stopped') {
+                            // ws.close();
+                        } else {
+                            console.log("recv msg: ", data);
+                            addResponseMessage(data);
                         }
-
-                        ws.send(pcmData.buffer);
                     }
                 };
 
-                // 连接节点
-                source.connect(scriptProcessor);
-                scriptProcessor.connect(audioContext.destination);
+                await recorder.connect(async (pcmData) => {
+                    if (ws && ws.readyState === WebSocket.OPEN) {
+                        console.log('send audio')
+                        ws.send(pcmData);
+                    }
+                });
 
                 startButton.disabled = true;
                 stopButton.disabled = false;
@@ -181,12 +163,9 @@
         };
 
         stopButton.onclick = () => {
-            if (scriptProcessor) {
-                scriptProcessor.disconnect();
-                audioContext.close();
-            }
+            recorder.stop();
             if (ws) {
-                ws.close();
+                ws.send('stop');
             }
             startButton.disabled = false;
             stopButton.disabled = true;
