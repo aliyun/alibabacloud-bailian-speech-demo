@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ASR JS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+            width: 80%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-bottom: 1rem;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        .input-container {
+            display: flex;
+            width: 100%;
+        }
+        #textInput {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+        #sendButton {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #sendButton:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 0.5rem;
+            max-width: 60%;
+            word-wrap: break-word;
+        }
+        .user-message {
+            align-self: flex-end;
+            background-color: #007bff;
+            color: #fff;
+        }
+        .response-message {
+            align-self: flex-start;
+            background-color: #ddd;
+            color: #000;
+        }
+        #audioPlayer {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ASR</h1>
+        <div id="chat" class="chat-container"></div>
+        <div class="buttons">
+            <input type="text" id="apikeyInput" placeholder="your apikey">
+            <button id="startButton">开始录音</button>
+            <button id="stopButton" disabled>停止录音</button>
+        </div>
+    </div>
+    <script type='module'>
+        import PCMAudioRecorder from './audio_recorder.js';
+        import ParaformerRealtime from './paraformer_realtime_api.js'
+
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const textInput = document.getElementById('apikeyInput');
+        const chat = document.getElementById('chat');
+        let activeResponseMessage = addMessage('>', 'response-message');
+
+        let recorder = new PCMAudioRecorder();
+        let paraformer = null;
+
+        // 添加响应消息
+        function addResponseMessage(msg) {
+            activeResponseMessage = addMessage(msg, 'response-message');
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        // 添加消息到聊天框
+        function addMessage(text, className) {
+            const message = document.createElement('div');
+            message.className = `message ${className}`;
+            message.textContent = text;
+            chat.appendChild(message);
+            chat.scrollTop = chat.scrollHeight;
+            return message;
+        }
+
+        startButton.onclick = async () => {
+            try {
+                let apikey = textInput.value.trim();
+                if (!apikey) {
+                    console.log('no apikey')
+                    alert('请输入apikey');
+                    return;
+                }
+                paraformer = new ParaformerRealtime('wss://dashscope.aliyuncs.com/api-ws/v1/inference/?api_key='+apikey);
+
+                await paraformer.connect((payload) => {
+                    let text = payload.output.sentence.text;
+                    if(text) {
+                        addResponseMessage(text);
+                    }
+                });
+                console.log('paraformer connected');
+                await recorder.connect(async (pcmData) => {
+                    console.log('recording and send audio', pcmData.length);
+                    paraformer.sendAudio(pcmData);
+                });
+
+                startButton.disabled = true;
+                stopButton.disabled = false;
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        stopButton.onclick = async () => {
+            console.log('stop button is clicked');
+            recorder.stop();
+            console.log('recorder stopped');
+            await paraformer.stop();
+            // paraformer.close();
+            console.log('paraformer stopped');
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        };
+    </script>
+</body>
+</html>

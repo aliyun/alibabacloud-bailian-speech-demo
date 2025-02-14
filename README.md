@@ -21,9 +21,6 @@
   - [在网页中录音并进行语音识别](./samples/gallery/input-audio-out-text-html/)
   - ✨ 优化Java示例代码结构，每一个示例代码都包含一个独立的 Maven 项目。
 
-#### 2024/08/14
-- ✨ 增加 [视频转写并进行翻译摘要和问答](./samples/speech-plus/transcribe-video-and-do-translation-summarization-and-qa) 示例。
-
 更多历史发布信息请见[变更记录](#point_right-变更记录)。
 
 ## :point_right: 示例获取和准备工作
@@ -104,6 +101,9 @@ CosyVoice调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 本项目遵循[The MIT License](https://opensource.org/license/MIT)开源协议
 
 ## :point_right: 变更记录
+
+#### 2025/02/14
+- 增加cosyvoice和paraformer的javascript接入示例。
 
 #### 2025/01/24
 - 增加调用call api识别本地单个文件示例，将识别本地视频文件并转opus格式放入gallery。
