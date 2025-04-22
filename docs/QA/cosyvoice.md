@@ -135,7 +135,7 @@ export DASHSCOPE_LOGGING_LEVEL=debug
 ### 保存的音频无法播放
 **解答：**
 1. 请检查保存文件的后缀是否正确，默认格式为mp3。
-2. 请检查是否是在on_data/onEvent回调中打开文件并保存。由于音频是按照音频流从回调中返回，因此此种方法只会保存一个音频chunk，并且在每次写入覆盖文件。正确的保存方法为在callback外部打开文件，在回调用追加写入。参考示例代码[Java示例](https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/samples/speech-synthesizer/save-to-file/java/SaveSynthesizedAudioToFileByStreamingInStreamingOut.java)和[Python示例](https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/samples/speech-synthesizer/save-to-file/python/save_synthesized_audio_to_file_by_streaming_in_streaming_out.py)
+2. 请检查是否是在on_data/onEvent回调中打开文件并保存。由于音频是按照音频流从回调中返回，因此此种方法只会保存一个音频chunk，并且在每次写入覆盖文件。正确的保存方法为在callback外部打开文件，在回调用追加写入。参考示例代码[Java示例](../../samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode/java/src/main/java/org/alibaba/speech/examples/speech_synthesizer/SynthesizeSpeechFromTextByStreamingMode.java)和[Python示例](../../samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode/python/run.py)
 
 ### 实时播放音频流只有第一包可以播放/都无法播放
 **解答：**
@@ -144,7 +144,7 @@ export DASHSCOPE_LOGGING_LEVEL=debug
 
 ### 播放音频卡顿
 **解答：**
-1. 首先请参考[Java示例](https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/samples/speech-synthesizer/save-to-file/java/SaveSynthesizedAudioToFileByStreamingInStreamingOut.java)和[Python示例](https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/samples/speech-synthesizer/save-to-file/python/save_synthesized_audio_to_file_by_streaming_in_streaming_out.py)保存收到的音频，排查是播放器卡顿还是下发音频卡顿。如果保存音频卡顿，则请请将RequestId/TaskId提供给我们排查。
+1. 首先请参考[Java示例](../../samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode/java/src/main/java/org/alibaba/speech/examples/speech_synthesizer/SynthesizeSpeechFromTextByStreamingMode.java)和[Python示例](../../samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode/python/run.py)保存收到的音频，排查是播放器卡顿还是下发音频卡顿。如果保存音频卡顿，则请请将RequestId/TaskId提供给我们排查。
 2. 请检查是否发送文本过慢，已发送文本已经读完。
 3. 请检查回调函数中（特别是on_data/onEvent）是否有过多业务代码阻塞。由于回调在websocket线程中，因此回阻塞websocket接收网络包，导致接收音频卡住。可以自己写一个audio buffer，在回调用将音频写入buffer，在其他线程中读取并处理。
 4. 请检查网络是否不稳定。
