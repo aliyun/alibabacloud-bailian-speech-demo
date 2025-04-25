@@ -67,6 +67,13 @@ class Callback(TranslationRecognizerCallback):
         translation_result: TranslationResult,
         usage,
     ) -> None:
+        if transcription_result is not None:
+            print('transcription: {}'.format(transcription_result.text))
+            if transcription_result.stash is not None:
+                print('transcription stash: {}'.format(transcription_result.stash.text))
+            if transcription_result.is_sentence_end:
+                print('request id: ', request_id)
+                print('usage: ', usage)
         if translation_result is not None:
             # print(
             #     "translation_languages: ",
