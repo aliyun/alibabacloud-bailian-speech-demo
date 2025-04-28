@@ -19,7 +19,7 @@
     - [识别结果丢字、多字](#识别结果丢字多字)
       - [流式调用在音频结尾出现丢字问题](#流式调用在音频结尾出现丢字问题)
       - [Java SDK出现语音识别丢字、多字](#java-sdk出现语音识别丢字多字)
-    - [is\_sentence\_end返回慢](#is_sentence_end返回慢)
+    - [断句方法如何选择](#断句方法如何选择)
     - [调用Gummy语音识别+翻译时遇到空指针](#调用gummy语音识别翻译时遇到空指针)
   - [常见抛出异常及处理方法](#常见抛出异常及处理方法)
     - [CERTIFICATE\_VERIFY\_FAILED](#certificate_verify_failed)
@@ -179,12 +179,17 @@ while ((bytesRead = fis.read(buffer)) != -1) {
 3. 请参考示例代码中注释行，为每一个ByteBuffer绑定新的byte[]数组。
 
 
-### is_sentence_end返回慢
+### 断句方法如何选择
 **解答：**
-paraformer-realtime系列模型默认使用的是语义进行分句，而不是VAD断句。只有当如下条件满足其一才会给出is_sentence_end为true。
+paraformer-realtime系列模型支持使用VAD或语义进行分句，默认使用VAD断句。
+当开启VAD断句时，只要满足如下条件就会给出is_sentence_end为true:
+1. 语音后出现超过阈值长度的静音。
+
+当开启语义断句时，只有当如下条件满足其一才会给出is_sentence_end为true：
 1. 识别出语义完整的一整个句子。
 2. 语音后出现超过两秒的静音。
-您可以通过semantic_punctuation_enabled=false配置切换为使用VAD断句。
+
+VAD断句具有更快的响应速度，语义断句具有更好的效果。您可以通过semantic_punctuation_enabled根据需要，切换断句方法。
 
 ### 调用Gummy语音识别+翻译时遇到空指针
 **解答：**
