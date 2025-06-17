@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 批量音频文件一句话语音识别和翻译（实时模式）
+
+简体中文 | [English](./README_EN.md)
+
 批量音频文件一句话语音识别和翻译（实时模式）是指并发的将多个音频文件通过实时的方式将语音数据发送给一句话语音翻译服务，并实时地返回翻译结果文本的过程。
 
 ## Python

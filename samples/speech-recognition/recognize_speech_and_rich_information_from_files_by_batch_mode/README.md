@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 批量音视频文件富信息语音识别（批量模式）
+
+简体中文 | [English](./README_EN.md)
+
 本示例展示了如何批量的提交存储于云存储（例如OSS）中的音视频文件URL，并调用阿里云百炼语音识别大模型离线文件转写API，实现批量语音识别的过程。
 
 通过使用SenseVoice语音大模型，可以对多语种语音进行识别，并同时返回情感、音频事件等富信息。音视频文件**富信息语音识别**更适合需要识别更丰富的语种、情感、音频事件等内容的场景。对一般的音视频文件语音识别场景，仍建议使用更具性价比的Paraformer模型，请参考示例：[批量音视频文件语音识别（批量模式）](../recognize_speech_from_files_by_batch_mode/)。

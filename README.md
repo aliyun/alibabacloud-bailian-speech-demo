@@ -1,5 +1,7 @@
 # 阿里云百炼 - 通义语音大模型 - 开发示例代码
 
+简体中文| [English](./README_EN.md) 
+
 本仓库以示例代码的形式向开发者展示如何通过<strong>阿里云百炼</strong>调用<strong>通义语音大模型</strong>（包括[CosyVoice](https://fun-audio-llm.github.io/)、[Paraformer](https://github.com/modelscope/FunASR)、[SenseVoice](https://fun-audio-llm.github.io/)、[Gummy](https://fun-audio-llm.github.io/)等），从而实现<strong>语音识别</strong>（语音转文字）、<strong>语音生成</strong>（文字转语音）等基础功能。以及如何结合阿里云百炼支持的大语言模型（包括通义千问、百川、月之暗面、零一万物、MiniMax等），从而实现<strong>语音聊天对话</strong>、<strong>语音分析理解</strong>、<strong>语音翻译</strong>等高阶AI功能。
 
 开发者可以通过阿里云百炼提供的模型调用 :moneybag: **免费额度** :moneybag: 试用本仓库中的各个示例，还可以直接将这些示例集成进自己的项目中进一步开发。在开发过程中如有任何疑问，都可以通过我们的钉钉 / 微信群进行沟通交流。
@@ -93,7 +95,7 @@
 
 ## :point_right: 常见问题
 
-Paraformer调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
+Paraformer调用常见问题请参考[QA文档](docs/QA/paraformer.md)
 CosyVoice调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 
 ## :point_right: 许可协议
@@ -101,6 +103,10 @@ CosyVoice调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 本项目遵循[The MIT License](https://opensource.org/license/MIT)开源协议
 
 ## :point_right: 变更记录
+
+#### 2025/06/17
+- 增加英文readme文档
+- TTS 相关模型升级为cosyvoice-v2
 
 #### 2025/02/14
 - 增加cosyvoice和paraformer的javascript接入示例。

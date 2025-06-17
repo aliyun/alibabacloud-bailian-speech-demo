@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 批量音视频文件富文本语音识别（批量模式）
+
+简体中文 | [English](./README_EN.md)
+
 ## Java
 
 [comment]: # (prerequisites)

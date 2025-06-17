@@ -34,7 +34,7 @@ def synthesis_one_text_to_speech(task):
 
     # Initialize the speech synthesizer
     # you can customize the synthesis parameters, like voice, format, sample_rate or other parameters
-    speech_synthesizer = SpeechSynthesizer(model='cosyvoice-v1',
+    speech_synthesizer = SpeechSynthesizer(model='cosyvoice-v2',
                                            voice=voice,
                                            callback=None)
 
@@ -66,9 +66,9 @@ def multi_process_pool():
 
     # Please replace the text with your own text to synthesis
     task_list = [
-        ['我是龙小淳，欢迎体验阿里云百炼语音合成大模型服务！', 'longxiaochun'],
-        ['我是龙小白，欢迎体验阿里云百炼语音合成大模型服务！', 'longxiaobai'],
-        ['我是龙媛，欢迎体验阿里云百炼语音合成大模型服务！', 'longyuan'],
+        ['我是龙小淳，欢迎体验阿里云百炼语音合成大模型服务！', 'longxiaochun_v2'],
+        ['我是龙婉，欢迎体验阿里云百炼语音合成大模型服务！', 'longwan_v2'],
+        ['我是龙书，欢迎体验阿里云百炼语音合成大模型服务！', 'longhua_v2'],
     ]
 
     # Use the map method to distribute tasks among the pool and collect the results

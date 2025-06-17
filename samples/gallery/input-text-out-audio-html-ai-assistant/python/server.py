@@ -74,8 +74,8 @@ async def LlmTask(query, websocket):
     # you can customize the synthesis parameters, like model, format, sample_rate or other parameters
     # for more information, please refer to https://help.aliyun.com/document_detail/2712523.html
     synthesizer = SpeechSynthesizer(
-        model='cosyvoice-v1',
-        voice='longxiaochun',
+        model='cosyvoice-v2',
+        voice='longhua_v2',
         format=AudioFormat.PCM_22050HZ_MONO_16BIT,
         callback=synthesizer_callback,
     )

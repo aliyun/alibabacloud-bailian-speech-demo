@@ -123,8 +123,8 @@ class SynthesizeTaskWithCallback implements Runnable {
 
       SpeechSynthesisParam param =
           SpeechSynthesisParam.builder()
-              .model("cosyvoice-v1")
-              .voice("longxiaochun")
+              .model("cosyvoice-v2")
+              .voice("longhua_v2")
               .format(SpeechSynthesisAudioFormat.MP3_22050HZ_MONO_256KBPS) // 流式合成使用PCM或者MP3
               .apiKey(getDashScopeApiKey()) // Set your API key
               .build();

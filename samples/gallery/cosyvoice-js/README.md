@@ -1,4 +1,7 @@
 # Cosyvoice语音合成Javascript示例
+
+简体中文 | [English](./README_EN.md)
+
 本示例演示如何通过 javascript 接入百炼平台的 cosyvoice 语音合成服务。示例同时提供一个播放器模块，可以在浏览器中播放合成的流式音频。
 
 ## 前提条件

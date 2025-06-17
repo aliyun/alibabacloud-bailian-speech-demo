@@ -1,5 +1,7 @@
 # 运行示例代码的前提条件
 
+简体中文 | [English](./PREREQUISITES_EN.md)
+
 ## :point_right: 概述
 通义实验室语音大模型（包括[CosyVoice](https://fun-audio-llm.github.io/)、[Paraformer](https://github.com/modelscope/FunASR)、[SenseVoice](https://fun-audio-llm.github.io/)等）可以通过阿里云百炼提供的API服务进行调用，实现<strong>语音识别</strong>（语音转文字）、<strong>语音生成</strong>（文字转语音）等功能。这些功能通过与阿里云百炼上的大语言模型API服务（包括通义千问、百川、月之暗面、零一万物、MiniMax等）结合，还可以实现<strong>语音聊天对话</strong>、<strong>语音分析理解</strong>、<strong>语音翻译</strong>等高阶AI功能。
 

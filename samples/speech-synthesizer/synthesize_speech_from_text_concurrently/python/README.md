@@ -1,4 +1,7 @@
 [comment]: # (title and brief introduction of the sample)
+
+简体中文 | [English](./README_EN.md)
+
 ## 并发调用语音合成
 ## Python
 

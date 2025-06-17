@@ -1,6 +1,7 @@
-
 [comment]: # (title and brief introduction of the sample)
 ## 语音识别并实时上屏
+
+简体中文 | [English](./README_EN.md)
 
 本示例展示了通过调用百炼平台的 Gummy 实时语音翻译模型结果中word字段和stash字段的使用方法，并且实现低延迟、实时的语音识别字幕。
 

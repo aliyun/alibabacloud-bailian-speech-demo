@@ -69,8 +69,8 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
     synthesizer_callback = Callback()
 
     synthesizer = SpeechSynthesizer(
-        model='cosyvoice-v1',
-        voice='loongstella',
+        model='cosyvoice-v2',
+        voice='longhua_v2',
         callback=synthesizer_callback,
     )
 

@@ -70,7 +70,7 @@ public class CloneVoiceAndSynthesisTextAndPlay {
       }
     }
 
-    String model = "cosyvoice-v1";
+    String model = "cosyvoice-v2";
     SpeechSynthesisParam param =
         SpeechSynthesisParam.builder()
             .model(model)
@@ -105,7 +105,7 @@ public class CloneVoiceAndSynthesisTextAndPlay {
       throws NoApiKeyException, InputRequiredException {
     VoiceEnrollmentService service = new VoiceEnrollmentService(getDashScopeApiKey());
     System.out.println("Start Cloning Your Voice...");
-    Voice new_voice = service.createVoice("cosyvoice-v1", "demo", audioUrl);
+    Voice new_voice = service.createVoice("cosyvoice-v2", "demo", audioUrl);
     System.out.println("request_Id: " + service.getLastRequestId());
     System.out.println("Voice Clone Done.");
     System.out.println("your new voice is " + new_voice.getVoiceId());

@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 视频转写并进行翻译摘要和问答
+
+简体中文 | [English](./README_EN.md)
+
 本示例展示了将一个视频文件转码为opus音频文件，通过录音文件转写服务识别为文本，然后调用通义千问大模型进行翻译、内容摘要和问答的过程。
 
 [comment]: # (list of scenarios of the sample)
@@ -34,4 +37,4 @@
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/cosyvoice/group-10241220.png" width="400"/>
+<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>

@@ -20,8 +20,8 @@ public class SynthesizeSpeechFromTextAndSave {
     // set speech synthesis params
     SpeechSynthesisParam param =
         SpeechSynthesisParam.builder()
-            .model("cosyvoice-v1")
-            .voice("loongstella")
+            .model("cosyvoice-v2")
+            .voice("longhua_v2")
             .apiKey(getDashScopeApiKey()) // Set your API key
             .build();
     System.out.println("init params done");

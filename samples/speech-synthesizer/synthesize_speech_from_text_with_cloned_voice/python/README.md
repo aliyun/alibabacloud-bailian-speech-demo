@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 复刻你的音色进行语音合成并播放（流式模式）
+
+简体中文 | [English](./README_EN.md)
+
 ## Python
 
 [comment]: # (prerequisites)

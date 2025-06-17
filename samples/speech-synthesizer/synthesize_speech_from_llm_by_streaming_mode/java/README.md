@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 语音合成实时LLM输出并播放（流式模式）
+
+简体中文 | [English](./README_EN.md)
+
 ## Java
 
 [comment]: # (prerequisites)
@@ -19,7 +22,7 @@
 
 您可以通过运行run.sh (Linux, Mac系统)或run.bat (Windows系统)来运行本示例。
 
-运行示例。调用阿里云百炼平台大语言模型千问（qwen-turbo）回答提问：“番茄炒鸡蛋怎么做？”，并使用 longmiao 音色，按照流式方式发送大模型回答的文本并合成，将音频按照流式方式下发并通过扬声器播放。
+运行示例。调用阿里云百炼平台大语言模型千问（qwen-turbo）回答提问：“番茄炒鸡蛋怎么做？”，并使用 longhua_v2 音色，按照流式方式发送大模型回答的文本并合成，将音频按照流式方式下发并通过扬声器播放。
 
 您可以通过修改`query_to_llm`更改提问内容。
 

@@ -1,4 +1,7 @@
 [comment]: # (title and brief introduction of the sample)
+
+简体中文 | [English](./README_EN.md)
+
 ## 批量音视频文件语音识别（批量模式）
 ## Java
 

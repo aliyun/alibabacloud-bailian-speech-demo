@@ -271,8 +271,8 @@ class TtsTaskHandler:
 
     def restart_synthesizer(self):
         self.synthesizer = SpeechSynthesizer(
-            model='cosyvoice-v1',
-            voice='loongbella',
+            model='cosyvoice-v2',
+            voice='longhua_v2',
             callback=self.callback,
         )
 

@@ -1,5 +1,7 @@
 # CosyVoice语音合成常见问题汇总 (FAQ)
 
+简体中文 | [English](./cosyvoice_en.md)
+
 ## 目录
 - [CosyVoice语音合成常见问题汇总 (FAQ)](#cosyvoice语音合成常见问题汇总-faq)
   - [目录](#目录)

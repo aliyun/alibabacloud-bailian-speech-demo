@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 按句展示语音合成字幕
+
+简体中文 | [English](./README_EN.md)
+
 流式输入语音合成字幕项目是通过将大语言模型生成的文本进行语音合成，并同步显示字幕的一种技术实现。该项目结合了语音合成技术与字幕显示技术，适用于多种场景，如视频配音、有声读物、在线教育等需要文字转语音同步展示的场景。
 <!--
 [comment]: # (list of scenarios of the sample)

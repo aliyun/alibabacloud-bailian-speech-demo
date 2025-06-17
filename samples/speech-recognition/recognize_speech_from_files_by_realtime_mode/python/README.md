@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 批量音视频文件语音识别（实时模式）
+
+简体中文 | [English](./README_EN.md)
+
 批量音视频文件语音识别（实时模式）是指并发的将多个音视频文件通过实时的方式将语音数据发送给语音识别服务，并实时地将语音转换为文字的过程。
 
 

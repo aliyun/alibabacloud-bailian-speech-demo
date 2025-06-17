@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 麦克风实时语音翻译
+
+简体中文 | [English](./README_EN.md)
+
 ## Python
 
 [comment]: # (prerequisites)

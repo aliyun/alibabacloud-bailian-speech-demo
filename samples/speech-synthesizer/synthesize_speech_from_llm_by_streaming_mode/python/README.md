@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 语音合成实时LLM输出并播放（流式模式）
+
+简体中文 | [English](./README_EN.md)
+
 ## Python
 
 [comment]: # (prerequisites)
@@ -29,7 +32,7 @@
 python3 run.py
 ```
 
-示例运行时，将会调用阿里云百炼平台大语言模型千问（qwen-turbo）回答提问：“番茄炒鸡蛋怎么做？”，并使用 longmiao 音色，按照流式方式发送大模型回答的文本并合成，将音频按照流式方式下发并通过扬声器播放。
+示例运行时，将会调用阿里云百炼平台大语言模型千问（qwen-turbo）回答提问：“番茄炒鸡蛋怎么做？”，并使用 longhua_v2 音色，按照流式方式发送大模型回答的文本并合成，将音频按照流式方式下发并通过扬声器播放。
 
 运行示例如下：
 ```

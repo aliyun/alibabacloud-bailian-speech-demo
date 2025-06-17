@@ -83,8 +83,8 @@ public class SynthesizeSpeechFromLlmByStreamingMode {
     // Prepare the speech synthesis task
     SpeechSynthesisParam param =
         SpeechSynthesisParam.builder()
-            .model("cosyvoice-v1")
-            .voice("loongstella")
+            .model("cosyvoice-v2")
+            .voice("longhua_v2")
             .apiKey(getDashScopeApiKey())
             .build();
     SpeechSynthesizer synthesizer = new SpeechSynthesizer(param, new ReactCallback());

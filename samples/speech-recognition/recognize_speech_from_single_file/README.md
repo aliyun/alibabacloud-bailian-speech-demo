@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 语音识别本地的单个文件
+
+简体中文 | [English](./README_EN.md)
+
 本示例展示了如何对一个本地音视频文件进行语音识别。示例会读取本地的wav格式音频文件，并调用阿里云百炼语音识别大模型API，实现语音转文字的过程。
 
 [comment]: # (list of scenarios of the sample)

@@ -2,6 +2,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 中文语音翻译成英文并实时播放
 
+简体中文 | [English](./README_EN.md)
+
 本示例展示了通过调用百炼平台的 Gummy 实时语音翻译模型和 Cosyvoice 流式语音合成模型，实现低延迟、实时的同声传译和实时双语字幕。
 
 [comment]: # (list of scenarios of the sample)
@@ -32,7 +34,7 @@
 ```commandline
 python3 run.py
 ```
-在示例运行后，将会开通过麦克风录制语音并识别、翻译成英文，并将翻译结果使用 loongbella 音色朗读出来。同时将打开一个简单的GUI界面，用来显示实时双语字幕。
+在示例运行后，将会开通过麦克风录制语音并识别、翻译成英文，并将翻译结果使用 longhua_v2 音色朗读出来。同时将打开一个简单的GUI界面，用来显示实时双语字幕。
 
 <img src="../../../../docs/image/translator.png" width="400"/>
 

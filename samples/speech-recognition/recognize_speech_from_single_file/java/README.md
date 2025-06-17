@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 语音识别本地的单个文件
+
+简体中文 | [English](./README_EN.md)
+
 ## Java
 
 [comment]: # (prerequisites)

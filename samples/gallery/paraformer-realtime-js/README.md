@@ -1,4 +1,7 @@
 # Paraformer实时语音识别Javascript示例
+
+简体中文 | [English](./README_EN.md)
+
 本示例演示如何通过 javascript 接入百炼平台的 paraformer 实时语音识别服务。示例同时提供一个录音器模块，可以在浏览器中录制音频、调用语音识别服务并显示识别结果。
 
 ## 前提条件

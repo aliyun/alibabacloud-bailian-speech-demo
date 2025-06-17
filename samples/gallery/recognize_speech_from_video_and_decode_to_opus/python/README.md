@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 视频文件的实时语音识别
+
+简体中文 | [English](./README_EN.md)
+
 ## Python
 
 [comment]: # (prerequisites)

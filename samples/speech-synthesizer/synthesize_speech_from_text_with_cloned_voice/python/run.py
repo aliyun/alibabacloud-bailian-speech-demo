@@ -32,7 +32,7 @@ def create_clone_voice(audio_url: str):
     voice_clone_service = VoiceEnrollmentService()
     print('start cloning your voice...')
     new_voice_id = voice_clone_service.create_voice(
-        target_model='cosyvoice-v1', prefix='demo', url=audio_url)
+        target_model='cosyvoice-v2', prefix='demo', url=audio_url)
     print('requestId: ', voice_clone_service.get_last_request_id())
     print('voice clone done.')
     print('your new voice is: {}'.format(new_voice_id))
@@ -105,7 +105,7 @@ def synthesis_text_to_speech_and_play(text, your_voice):
 
     # Initialize the speech synthesizer
     # you can customize the synthesis parameters, like voice, format, sample_rate or other parameters
-    speech_synthesizer = SpeechSynthesizer(model='cosyvoice-v1',
+    speech_synthesizer = SpeechSynthesizer(model='cosyvoice-v2',
                                            voice=your_voice,
                                            callback=synthesizer_callback)
 

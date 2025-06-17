@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 分角色朗读故事
+
+简体中文 | [English](./README_EN.md)
+
 分角色朗读故事是通过调用不同音色的语音合成朗读一个完整的故事。适用于多种场景，如有声读物、在线教育等需要区分说话人的场景。
 <!--
 [comment]: # (list of scenarios of the sample)

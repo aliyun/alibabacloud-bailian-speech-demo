@@ -1,6 +1,7 @@
-
 [comment]: # (title and brief introduction of the sample)
 ## 会议视频转写并进行翻译摘要和问答
+
+简体中文 | [English](./README_EN.md)
 
 [comment]: # (prerequisites)
 ### :point_right: 前提条件

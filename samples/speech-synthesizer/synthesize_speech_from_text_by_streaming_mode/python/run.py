@@ -73,8 +73,8 @@ def synthesis_text_to_speech_and_play_by_streaming_mode(text):
 
     # Initialize the speech synthesizer
     # you can customize the synthesis parameters, like voice, format, sample_rate or other parameters
-    speech_synthesizer = SpeechSynthesizer(model='cosyvoice-v1',
-                                           voice='loongstella',
+    speech_synthesizer = SpeechSynthesizer(model='cosyvoice-v2',
+                                           voice='longhua_v2',
                                            callback=synthesizer_callback)
 
     speech_synthesizer.call(text)

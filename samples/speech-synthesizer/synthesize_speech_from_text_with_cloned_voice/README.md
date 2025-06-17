@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 复刻你的音色进行语音合成并播放（流式模式）
+
+简体中文 | [English](./README_EN.md)
+
 本示例展示了如何根据指引录制音频，复刻您自己的音色，并合成指定文本的语音。示例将流式获取返回音频并实时播放。本示例同时展示了如何在流式回调中保存音频到文件。
 
 [comment]: # (list of scenarios of the sample)
@@ -19,7 +22,8 @@
 ### :point_right: 参考详情
 | 推荐模型 | API详情 |
 | --- | --- |
-| **cosyvoice-v1** | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [音色复刻](https://help.aliyun.com/zh/model-studio/developer-reference/cosyvoice-clone-api)|
+| **cosyvoice-v1** | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [音色列表](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
+| **cosyvoice-v2** | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [音色列表](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#da9ae03e5ek7b) |
 
 ### :point_right: 预期结果
 

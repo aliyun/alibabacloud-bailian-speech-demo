@@ -1,5 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
 ## 麦克风实时语音翻译
+
+简体中文 | [English](./README_EN.md)
+
 本示例展示了如何从麦克风录制音频，并将获取的音频流发送至阿里云百炼模型服务进行实时语音翻译。运行示例时，用户对麦克风所说的内容会被实时翻译成英文并显示在屏幕上。
 
 [comment]: # (list of scenarios of the sample)

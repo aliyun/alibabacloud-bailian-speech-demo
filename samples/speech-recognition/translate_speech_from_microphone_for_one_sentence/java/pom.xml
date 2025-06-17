@@ -18,7 +18,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>dashscope-sdk-java</artifactId>
-            <version>2.18.0</version>
+            <version>2.20.3</version>
         </dependency>
         <!-- Lombok for @Slf4j -->
         <dependency>

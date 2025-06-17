@@ -1,5 +1,7 @@
 # Paraformer-Realtime语音识别常见问题汇总 (FAQ)
 
+简体中文 | [English](./paraformer_en.md)
+
 ## 目录
 - [Paraformer-Realtime语音识别常见问题汇总 (FAQ)](#paraformer-realtime语音识别常见问题汇总-faq)
   - [目录](#目录)
