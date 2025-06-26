@@ -254,7 +254,7 @@ python3 run_vqa.py
 
 #### 视频对话（LiveAI）功能
 调用流程：
-1. 设置上行请求交互类型为"AudioAndVideo"，设置交互模式为双工（duplex）
+1. 设置上行请求交互类型为"AudioAndVideo"
 2. 在第一次接收到Listening信号之后，发送voicechat_video_channel 执行，类型为connect（Demo中send_connect_video_command方法）
 3. 开始间隔500ms发送视频帧图片，仅支持base64编码（180KB以下）（Demo中send_video_frame_data_loop方法）
 

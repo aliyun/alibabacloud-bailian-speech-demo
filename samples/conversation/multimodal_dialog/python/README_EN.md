@@ -257,7 +257,7 @@ python3 run_vqa.py
 #### Video Conversation (LiveAI) Feature
 
 Call flow:
-1. Set upstream request interaction type to "AudioAndVideo", set interaction mode to duplex
+1. Set upstream request interaction type to "AudioAndVideo"
 2. After receiving the first Listening signal, send voicechat_video_channel command with type "connect" (send_connect_video_command method in Demo)
 3. Start sending video frame images at 500ms intervals, only supports base64 encoding (under 180KB) (send_video_frame_data_loop method in Demo)
 4. Q1: Voice request "What's in the image?"
