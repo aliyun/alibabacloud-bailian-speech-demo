@@ -242,10 +242,6 @@ def test_image_vqa_url(conversation, image_url: str, question: str):
 conversation.request_to_respond("transcript", "你好，这是一段测试文本。", None)
 ```
 
-### :point_right: 技术支持
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
-
-
 #### 图片问答 (VQA) 功能
 调用流程：
 1. 文本或语音请求（例如：看看前面是什么）
@@ -269,3 +265,7 @@ python3 run_vqa.py
 ``` 
 python3 run_live_ai.py
 ```
+
+
+### :point_right: 技术支持
+<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>

@@ -243,11 +243,6 @@ def test_image_vqa_url(conversation, image_url: str, question: str):
         conversation.request_to_respond("transcript", "Hello, this is a test text.", None)
 ```
 
-
-### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
-
-
 #### Image Question Answering (VQA) Feature
 
 Call flow:
@@ -272,3 +267,7 @@ Call flow:
 ```
 python3 run_live_ai.py
 ```
+
+
+### :point_right: Technical Support
+<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
