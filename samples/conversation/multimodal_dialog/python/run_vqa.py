@@ -376,13 +376,12 @@ def worker_process(config: Dict[str, Any]):
             conver_instance.stop_speech_interaction()
             
         
-        # 等待第二次Listening状态， VQA请求会在
+        # 等待第二次Listening状态， VQA请求会在on_responding_content返回"visual_qa"意图。 
+        # 本DEMO会在收到"visual_qa"后触发send_image_vqa 发送图片数据。
         logger.info(f"Worker [{worker_id}] waiting for first Listening state...")
         if not conver_instance.wait_for_listening_state(timeout=30.0):
             logger.error(f"Worker [{worker_id}] timeout waiting for first Listening state")
             return
-        
-
            
         # 等待一段时间让对话完成
         time.sleep(CONVERSATION_TIMEOUT)

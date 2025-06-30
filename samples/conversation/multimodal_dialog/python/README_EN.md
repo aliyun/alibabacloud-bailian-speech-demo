@@ -222,20 +222,6 @@ if __name__ == '__main__':
 
 ### Features
 
-####  Visual Q&A (VQA) Feature
-```python
-from dashscope.multimodal.multimodal_request_params import RequestToRespondParameters
-
-def test_image_vqa_url(conversation, image_url: str, question: str):
-    """VQA using URL-based images"""
-    # Build image parameters
-    image = {"type": "url", "value": image_url}
-    images_params = RequestToRespondParameters(images=[image])
-    
-    # Send VQA request
-    conversation.request_to_respond("prompt", question, parameters=images_params)
-```
-
 #### Text-to-Speech (TTS) Feature
 
 ```python
@@ -243,7 +229,7 @@ def test_image_vqa_url(conversation, image_url: str, question: str):
         conversation.request_to_respond("transcript", "Hello, this is a test text.", None)
 ```
 
-#### Image Question Answering (VQA) Feature
+#### Visual Q&A (VQA) Feature
 
 Call flow:
 1. Text or voice request (e.g., "What's in front?")

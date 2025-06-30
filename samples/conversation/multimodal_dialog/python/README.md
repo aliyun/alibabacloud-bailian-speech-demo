@@ -221,20 +221,6 @@ if __name__ == '__main__':
 
 ### 功能特性
 
-#### 图片问答（VQA）功能
-```python
-from dashscope.multimodal.multimodal_request_params import RequestToRespondParameters
-
-def test_image_vqa_url(conversation, image_url: str, question: str):
-    """使用 URL 图片进行 VQA"""
-    # 构建图片参数
-    image = {"type": "url", "value": image_url}
-    images_params = RequestToRespondParameters(images=[image])
-    
-    # 发送 VQA 请求
-    conversation.request_to_respond("prompt", question, parameters=images_params)
-```
-
 #### 文本转语音（TTS）功能
 
 ```python
