@@ -242,5 +242,30 @@ def test_image_vqa_url(conversation, image_url: str, question: str):
 conversation.request_to_respond("transcript", "你好，这是一段测试文本。", None)
 ```
 
+#### 图片问答 (VQA) 功能
+调用流程：
+1. 文本或语音请求（例如：看看前面是什么）
+2. 服务返回"visual_qa" 意图
+3. 端侧执行拍照任务，通过request_to_respond接口上传图片url或者base64数据（支持180KB以下图片大小）
+4. 返回图片问答回复
+``` 
+python3 run_vqa.py
+```
+
+#### 视频对话（LiveAI）功能
+调用流程：
+1. 设置上行请求交互类型为"AudioAndVideo"
+2. 在第一次接收到Listening信号之后，发送voicechat_video_channel 执行，类型为connect（Demo中send_connect_video_command方法）
+3. 开始间隔500ms发送视频帧图片，仅支持base64编码（180KB以下）（Demo中send_video_frame_data_loop方法）
+
+4. Q1：语音请求"看一下图像中有什么东西"
+5. 返回描述信息
+6. Q2：语音请求"看一下都是什么颜色"
+7. 返回描述信息
+``` 
+python3 run_live_ai.py
+```
+
+
 ### :point_right: 技术支持
 <img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>

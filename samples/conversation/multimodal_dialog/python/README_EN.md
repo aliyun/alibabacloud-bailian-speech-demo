@@ -243,6 +243,31 @@ def test_image_vqa_url(conversation, image_url: str, question: str):
         conversation.request_to_respond("transcript", "Hello, this is a test text.", None)
 ```
 
+#### Image Question Answering (VQA) Feature
+
+Call flow:
+1. Text or voice request (e.g., "What's in front?")
+2. Service returns "visual_qa" intent
+3. Client executes photo capture task, uploads image URL or base64 data through request_to_respond interface (supports images under 180KB)
+4. Returns image Q&A response
+```
+python3 run_vqa.py
+```
+
+#### Video Conversation (LiveAI) Feature
+
+Call flow:
+1. Set upstream request interaction type to "AudioAndVideo"
+2. After receiving the first Listening signal, send voicechat_video_channel command with type "connect" (send_connect_video_command method in Demo)
+3. Start sending video frame images at 500ms intervals, only supports base64 encoding (under 180KB) (send_video_frame_data_loop method in Demo)
+4. Q1: Voice request "What's in the image?"
+5. Returns description information
+6. Q2: Voice request "What colors are there?"
+7. Returns description information
+```
+python3 run_live_ai.py
+```
+
 
 ### :point_right: Technical Support
 <img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
