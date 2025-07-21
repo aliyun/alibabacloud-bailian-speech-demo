@@ -2,26 +2,18 @@
 
 简体中文| [English](./README_EN.md) 
 
-本仓库以示例代码的形式向开发者展示如何通过<strong>阿里云百炼</strong>调用<strong>通义语音大模型</strong>（包括[CosyVoice](https://fun-audio-llm.github.io/)、[Paraformer](https://github.com/modelscope/FunASR)、[SenseVoice](https://fun-audio-llm.github.io/)、[Gummy](https://fun-audio-llm.github.io/)等），从而实现<strong>语音识别</strong>（语音转文字）、<strong>语音生成</strong>（文字转语音）等基础功能。以及如何结合阿里云百炼支持的大语言模型（包括通义千问、百川、月之暗面、零一万物、MiniMax等），从而实现<strong>语音聊天对话</strong>、<strong>语音分析理解</strong>、<strong>语音翻译</strong>等高阶AI功能。
+本仓库以示例代码的形式向开发者展示如何通过<strong>阿里云百炼</strong>调用<strong>通义语音大模型</strong>（包括[CosyVoice](https://fun-audio-llm.github.io/)、[Paraformer](https://github.com/modelscope/FunASR)、[SenseVoice](https://fun-audio-llm.github.io/)、[Gummy](https://fun-audio-llm.github.io/)等），从而实现<strong>语音识别</strong>（语音转文字）、<strong>语音生成</strong>（文字转语音）等基础功能。以及如何结合阿里云百炼支持的大语言模型（包括通义OMNI、通义千问、百川、月之暗面、零一万物、MiniMax等），从而实现<strong>视频聊天对话</strong>、<strong>语音聊天对话</strong>、<strong>语音分析理解</strong>、<strong>语音翻译</strong>等高阶AI功能。
 
 开发者可以通过阿里云百炼提供的模型调用 :moneybag: **免费额度** :moneybag: 试用本仓库中的各个示例，还可以直接将这些示例集成进自己的项目中进一步开发。在开发过程中如有任何疑问，都可以通过我们的钉钉 / 微信群进行沟通交流。
 
 <img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" height="200"/>
 
 ## ⭐最新动态⭐
-#### 2025/01/17
-- ✨ 增加 [麦克风实时语音翻译](./samples/speech-recognition/translate_speech_from_microphone_for_realtime_stream) 示例。
-- ✨ 增加 [批量音视频文件语音翻译（实时模式）](./samples/speech-recognition/translate_speech_from_files_by_realtime_mode/) 示例。
-- ✨ 增加 [麦克风实时一句话语音识别和翻译](./samples/speech-recognition/translate_speech_from_microphone_for_one_sentence/) 示例。
-- ✨ 增加 [复刻你的音色进行语音合成并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_text_with_cloned_voice/) 示例。
-- ✨ 增加 [Gallery](./samples/gallery/) 示例代码目录，包括通过百炼的语音服务实现的有趣项目示例，包括：
-  - [按句展示语音合成字幕](./samples/gallery/read-and-display-subtitles/)
-  - [分角色朗读故事](./samples/gallery/reading-story-in-multiple-role/)
-  - [语音识别并实时上屏](./samples/gallery/record-from-microphone-and-display-realtime-subtitle/)
-  - [中文语音翻译成英文并实时播放](./samples/gallery/translate-audio-from-microphone-and-play-in-realtime/)
-  - [AI Assistant网页版语音助手](./samples/gallery/input-text-out-audio-html-ai-assistant/)
-  - [在网页中录音并进行语音识别](./samples/gallery/input-audio-out-text-html/)
-  - ✨ 优化Java示例代码结构，每一个示例代码都包含一个独立的 Maven 项目。
+#### 2025/07/21
+- ✨ 增加 [QWEN-OMNI音视频对话](./samples/conversation/omni) 示例。
+- ✨ 增加 [QWEN-TTS-REALTIME使用server commit模式示例](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_tts_by_server_commit_mode) 示例。
+- ✨ 增加 [QWEN-TTS-REALTIME使用commit模式示例](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_tts_by_user_commit_mode) 示例。
+
 
 更多历史发布信息请见[变更记录](#point_right-变更记录)。
 
@@ -40,6 +32,8 @@
 | 麦克风实时语音翻译 | *实时从麦克风录音并进行语音翻译* | [麦克风实时语音翻译](./samples/speech-recognition/translate_speech_from_microphone_for_realtime_stream)    |
 | 音视频文件语音识别 | *对音视频文件进行语音识别* | [语音识别本地的单个文件](./samples/speech-recognition/recognize_speech_from_single_file) |
 | 语音合成 | *将文字合成为语音并保存到文件* | [语音合成并保存（简单模式）](./samples/speech-synthesizer/synthesize_speech_from_text)         |
+| QWEN-TTS语音合成 | *将文字合成为语音并保存到文件* | [语音合成并保存（简单模式）](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_tts_by_server_commit_mode)         |
+
 
 * ### :telephone: 电话客服中心机器人及对话分析理解场景
 | 典型用法 | 使用说明 | 开发示例                                                                                        |
@@ -77,6 +71,8 @@
 | --- | --- |--------------------------------------------|
 | 一句话实时语音识别和翻译             | *实时从麦克风录音，断句并进行语音识别和翻译* | [麦克风实时一句话语音识别和翻译](./samples/speech-recognition/translate_speech_from_microphone_for_one_sentence/)                     |
 | 语音对话聊天 <img src="./docs/image/logo.svg" height="15"/>  | *通过语音与大语言模型进行对话聊天* | [阿里云文档](https://help.aliyun.com/zh/isi/developer-reference/voice-dialogue) |
+| 视频对话聊天 <img src="./docs/image/logo.svg" height="15"/>  | *通过多模态大模型进行视频聊天* | [阿里云文档](./samples/conversation/omni) |
+
 
 ## :point_right: 高并发调用
 
@@ -104,9 +100,13 @@ CosyVoice调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 
 ## :point_right: 变更记录
 
+#### 2025/07/21
+- 增加omni示例。
+- 增加qwen-tts-realtime示例。
+
 #### 2025/06/17
-- 增加英文readme文档
-- TTS 相关模型升级为cosyvoice-v2
+- 增加英文readme文档。
+- TTS 相关模型升级为cosyvoice-v2。
 
 #### 2025/02/14
 - 增加cosyvoice和paraformer的javascript接入示例。

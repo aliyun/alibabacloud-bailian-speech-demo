@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>视频流传输</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        video {
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button.start {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        button.start:hover {
+            background-color: #45a049;
+        }
+
+        button.stop {
+            background-color: #f44336;
+            color: white;
+        }
+
+        button.stop:hover {
+            background-color: #e53935;
+        }
+    </style>
+</head>
+<body>
+    <h1>实时视频流传输</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <div class="button-group" id="buttonGroup">
+        <button class="start" onclick="startStream()">开始传输</button>
+        <button class="stop" onclick="closeStream()" style="display: none;" id="closeBtn">关闭连接</button>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const startBtn = document.querySelector('.start');
+        const closeBtn = document.getElementById('closeBtn');
+        let ws;
+
+        // 获取摄像头
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            });
+
+        function startStream() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                alert("连接已存在，请先关闭。");
+                return;
+            }
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 640;
+            canvas.height = 480;
+
+            // 创建 WebSocket 连接
+            ws = new WebSocket('ws://localhost:5000/video');
+
+            // 监听连接成功事件
+            ws.onopen = () => {
+                console.log("WebSocket 已连接");
+
+                setInterval(() => {
+                    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        canvas.toBlob(blob => {
+                            if (blob && ws && ws.readyState === WebSocket.OPEN) {
+                                ws.send(blob);
+                            }
+                        }, 'image/jpeg', 0.7); // 可调节质量
+                    }
+                }, 500); // 每 0.5s 发送一帧
+
+                // 显示/隐藏按钮
+                startBtn.style.display = 'none';
+                closeBtn.style.display = 'inline-block';
+            };
+
+            // 监听连接错误事件
+            ws.onerror = (err) => {
+                console.error("WebSocket 连接错误:", err);
+                alert("无法连接到服务器，请检查服务是否已启动！");
+                // 不切换按钮状态
+                if (ws) {
+                    ws.close();
+                    ws = null;
+                }
+            };
+        }
+
+
+        function closeStream() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                alert("没有正在进行的连接！");
+            } else {
+                ws.close();
+                console.log("WebSocket 已关闭");
+            }
+
+
+            // 显示/隐藏按钮
+            startBtn.style.display = 'inline-block';
+            closeBtn.style.display = 'none';
+        }
+
+        // 页面卸载时自动关闭连接（可选）
+        window.addEventListener('beforeunload', () => {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.close();
+            }
+        });
+    </script>
+</body>
+</html>
