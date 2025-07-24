@@ -13,6 +13,7 @@ import sys
 import time
 import os
 import multiprocessing
+import logging
 from typing import Optional, Dict, Any
 
 from dashscope.common.logging import logger
@@ -22,6 +23,17 @@ from dashscope.multimodal.multimodal_request_params import (
     Upstream, Downstream, ClientInfo, RequestParameters, 
     Device, RequestToRespondParameters
 )
+logger = logging.getLogger('dashscope')
+logger.setLevel(logging.DEBUG)
+console_handler = logging.StreamHandler()
+# create formatter
+formatter = logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# add formatter to ch
+console_handler.setFormatter(formatter)
+
+# add ch to logger
+logger.addHandler(console_handler)
 
 # Global variables
 g_dialog_id: Optional[str] = None
