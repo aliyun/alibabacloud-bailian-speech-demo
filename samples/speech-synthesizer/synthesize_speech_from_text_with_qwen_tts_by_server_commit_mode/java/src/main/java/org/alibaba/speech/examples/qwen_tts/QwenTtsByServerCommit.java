@@ -11,19 +11,12 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class QwenTtsByServerCommit {
     static String[] textToSynthesize = {
-            "1500能源",
-            "是人类赖以",
-            "生存和发展的",
-            "重要物质基",
-            "础，能源低碳",
-            "发展关乎人类",
-            "未来。工业革命",
-            "以来，化石能源",
-            "大规模开发利用",
-            "有力推动了人类文明",
-            "进步，但也产生资",
-            "源枯竭、气候变化、",
-            "地缘政治冲突等问题。",
+        "对吧~我就特别喜欢这种超市",
+        "尤其是过年的时候",
+        "去逛超市",
+        "就会觉得",
+        "超级超级开心！",
+        "想买好多好多的东西呢！"
     };
     public static void main(String[] args) throws InterruptedException, LineUnavailableException {
 

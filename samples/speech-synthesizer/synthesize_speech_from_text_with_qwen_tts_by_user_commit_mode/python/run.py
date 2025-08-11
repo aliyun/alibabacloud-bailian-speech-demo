@@ -1,7 +1,6 @@
 import os
-import sys
+import threading
 import time
-import traceback
 import pyaudio
 import dashscope
 from dashscope.audio.qwen_tts_realtime import *
@@ -14,11 +13,11 @@ pya = None
 b64_player: B64PCMPlayer = None
 qwen_tts_realtime: QwenTtsRealtime = None
 text_to_synthesize = [
-    '这是第一句话',
-    '这是第二句话',
-    '这是第三句话',
-    '这是第四句话',
-    '这是第五句话',
+    '这是第一句话。',
+    '这是第二句话。',
+    '这是第三句话。',
+    '这是第四句话。',
+    '这是第五句话。',
 ]
 
 DO_VIDEO_TEST = False
@@ -38,6 +37,10 @@ def init_dashscope_api_key():
 
 
 class MyCallback(QwenTtsRealtimeCallback):
+
+    def __init__(self):
+        super().__init__()
+        self.finish_event = threading.Event()
     def on_open(self) -> None:
         global pya
         global b64_player
@@ -70,10 +73,13 @@ class MyCallback(QwenTtsRealtimeCallback):
                 print(f'response {qwen_tts_realtime.get_last_response_id()} done')
             if 'session.finished' == type:
                 print('session finished')
+                self.finish_event.set()
         except Exception as e:
             print('[Error] {}'.format(e))
             return
 
+    def wait_for_complete(self):
+        self.finish_event.wait()
 
 
 if __name__  == '__main__':
@@ -100,6 +106,8 @@ if __name__  == '__main__':
         qwen_tts_realtime.commit()
         time.sleep(2)
     qwen_tts_realtime.finish()
+    callback.wait_for_complete()
+    qwen_tts_realtime.close()
     print('[Metric] session: {}, first audio delay: {}'.format(
                     qwen_tts_realtime.get_session_id(), 
                     qwen_tts_realtime.get_first_audio_delay(),

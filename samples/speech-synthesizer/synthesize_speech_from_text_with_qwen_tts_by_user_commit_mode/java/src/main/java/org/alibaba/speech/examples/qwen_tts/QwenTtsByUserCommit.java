@@ -11,11 +11,11 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class QwenTtsByUserCommit {
     static String[] textToSynthesize = {
-            "这是第一句话",
-            "这是第二句话",
-            "这是第三句话",
-            "这是第四句话",
-            "这是第五句话",
+            "这是第一句话。",
+            "这是第二句话。",
+            "这是第三句话。",
+            "这是第四句话。",
+            "这是第五句话。",
     };
     public static void main(String[] args) throws InterruptedException, LineUnavailableException {
 

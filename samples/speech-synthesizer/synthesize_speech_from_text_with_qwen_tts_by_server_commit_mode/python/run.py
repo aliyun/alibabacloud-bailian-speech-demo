@@ -1,5 +1,5 @@
 import os
-import sys
+import threading
 import time
 import pyaudio
 import dashscope
@@ -13,19 +13,12 @@ pya = None
 b64_player: B64PCMPlayer = None
 qwen_tts_realtime: QwenTtsRealtime = None
 text_to_synthesize = [
-    '1500能源',
-    '是人类赖以',
-    '生存和发展的',
-    '重要物质基',
-    '础，能源低碳',
-    '发展关乎人类',
-    '未来。工业革命',
-    '以来，化石能源',
-    '大规模开发利用',
-    '有力推动了人类文明',
-    '进步，但也产生资',
-    '源枯竭、气候变化、',
-    '地缘政治冲突等问题。',
+    '对吧~我就特别喜欢这种超市，',
+    '尤其是过年的时候',
+    '去逛超市',
+    '就会觉得',
+    '超级超级开心！',
+    '想买好多好多的东西呢！'
 ]
 
 DO_VIDEO_TEST = False
@@ -45,6 +38,11 @@ def init_dashscope_api_key():
 
 
 class MyCallback(QwenTtsRealtimeCallback):
+
+    def __init__(self):
+        super().__init__()
+        self.finish_event = threading.Event()
+
     def on_open(self) -> None:
         global pya
         global b64_player
@@ -56,7 +54,7 @@ class MyCallback(QwenTtsRealtimeCallback):
         print('connection closed with code: {}, msg: {}, destroy player'.format(close_status_code, close_msg))
         global pya
         global b64_player
-        # b64_player.wait_for_complete()
+        b64_player.wait_for_complete()
         b64_player.shutdown()
         if pya:
             pya.terminate()
@@ -76,9 +74,14 @@ class MyCallback(QwenTtsRealtimeCallback):
                 print(f'response {qwen_tts_realtime.get_last_response_id()} done')
             if 'session.finished' == type:
                 print('session finished')
+                self.finish_event.set()
         except Exception as e:
             print('[Error] {}'.format(e))
+            self.finish_event.set()
             return
+    
+    def wait_for_complete(self):
+        self.finish_event.wait()
 
 
 
@@ -105,6 +108,8 @@ if __name__  == '__main__':
         qwen_tts_realtime.append_text(text_chunk)
         time.sleep(0.1)
     qwen_tts_realtime.finish()
+    callback.wait_for_complete()
+    qwen_tts_realtime.close()
     print('[Metric] session: {}, first audio delay: {}'.format(
                     qwen_tts_realtime.get_session_id(), 
                     qwen_tts_realtime.get_first_audio_delay(),
