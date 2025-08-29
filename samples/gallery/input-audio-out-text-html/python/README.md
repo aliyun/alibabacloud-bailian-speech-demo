@@ -33,7 +33,7 @@ pip3 install websockets //安装websocket服务依赖
 首先，请在环境变量中配置好百炼API-KEY，并运行`demo_server.py`，默认会在本地的9090端口运行websocket服务。
 ```
 export DASHSCOPE_API_KEY=xxxxxxx
-python demo_server.py
+python server.py
 ```
 
 之后请在本目录运行一个http服务，用于支持通过浏览器访问当前目录的文件。
