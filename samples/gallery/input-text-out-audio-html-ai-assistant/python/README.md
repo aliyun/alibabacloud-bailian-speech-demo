@@ -31,9 +31,9 @@ pip3 install websockets //安装websocket服务依赖
 当您点击Send按钮后，网页会和python websocket服务创建连接，将文本框中的输入发送到服务器。服务器会调用qwen大模型和cosyvoice语音大模型，并将回答的文本片段和语音合成的PCM格式音频片段实时返回给网页播放。
 再上一段音频播放时如果您点击了Send按钮，会打断上一段音频，开始下一段语音合成和播放。
 
-首先，请运行`demo_server.py`，默认会在本地的11111端口运行websocket服务。
+首先，请运行`server.py`，默认会在本地的11111端口运行websocket服务。
 ```
-python demo_server.py
+python server.py
 ```
 
 之后请在本目录运行一个http服务，用于支持通过浏览器访问当前目录的文件。
