@@ -25,6 +25,10 @@ This example demonstrates how to synthesize speech streams from text generated b
 | --- | --- |
 | **cosyvoice-v1** | [CosyVoice LLM Speech Synthesis API](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Tone List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
 | **cosyvoice-v2** | [CosyVoice LLM Speech Synthesis API](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Tone List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#da9ae03e5ek7b) |
+| **cosyvoice-v3** | [CosyVoice LLM Speech Synthesis API](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Tone List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
+
+Note: ⚠️ The cosyvoice-v3 model series is currently in open beta (visible to all, requires application) - [Apply here](https://bailian.console.aliyun.com/?tab=model#/model-market/detail/group-cosyvoice?modelGroup=group-cosyvoice). Free quotas will be granted upon approval.
+
 
 ### :point_right: Expected Results
 When running this example, it will:
