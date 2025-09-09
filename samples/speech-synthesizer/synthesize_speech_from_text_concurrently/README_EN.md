@@ -17,8 +17,9 @@ This example demonstrates how to concurrently synthesize speech from multiple te
 ### :point_right: Reference Details
 | Recommended Model | API Details |
 | --- | --- |
-| **cosyvoice-v1** | [CosyVoice Large Model Speech Synthesis API Details](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Style List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
+| **cosyvoice-v1** | [CosyVoice Large Model Speech Synthesis API Details](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Style List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#915a935d871ak) |
 | **cosyvoice-v2** | [CosyVoice Large Model Speech Synthesis API Details](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Style List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#da9ae03e5ek7b) |
+| **cosyvoice-v3** | [CosyVoice Large Model Speech Synthesis API Details](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Style List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
 
 ### :point_right: Expected Results
 When running the example, it will concurrently synthesize "I am <voice_style>, welcome to experience Alibaba Cloud Qwen large model speech synthesis service!" using three different voice styles and save them to `results/result_v<voice_style>_p<thread_id>.mp3` files.
