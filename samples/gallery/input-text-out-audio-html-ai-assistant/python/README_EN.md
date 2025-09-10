@@ -28,9 +28,9 @@ This directory demonstrates a front-end/back-end separated AI Assistant example 
 When you click the Send button, the web page establishes a connection with the Python websocket service, sending the input text to the server. The server calls the Qwen large model and CosyVoice speech model, returning text fragments and PCM audio fragments in real-time for web playback.
 If you click Send during audio playback, the previous audio will be interrupted, and a new voice synthesis and playback will start.
 
-First, run `demo_server.py`, which defaults to running the websocket service on port 11111 locally.
+First, run `server.py`, which defaults to running the websocket service on port 11111 locally.
 ```
-python demo_server.py
+python server.py
 ```
 
 Then run an HTTP service in this directory to support browser access to the files:
