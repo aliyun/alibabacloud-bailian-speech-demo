@@ -122,15 +122,18 @@ async def LlmTask(query, websocket):
 
 
 # mock a tts server
-async def echo(websocket, path):
+async def echo(websocket):
     async for message in websocket:
         print('recv: ' + message)
         data = json.loads(message)
         await LlmTask(data['text'], websocket=websocket)
 
 
-port = 11111
-start_server = websockets.serve(echo, 'localhost', port, ping_interval=None)
-print('websocket server running at ws://127.0.0.1:{}'.format(port))
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+async def main():
+    port = 11111
+    async with websockets.serve(echo, 'localhost', port, ping_interval=None):
+        print('websocket server running at ws://127.0.0.1:{}'.format(port))
+        await asyncio.Future()
+
+if __name__ == '__main__':
+    asyncio.run(main())

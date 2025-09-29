@@ -94,7 +94,7 @@ class Cosyvoice {
         });
     }
 
-    // 发送音频数据
+    // 发送文本数据
     sendText(text_chunk) {
         if (!this.isConnected || !this.isTaskStarted) {
             throw new Error("WebSocket is not connected or task has not started.");
