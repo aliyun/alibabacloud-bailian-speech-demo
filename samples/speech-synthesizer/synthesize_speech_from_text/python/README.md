@@ -28,7 +28,7 @@
 python3 run.py
 ```
 
-示例运行时，将会使用longhua_v2音色合成示例文本 “欢迎体验阿里云百炼大模型语音合成服务！” 保存在 `result.mp3` 文件中。
+示例运行时，将会使用longanhuan音色合成示例文本 “欢迎体验阿里云百炼大模型语音合成服务！” 保存在 `result.mp3` 文件中。
 您可以通过修改`text_to_synthesize`合成指定的文本。
 
 [comment]: # (technical support of the sample)

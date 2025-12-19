@@ -18,7 +18,7 @@ English | [简体中文](./README.md)
 
 You can run this example by executing run.sh (for Linux/Mac systems) or run.bat (for Windows systems).
 
-When running the example, it will concurrently synthesize "欢迎体验阿里云百炼大模型语音合成服务！" using the longhua_v2 voice style and save it to the `<requestId>.mp3` file.
+When running the example, it will concurrently synthesize "欢迎体验阿里云百炼大模型语音合成服务！" using the longanhuan voice style and save it to the `<requestId>.mp3` file.
 
 In the Java concurrent example, three types of resource pools are used: connection pool, object pool, and thread pool. Reusing objects and connections can effectively reduce the time cost of establishing connections.
 

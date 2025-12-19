@@ -31,8 +31,8 @@ def synthesize_speech_from_text(text, file_path):
     '''
     # Initialize the speech synthesizer
     # you can customize the synthesis parameters, like voice, format, sample_rate or other parameters
-    speech_synthesizer = SpeechSynthesizer(model='cosyvoice-v2',
-                                           voice='longhua_v2',
+    speech_synthesizer = SpeechSynthesizer(model='cosyvoice-v3-flash',
+                                           voice='longanhuan',
                                            callback=None)
     audio = speech_synthesizer.call(text)
     # Save the synthesized audio to a file

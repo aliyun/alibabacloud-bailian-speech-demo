@@ -28,7 +28,7 @@ You can use the following command to run this example:
 ```commandline
 python3 run.py
 ```
-When the example runs, it will call the Alibaba Cloud Qwen (qwen-turbo) large language model to answer the question: "How to cook tomatoes with eggs?" and use the longhua_v2 voice to send the model's response text in streaming mode for synthesis, then stream and play the audio through the speaker.
+When the example runs, it will call the Alibaba Cloud Qwen (qwen-turbo) large language model to answer the question: "How to cook tomatoes with eggs?" and use the longanhuan voice to send the model's response text in streaming mode for synthesis, then stream and play the audio through the speaker.
 
 Sample output:
 ```

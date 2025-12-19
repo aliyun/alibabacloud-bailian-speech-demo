@@ -25,15 +25,14 @@ This example demonstrates how to synthesize speech streams from text generated b
 | --- | --- |
 | **cosyvoice-v1** | [CosyVoice LLM Speech Synthesis API](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Tone List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#915a935d871ak) |
 | **cosyvoice-v2** | [CosyVoice LLM Speech Synthesis API](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Tone List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#da9ae03e5ek7b) |
-| **cosyvoice-v3** | [CosyVoice LLM Speech Synthesis API](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Tone List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
-
-Note: ⚠️ The cosyvoice-v3 model series is currently in open beta (visible to all, requires application) - [Apply here](https://bailian.console.aliyun.com/?tab=model#/model-market/detail/group-cosyvoice?modelGroup=group-cosyvoice). Free quotas will be granted upon approval.
+| **cosyvoice-v3-flash** | [CosyVoice LLM Speech Synthesis API](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Tone List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
+| **cosyvoice-v3-plus** | [CosyVoice LLM Speech Synthesis API](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Tone List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
 
 
 ### :point_right: Expected Results
 When running this example, it will:
 1. Call Alibaba Cloud Bailian's Qwen-Plus LLM to answer "How to cook tomato scrambled eggs?"
-2. Use the `longhua_v2` voice tone
+2. Use the `longanhuan` voice tone
 3. Stream the LLM response text for synthesis
 4. Stream audio output and play through speakers
 

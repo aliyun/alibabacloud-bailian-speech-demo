@@ -35,10 +35,10 @@ class Cosyvoice {
                         task_group: "audio",
                         task: "tts",
                         function: "SpeechSynthesizer",
-                        model: "cosyvoice-v2",
+                        model: "cosyvoice-v3-flash",
                         parameters: {
                             text_type: "PlainText",
-                            voice: "longhua_v2",      // 音色
+                            voice: "longanhuan",      // 音色
                             format: "pcm",		        // 音频格式
                             sample_rate: 22050,	        // 采样率
                             volume: 50,			        // 音量

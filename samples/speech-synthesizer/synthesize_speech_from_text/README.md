@@ -25,13 +25,13 @@
 | --- | --- |
 | **cosyvoice-v1** | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [音色列表](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#915a935d871ak) |
 | **cosyvoice-v2** | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [音色列表](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#da9ae03e5ek7b) |
-| **cosyvoice-v3** | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [音色列表](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
+| **cosyvoice-v3-flash** | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [音色列表](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
+| **cosyvoice-v3-plus** | [CosyVoice大模型语音合成API详情](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [音色列表](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
 
-注：⚠️ cosyvoice-v3系列模型开放邀测（所有人可见，申请使用），[申请](https://bailian.console.aliyun.com/?tab=model#/model-market/detail/group-cosyvoice?modelGroup=group-cosyvoice)通过后发放免费额度。
 
 ### :point_right: 预期结果
 
-示例运行，将会使用 longhua_v2 音色合成示例文本 “想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！” 保存在 `result.mp3` 文件中。
+示例运行，将会使用 longanhuan 音色合成示例文本 “想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！” 保存在 `result.mp3` 文件中。
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持

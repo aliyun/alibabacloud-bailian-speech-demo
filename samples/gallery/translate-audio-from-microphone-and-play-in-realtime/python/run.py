@@ -198,8 +198,8 @@ def cosyvoiceTtsTask():
     synthesizer_callback = Callback()
 
     # Create a speech synthesizer instance
-    synthesizer = SpeechSynthesizer(model='cosyvoice-v2',
-                                    voice='longhua_v2',
+    synthesizer = SpeechSynthesizer(model='cosyvoice-v3-flash',
+                                    voice='longanhuan',
                                     callback=synthesizer_callback)
 
     print('tts request_id: {}'.format(synthesizer.get_last_request_id()))
@@ -215,8 +215,8 @@ def cosyvoiceTtsTask():
                 player.reset()
                 # reset the player and synthesizer
                 player.start()
-                synthesizer = SpeechSynthesizer(model='cosyvoice-v2',
-                                                voice='longhua_v2',
+                synthesizer = SpeechSynthesizer(model='cosyvoice-v3-flash',
+                                                voice='longanhuan',
                                                 callback=synthesizer_callback)
             else:
                 print('send word: ', word)

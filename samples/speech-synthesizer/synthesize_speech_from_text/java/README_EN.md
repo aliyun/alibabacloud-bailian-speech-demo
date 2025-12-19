@@ -18,7 +18,7 @@ English | [简体中文](./README.md)
 
 You can run this example by executing run.sh (for Linux/Mac systems) or run.bat (for Windows systems).
 
-When running the example, it will synthesize the sample text "想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！" using the longhua_v2 voice style and save it to the `result.mp3` file. You can modify `textToSynthesize` to specify the text for synthesis.
+When running the example, it will synthesize the sample text "想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！" using the longanhuan voice style and save it to the `result.mp3` file. You can modify `textToSynthesize` to specify the text for synthesis.
 
 ### :point_right: Technical Support
 <img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group-en.png" width="400"/>

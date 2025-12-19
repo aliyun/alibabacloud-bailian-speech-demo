@@ -25,7 +25,7 @@ You can use the following command to run this example:
 python3 run.py
 ```
 
-When running the example, it will synthesize the sample text "欢迎体验阿里云百炼大模型语音合成服务！" using the longhua_v2 voice style and save it to the result.mp3 file. You can modify text_to_synthesize to specify the text for synthesis.
+When running the example, it will synthesize the sample text "欢迎体验阿里云百炼大模型语音合成服务！" using the longanhuan voice style and save it to the result.mp3 file. You can modify text_to_synthesize to specify the text for synthesis.
 
 [comment]: # (technical support of the sample)
 ### :point_right: Technical Support

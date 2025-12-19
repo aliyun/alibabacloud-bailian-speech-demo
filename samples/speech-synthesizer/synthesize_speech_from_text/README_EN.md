@@ -21,14 +21,12 @@ This example demonstrates how to synthesize speech from specified text and save 
 | --- | --- |
 | **cosyvoice-v1** | [CosyVoice Large Model Speech Synthesis API Details](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Style List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#915a935d871ak) |
 | **cosyvoice-v2** | [CosyVoice Large Model Speech Synthesis API Details](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Style List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#da9ae03e5ek7b) |
-| **cosyvoice-v3** | [CosyVoice Large Model Speech Synthesis API Details](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Style List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
-
-
-Note: ⚠️ The cosyvoice-v3 model series is currently in open beta (visible to all, requires application) - [Apply here](https://bailian.console.aliyun.com/?tab=model#/model-market/detail/group-cosyvoice?modelGroup=group-cosyvoice). Free quotas will be granted upon approval.
+| **cosyvoice-v3-flash** | [CosyVoice LLM Speech Synthesis API](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Tone List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
+| **cosyvoice-v3-plus** | [CosyVoice LLM Speech Synthesis API](https://help.aliyun.com/zh/model-studio/developer-reference/api-details-25) <br> [Voice Tone List](https://help.aliyun.com/zh/model-studio/cosyvoice-java-sdk#95303fd00f0ge) |
 
 
 ### :point_right: Expected Results
-When running the example, it will synthesize the sample text "想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！" using the longhua_v2 voice style and save it to the `result.mp3` file.
+When running the example, it will synthesize the sample text "想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！" using the longanhuan voice style and save it to the `result.mp3` file.
 
 ### :point_right: Technical Support
 <img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group-en.png" width="400"/>

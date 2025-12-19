@@ -33,8 +33,8 @@ public class SynthesizeSpeechFromTextByStreamingMode {
 
     SpeechSynthesisParam param =
         SpeechSynthesisParam.builder()
-            .model("cosyvoice-v2")
-            .voice("longhua_v2")
+            .model("cosyvoice-v3-flash")
+            .voice("longanhuan")
             .apiKey(getDashScopeApiKey())
             .build();
     System.out.println("init params done");

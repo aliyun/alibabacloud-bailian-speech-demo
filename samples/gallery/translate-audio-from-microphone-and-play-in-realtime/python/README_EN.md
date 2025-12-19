@@ -33,7 +33,7 @@ python3 run.py
 After execution, the system will:
 
 1. Record speech via microphone and translate it to English
-2. Synthesize the translated text to speech using the longhua_v2 voice
+2. Synthesize the translated text to speech using the longanhuan voice
 3. Display real-time bilingual subtitles in a GUI interface
 
 <img src="../../../../docs/image/translator.png" width="400"/>

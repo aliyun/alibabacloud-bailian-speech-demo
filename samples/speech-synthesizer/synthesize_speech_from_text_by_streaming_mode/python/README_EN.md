@@ -29,7 +29,7 @@ You can use the following command to run this example:
 python3 run.py
 ```
 
-When running the example, it will synthesize the sample text "Time flies so fast! Yesterday when we video chatted, seeing your proud and satisfied smile made my heart as sweet as drinking a bottle of honey! I'm truly happy for you!" using the longhua_v2 voice style. The synthesized audio will be streamed, played through the speaker, and saved to the file result.mp3.
+When running the example, it will synthesize the sample text "Time flies so fast! Yesterday when we video chatted, seeing your proud and satisfied smile made my heart as sweet as drinking a bottle of honey! I'm truly happy for you!" using the longanhuan voice style. The synthesized audio will be streamed, played through the speaker, and saved to the file result.mp3.
 
 You can modify `text_to_synthesize` to specify the text for synthesis.
 

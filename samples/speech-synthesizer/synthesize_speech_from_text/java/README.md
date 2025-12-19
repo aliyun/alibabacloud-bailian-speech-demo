@@ -22,7 +22,7 @@
 
 您可以通过运行run.sh (Linux, Mac系统)或run.bat (Windows系统)来运行本示例。
 
-运行示例。使用 longhua_v2 音色合成示例文本 “想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！” 保存在 `result.mp3` 文件中。
+运行示例。使用 longanhuan 音色合成示例文本 “想不到时间过得这么快！昨天和你视频聊天，看到你那自豪又满意的笑容，我的心里呀，就如同喝了一瓶蜜一样甜呢！真心为你开心呢！” 保存在 `result.mp3` 文件中。
 您可以通过修改`textToSynthesize`合成指定的文本。
 
 [comment]: # (technical support of the sample)
