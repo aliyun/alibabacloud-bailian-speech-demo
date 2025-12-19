@@ -180,7 +180,7 @@ def transcribe_audio_file(file_link: str):
     # you can check supported formats and other parameters here: https://help.aliyun.com/document_detail/2712535.html
     # transcription api supports 100 files at most in one job, and each file size should be less than 2GB
     task_response = dashscope.audio.asr.Transcription.async_call(
-        model='paraformer-v2', file_urls=[file_link])
+        model='fun-asr', file_urls=[file_link])
     # This is the description of 'file_urls'.
     # You need to provide a URL from which the file can be downloaded via HTTP.
     # Typically, we can **store these files in public cloud storage services (such as Alibaba Cloud OSS)**

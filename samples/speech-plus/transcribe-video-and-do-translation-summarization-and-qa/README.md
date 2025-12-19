@@ -22,6 +22,7 @@
 
 | 推荐模型          | API详情                                                                                             |
 |---------------|---------------------------------------------------------------------------------------------------|
+| **fun-asr**  | [Fun-ASR录音文件识别API详情](https://help.aliyun.com/zh/model-studio/fun-asr-recorded-speech-recognition-api-reference/)|
 | paraformer-v2 | [Paraformer录音文件识别](https://help.aliyun.com/zh/dashscope/developer-reference/api-details-13)|
 | qwen-plus | [通义千问大语言模型](https://help.aliyun.com/zh/model-studio/developer-reference/what-is-qwen-llm?spm=a2c4g.11186623.0.0.5dbb76776EGFHK)|
 

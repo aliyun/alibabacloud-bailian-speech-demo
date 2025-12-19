@@ -80,7 +80,7 @@ public class RecognizeSpeechFromMicrophoneUsingFlowable {
     // Create RecognitionParam, pass the Flowable<ByteBuffer> to audioFrames parameter
     RecognitionParam param =
         RecognitionParam.builder()
-            .model("paraformer-realtime-v2")
+            .model("fun-asr-realtime")
             .format("pcm")
             .sampleRate(16000)
             .apiKey(getDashScopeApiKey()) // set your apikey in config.Environments.yourApikey

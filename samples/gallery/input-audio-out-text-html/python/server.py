@@ -58,7 +58,7 @@ class AudioServer:
         loop = asyncio.get_event_loop()
         callback = MyRecognitionCallback('process0', websocket, loop)
         recognition = Recognition(
-            model='paraformer-realtime-v2',
+            model='fun-asr-realtime',
             # 'paraformer-realtime-v1'、'paraformer-realtime-8k-v1'
             format='pcm',
             # 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr',

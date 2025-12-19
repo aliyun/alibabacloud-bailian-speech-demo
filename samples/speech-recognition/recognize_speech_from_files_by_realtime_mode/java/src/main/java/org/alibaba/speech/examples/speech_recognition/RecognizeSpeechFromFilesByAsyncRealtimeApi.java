@@ -143,7 +143,7 @@ class RealtimeRecognizeTask implements Runnable {
       RecognitionParam param = null;
       param =
           RecognitionParam.builder()
-              .model("paraformer-realtime-v2")
+              .model("fun-asr-realtime")
               .format("pcm") // 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr', you
               // can check the supported formats in the document
               .sampleRate(16000) // supported 8000、16000

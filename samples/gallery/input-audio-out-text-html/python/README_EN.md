@@ -25,7 +25,7 @@ Before running this example, you need to create an Alibaba Cloud account, obtain
 ## Run Example
 This directory demonstrates a front-end/back-end separated speech recognition example, connecting the front-end and back-end through WebSocket, and showing how to handle real-time recognition results.
 
-When you click the `Start Recording` button, the web page will establish a connection with the Python WebSocket service, start recording audio from the microphone, and send the recording to the WebSocket service in real-time. The server will call the paraformer-realtime-v2 speech recognition model and return real-time speech recognition results to the web page for display. Each sentence's real-time recognition results will continuously update on the same line until the sentence ends and moves to the next line.
+When you click the `Start Recording` button, the web page will establish a connection with the Python WebSocket service, start recording audio from the microphone, and send the recording to the WebSocket service in real-time. The server will call the fun-asr-realtime speech recognition model and return real-time speech recognition results to the web page for display. Each sentence's real-time recognition results will continuously update on the same line until the sentence ends and moves to the next line.
 
 First, configure the Bailian API-KEY in the environment variables and run `demo_server.py`, which by default runs the WebSocket service on port 9090 locally.
 

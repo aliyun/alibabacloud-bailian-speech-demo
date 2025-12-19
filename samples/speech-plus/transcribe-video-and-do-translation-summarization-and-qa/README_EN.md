@@ -22,6 +22,7 @@ This example demonstrates converting a video file into an OPUS audio file, trans
 
 | Recommended Model          | API Details                                                                                             |
 |---------------|---------------------------------------------------------------------------------------------------|
+| **fun-asr**  | [Fun-ASR Audio File Recognition](https://help.aliyun.com/zh/model-studio/fun-asr-recorded-speech-recognition-api-reference/)|
 | paraformer-v2 | [Paraformer Audio File Recognition](https://help.aliyun.com/zh/dashscope/developer-reference/api-details-13)|
 | qwen-plus | [Qwen Large Language Model](https://help.aliyun.com/zh/model-studio/developer-reference/what-is-qwen-llm?spm=a2c4g.11186623.0.0.5dbb76776EGFHK)|
 

@@ -25,6 +25,7 @@ If you need to process large volumes of cloud files for production tasks without
 
 | Recommended Model | API Details |
 | ----- | ----- |
+| **fun-asr-realtime** | [Fun-ASR Real-time Speech Recognition API Details](https://help.aliyun.com/zh/model-studio/fun-asr-real-time-speech-recognition-api-reference/) |
 | **paraformer-realtime-v2**<br>paraformer-realtime-v1<br>paraformer-realtime-8k-v1 | [Paraformer Real-time Speech Recognition API Details](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
 
 

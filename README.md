@@ -9,10 +9,10 @@
 <img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" height="200"/>
 
 ## ⭐最新动态⭐
-#### 2025/07/21
-- ✨ 增加 [QWEN-OMNI音视频对话](./samples/conversation/omni) 示例。
-- ✨ 增加 [QWEN-TTS-REALTIME使用server commit模式示例](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_tts_by_server_commit_mode) 示例。
-- ✨ 增加 [QWEN-TTS-REALTIME使用commit模式示例](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_tts_by_user_commit_mode) 示例。
+
+#### 2025/12/19
+- ✨更新ASR默认模型为fun-asr
+- ✨更新TTS默认模型为cosyvoice-v3-flash
 
 
 更多历史发布信息请见[变更记录](#point_right-变更记录)。
@@ -99,6 +99,10 @@ CosyVoice调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 本项目遵循[The MIT License](https://opensource.org/license/MIT)开源协议
 
 ## :point_right: 变更记录
+
+### 2025/12/19
+- 更新ASR默认模型为fun-asr
+- 更新TTS默认模型为cosyvoice-v3-flash
 
 #### 2025/07/21
 - 增加omni示例。

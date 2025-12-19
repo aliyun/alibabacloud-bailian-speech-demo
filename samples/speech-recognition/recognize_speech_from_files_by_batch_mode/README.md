@@ -26,6 +26,7 @@
 
 | 推荐模型                                                        | API详情                                                                                             |
 |-------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **fun-asr**  | [Fun-ASR录音文件识别API详情](https://help.aliyun.com/zh/model-studio/fun-asr-recorded-speech-recognition-api-reference/)|
 | **paraformer-v2**<br/> paraformer-v1<br/> paraformer-8k-v1 <br/>paraformer-mtl-v1  | [录音文件识别API详情](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-api)|
 
 ### :point_right: 预期结果

@@ -26,7 +26,7 @@ public class RecognizeSpeechFromSingleFile {
     // https://help.aliyun.com/document_detail/2712536.html
     RecognitionParam param =
         RecognitionParam.builder()
-            .model("paraformer-realtime-v2")
+            .model("fun-asr-realtime")
             .format("wav") // 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr', you
             // can check the supported formats in the document
             .sampleRate(16000) // supported 8000、16000

@@ -103,7 +103,7 @@ if __name__ == '__main__':
     # Call recognition service by async mode, you can customize the recognition parameters, like model, format,
     # sample_rate For more information, please refer to https://help.aliyun.com/document_detail/2712536.html
     recognition = Recognition(
-        model='paraformer-realtime-v2',
+        model='fun-asr-realtime',
         # 'paraformer-realtime-v1'、'paraformer-realtime-8k-v1'
         format=format_pcm,
         # 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr', you can check the supported formats in the document

@@ -42,6 +42,7 @@
 
 | 模型名称 |
 | ----- |
+| fun-asr-realtime|
 | paraformer-realtime-v2|
 | paraformer-realtime-8k-v2|
 | paraformer-realtime-v1|

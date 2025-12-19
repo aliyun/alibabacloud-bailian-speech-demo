@@ -23,7 +23,7 @@ public class TranscriptFilesByRestfulApi {
     TranscriptionParam param =
         TranscriptionParam.builder()
             .apiKey(getDashScopeApiKey()) // set your apikey in config.Environments.yourApikey
-            .model("paraformer-v2") // 'paraformer-8k-v1', 'paraformer-mtl-v1'
+            .model("fun-asr") // 'paraformer-8k-v1', 'paraformer-mtl-v1'
             .fileUrls(
                 Arrays.asList(
                     "https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/rich_text_example_1.wav",

@@ -26,6 +26,7 @@ The audio file recognition service supports more audio/video formats and provide
 
 | Recommended Model                                                        | API Details                                                                                             |
 |-------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **fun-asr**  | [Fun-ASR Audio File Recognition API Details](https://help.aliyun.com/zh/model-studio/fun-asr-recorded-speech-recognition-api-reference/)|
 | **paraformer-v2**<br/> paraformer-v1<br/> paraformer-8k-v1 <br/>paraformer-mtl-v1  | [Audio File Recognition API Details](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-api)|
 
 ### :point_right: Expected Results

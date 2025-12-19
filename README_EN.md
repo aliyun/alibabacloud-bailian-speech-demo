@@ -7,19 +7,11 @@ This repository demonstrates how to call **Tongyi Speech Large Models** (includi
 <img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group-en.png" height="200"/>
 
 ## ⭐ Latest Updates ⭐
-#### 2025/01/17
-- ✨ Added [Microphone Real-Time Speech Translation](./samples/speech-recognition/translate_speech_from_microphone_for_realtime_stream) example.
-- ✨ Added [Batch Audio/Video File Translation (Real-Time Mode)](./samples/speech-recognition/translate_speech_from_files_by_realtime_mode/) example.
-- ✨ Added [Microphone Real-Time Sentence Recognition & Translation](./samples/speech-recognition/translate_speech_from_microphone_for_one_sentence/) example.
-- ✨ Added [Voice Cloning for Speech Synthesis (Streaming Mode)](./samples/speech-synthesizer/synthesize_speech_from_text_with_cloned_voice/) example.
-- ✨ Added [Gallery](./samples/gallery/) with advanced projects:
-  - [Sentence-by-Sentence Subtitle Display](./samples/gallery/read-and-display-subtitles/)
-  - [Multi-Role Story Narration](./samples/gallery/reading-story-in-multiple-role/)
-  - [Real-Time On-Screen Subtitle](./samples/gallery/record-from-microphone-and-display-realtime-subtitle/)
-  - [Chinese-to-English Real-Time Translation & Playback](./samples/gallery/translate-audio-from-microphone-and-play-in-realtime/)
-  - [Web AI Assistant](./samples/gallery/input-text-out-audio-html-ai-assistant/)
-  - [Web Audio Recording & Recognition](./samples/gallery/input-audio-out-text-html/)
-  - ✨ Optimized Java example structure with independent Maven projects.
+
+#### 2025/12/19
+- ✨update default asr model to fun-asr
+- ✨update default tts model to cosyvoice-v3-flash
+
 
 ## :point_right: Getting Started
 - Clone the repository via `git clone` or download the [ZIP file](https://github.com/aliyun/alibabacloud-bailian-speech-demo/archive/refs/heads/master.zip).
@@ -87,6 +79,14 @@ The Gallery showcases creative applications built with Bailian AI capabilities. 
 This project is licensed under the [MIT License](https://opensource.org/license/MIT).
 
 ## :point_right: Changelog
+
+#### 2025/12/19
+- update default asr model to fun-asr
+- update default tts model to cosyvoice-v3-flash
+
+#### 2025/07/21
+- Added qwen-omni demo.
+- Added qwen-tts-realtime demo.
 
 #### 2025/06/17
 - Added English readme docs

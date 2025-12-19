@@ -41,7 +41,7 @@ def submit_transcription_job() -> TranscriptionResponse:
 
     # Submit the transcription task
     task_response = dashscope.audio.asr.Transcription.async_call(
-        model='paraformer-v2',
+        model='fun-asr',
         # 'paraformer-8k-v1', 'paraformer-mtl-v1'
         file_urls=[
             'https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/sensevoice/rich_text_example_1.wav',

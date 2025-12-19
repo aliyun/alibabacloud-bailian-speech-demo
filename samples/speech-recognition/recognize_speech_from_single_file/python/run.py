@@ -35,7 +35,7 @@ if __name__ == '__main__':
     print('Input file is: %s' % file_path)
 
     recognition = Recognition(
-        model='paraformer-realtime-v2',
+        model='fun-asr-realtime',
         format='wav',
         sample_rate=16000,
         callback=None,

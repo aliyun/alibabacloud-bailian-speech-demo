@@ -34,7 +34,7 @@ class ParaformerRealtime {
                         task_group: "audio",
                         task: "asr",
                         function: "recognition",
-                        model: "paraformer-realtime-v2",
+                        model: "fun-asr-realtime",
                         parameters: {
                             format: "pcm",
                             sample_rate: 16000,

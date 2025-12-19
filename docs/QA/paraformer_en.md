@@ -7,9 +7,7 @@ English | [简体中文](./paraformer.md)
   - [Required Reading](#required-reading)
   - [How to configure ApiKey via temporary environment variables](#how-to-configure-apikey-via-temporary-environment-variables)
     - [Windows System](#windows-system)
-- [Verify the setting](#verify-the-setting)
     - [Linux \& MacOS Systems](#linux--macos-systems)
-- [Verify the setting](#verify-the-setting-1)
   - [How to enable logging](#how-to-enable-logging)
     - [Python SDK](#python-sdk)
       - [Windows System](#windows-system-1)
@@ -25,8 +23,6 @@ English | [简体中文](./paraformer.md)
     - [NullPointerException when using Gummy speech recognition + translation](#nullpointerexception-when-using-gummy-speech-recognition--translation)
   - [Common Exceptions and Solutions](#common-exceptions-and-solutions)
     - [CERTIFICATE\_VERIFY\_FAILED](#certificate_verify_failed)
-- [Command 1](#command-1)
-- [Command 2](#command-2)
     - [SDK internal state error](#sdk-internal-state-error)
     - [text is null](#text-is-null)
     - [Speech recognition has started.](#speech-recognition-has-started)
@@ -45,6 +41,7 @@ English | [简体中文](./paraformer.md)
 
 | Model Name |
 | ----- |
+| fun-asr-realtime|
 | paraformer-realtime-v2|
 | paraformer-realtime-8k-v2|
 | paraformer-realtime-v1|
