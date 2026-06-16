@@ -108,7 +108,7 @@ public class OmniWithoutServerVad {
         conversation.createResponse(null, null);
         // wait until response is done.
         responseDoneLatch.get().await();
-        conversation.close(1000, "bye");
+        conversation.endSession();
         audioPlayer.waitForComplete();
         audioPlayer.shutdown();
         System.exit(0);

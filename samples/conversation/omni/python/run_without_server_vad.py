@@ -158,6 +158,9 @@ if __name__  == '__main__':
     conversation.commit()
     conversation.create_response()
     callback.wait_for_complete()
+    conversation.end_session()
     b64_player.wait_for_complete()
     print('play audio done')
+    # Forcefully exit the program
+    sys.exit(0)
 

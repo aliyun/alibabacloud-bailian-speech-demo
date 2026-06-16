@@ -113,7 +113,7 @@ if __name__  == '__main__':
     def signal_handler(sig, frame):
         print('Ctrl+C pressed, stop recognition ...')
         # Stop recognition
-        conversation.close()
+        conversation.end_session()
         b64_player.shutdown()
         print('omni realtime stopped.')
         # Forcefully exit the program
