@@ -137,7 +137,7 @@ public class OmniServerVad {
 
         conversation.commit();
         conversation.createResponse(null, null);
-        conversation.close(1000, "bye");
+        conversation.endSession();
         audioPlayer.waitForComplete();
         audioPlayer.shutdown();
         System.exit(0);
