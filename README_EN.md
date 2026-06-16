@@ -27,6 +27,12 @@ This repository demonstrates how to call **Tongyi Speech Large Models** (includi
 | Audio/Video File Recognition | Speech recognition for local files | [Single File Recognition](./samples/speech-recognition/recognize_speech_from_single_file) |
 | Speech Synthesis | Convert text to speech and save as file | [Simple Synthesis](./samples/speech-synthesizer/synthesize_speech_from_text) |
 
+### :musical_note: Music Generation
+| Use Case | Description | Example |
+|---------|-------------|---------|
+| Generate Music from Prompt | Input music style description, auto-generate lyrics and sing | [Generate from Prompt](./samples/music-generation/generate_music_from_prompt) |
+| Generate Music from Lyrics | Provide custom lyrics, AI composes and sings | [Generate from Lyrics](./samples/music-generation/generate_music_from_lyrics) |
+
 ### :telephone: Call Center & Dialogue Analysis
 | Use Case | Description | Example |
 |---------|-------------|---------|
