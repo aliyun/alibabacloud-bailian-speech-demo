@@ -35,6 +35,13 @@
 | QWEN-TTS语音合成 | *将文字合成为语音并保存到文件* | [语音合成并保存（简单模式）](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_tts_by_server_commit_mode)         |
 
 
+* ### :musical_note: 音乐生成场景
+| 典型用法 | 使用说明 | 开发示例 |
+| --- | --- | --- |
+| 根据提示词生成音乐 | *输入音乐风格描述，自动生成歌词并演唱* | [根据提示词生成音乐](./samples/music-generation/generate_music_from_prompt) |
+| 根据歌词生成音乐 | *提供自定义歌词，AI谱曲并演唱* | [根据歌词生成音乐](./samples/music-generation/generate_music_from_lyrics) |
+
+
 * ### :telephone: 电话客服中心机器人及对话分析理解场景
 | 典型用法 | 使用说明 | 开发示例                                                                                        |
 | --- | --- |---------------------------------------------------------------------------------------------|
