@@ -68,7 +68,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.alibaba.speech.examples.omni.OmniServerVad</mainClass>
+                                    <mainClass>org.alibaba.speech.examples.omni.OmniWithFunctionCall</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

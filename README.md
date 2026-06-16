@@ -13,6 +13,7 @@
 ### 2026/06/16
 - 增加音乐生成大模型（Fun-Music）示例，支持通过提示词和歌词生成音乐。
 - 优化 Omni 演示程序,使用 session_end 优雅结束。
+- 增加 Omni function calling 示例。
 
 
 更多历史发布信息请见[变更记录](#point_right-变更记录)。
@@ -110,6 +111,7 @@ CosyVoice调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 ### 2026/06/16
 - 增加百聆音乐生成大模型（Fun-Music）示例，支持通过提示词和歌词生成音乐。
 - 优化 Omni 演示程序,使用 session_end 优雅结束。
+- 增加 Omni function calling 示例。
 
 ### 2025/12/19
 - 更新ASR默认模型为fun-asr

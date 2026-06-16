@@ -43,6 +43,25 @@ python run_with_camera.py
 python run_without_server_vad.py
 ```
 
+### 四、函数调用（Function Call）示例
+
+本示例展示了如何在 Omni 实时对话中集成函数调用能力。通过麦克风进行语音交互时，Omni 模型可以根据对话上下文自动判断是否需要调用本地工具（如查询天气、查询机票/火车票价格等），并将工具执行结果返回给模型继续对话。
+
+内置工具示例：
+- `get_current_weather`：查询指定城市天气
+- `get_flight_price`：查询飞机票价格
+- `get_train_price`：查询火车票价格
+
+```python
+python run_with_function_call.py
+```
+
+**实现要点：**
+- 在 `update_session` 中通过 `tools` 参数传入工具定义（OpenAI 格式）
+- 监听 `response.function_call_arguments.done` 事件获取工具调用请求
+- 在本地执行工具函数后，通过 `create_item` 发送 `function_call_output` 结果
+- 调用 `create_response` 让模型基于工具结果生成最终回复
+
 
 ### 关于播放器的说明
 
