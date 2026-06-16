@@ -86,6 +86,9 @@ This project is licensed under the [MIT License](https://opensource.org/license/
 
 ## :point_right: Changelog
 
+#### 2026/06/16
+- Added Fun-Music (Bailing Music Generation) examples, supporting music generation from prompts and lyrics.
+
 #### 2025/12/19
 - update default asr model to fun-asr
 - update default tts model to cosyvoice-v3-flash

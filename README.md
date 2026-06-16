@@ -107,6 +107,9 @@ CosyVoice调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 
 ## :point_right: 变更记录
 
+### 2026/06/16
+- 增加百聆音乐生成大模型（Fun-Music）示例，支持通过提示词和歌词生成音乐。
+
 ### 2025/12/19
 - 更新ASR默认模型为fun-asr
 - 更新TTS默认模型为cosyvoice-v3-flash
