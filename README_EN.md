@@ -11,6 +11,7 @@ This repository demonstrates how to call **Tongyi Speech Large Models** (includi
 #### 2026/06/16
 - Added Fun-Music (Bailing Music Generation) examples, supporting music generation from prompts and lyrics.
 - Improved graceful session termination in the Omni demo.
+- Added Omni function calling example.
 
 
 ## :point_right: Getting Started
@@ -89,6 +90,7 @@ This project is licensed under the [MIT License](https://opensource.org/license/
 #### 2026/06/16
 - Added Fun-Music (Bailing Music Generation) examples, supporting music generation from prompts and lyrics.
 - Improved graceful session finish in the Omni demo.
+- Added Omni function calling example.
 
 #### 2025/12/19
 - update default asr model to fun-asr

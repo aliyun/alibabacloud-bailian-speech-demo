@@ -42,6 +42,25 @@ This example simulates the mode without using `server_vad`, actively controlling
 python run_without_server_vad.py
 ```
 
+### 4. Function Call Example
+
+This example demonstrates how to integrate function calling capabilities into Omni real-time conversations. During voice interaction via microphone, the Omni model can automatically determine whether to invoke local tools (such as weather queries, flight/train ticket price queries) based on the conversation context, and return the tool execution results to the model to continue the dialogue.
+
+Built-in tool examples:
+- `get_current_weather`: Query weather for a specified city
+- `get_flight_price`: Query flight ticket prices
+- `get_train_price`: Query train ticket prices
+
+```
+python run_with_function_call.py
+```
+
+**Implementation Key Points:**
+- Pass tool definitions (OpenAI format) via the `tools` parameter in `update_session`
+- Listen for the `response.function_call_arguments.done` event to get tool call requests
+- After executing the tool function locally, send the `function_call_output` result via `create_item`
+- Call `create_response` to let the model generate the final response based on the tool results
+
 ### Notes on the Player
 
 In `b64_pcm_player.py`, we implemented a streaming player that supports interruptions using pyaudio. The player's input is base 64 encoded PCM format audio.
