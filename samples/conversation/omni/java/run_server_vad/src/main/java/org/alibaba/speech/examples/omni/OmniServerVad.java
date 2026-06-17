@@ -36,7 +36,7 @@ public class OmniServerVad {
         }
 
         OmniRealtimeParam param = OmniRealtimeParam.builder()
-                .model("qwen-omni-turbo-realtime-latest")
+                .model("qwen3.5-omni-flash-realtime")
                 // .apikey("your-dashscope-api-key")
                 .build();
 

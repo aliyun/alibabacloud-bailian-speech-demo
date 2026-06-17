@@ -98,7 +98,7 @@ if __name__  == '__main__':
     callback = MyCallback()
 
     conversation = OmniRealtimeConversation(
-        model='qwen-omni-turbo-realtime-latest',
+        model='qwen3.5-omni-flash-realtime',
         callback=callback, 
         )
 

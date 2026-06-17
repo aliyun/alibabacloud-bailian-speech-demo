@@ -21,7 +21,7 @@ public class OmniWithoutServerVad {
     public static void main(String[] args) throws InterruptedException, LineUnavailableException {
         File audioFile = new File("data/q1_16khz.pcm");
         OmniRealtimeParam param = OmniRealtimeParam.builder()
-                .model("qwen-omni-turbo-realtime-latest")
+                .model("qwen3.5-omni-flash-realtime")
                 // .apikey("your-dashscope-api-key")
                 .build();
         AtomicReference<CountDownLatch> responseDoneLatch = new AtomicReference<>(null);
