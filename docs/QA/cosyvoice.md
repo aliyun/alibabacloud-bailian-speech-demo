@@ -148,7 +148,7 @@ export DASHSCOPE_LOGGING_LEVEL=debug
 **解答：**
 1. 首先请参考[Java示例](../../samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode/java/src/main/java/org/alibaba/speech/examples/speech_synthesizer/SynthesizeSpeechFromTextByStreamingMode.java)和[Python示例](../../samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode/python/run.py)保存收到的音频，排查是播放器卡顿还是下发音频卡顿。如果保存音频卡顿，则请请将RequestId/TaskId提供给我们排查。
 2. 请检查是否发送文本过慢，已发送文本已经读完。
-3. 请检查回调函数中（特别是on_data/onEvent）是否有过多业务代码阻塞。由于回调在websocket线程中，因此回阻塞websocket接收网络包，导致接收音频卡住。可以自己写一个audio buffer，在回调用将音频写入buffer，在其他线程中读取并处理。
+3. 请检查回调函数中（特别是on_data/onEvent）是否有过多业务代码阻塞。由于回调在websocket线程中，因此会阻塞websocket接收网络包，导致接收音频卡住。可以自己写一个audio buffer，在回调用将音频写入buffer，在其他线程中读取并处理。
 4. 请检查网络是否不稳定。
 5. 如果非上述原因造成，请将RequestId/TaskId提供给我们排查。
 
