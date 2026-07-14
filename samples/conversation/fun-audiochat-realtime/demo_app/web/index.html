@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>qwen-audio-realtime Demo</title>
+<link rel="icon" href="data:,">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f0f1a; color: #e0e0e0; height: 100vh; display: flex; flex-direction: column; }
+
+.header { padding: 16px 20px; background: #1a1a2e; border-bottom: 1px solid #2a2a3e; }
+.header h1 { font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #fff; }
+.config-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.config-row label { font-size: 12px; color: #888; }
+.config-row input, .config-row select, .config-row textarea {
+  background: #252540; border: 1px solid #3a3a5e; color: #e0e0e0;
+  padding: 6px 10px; border-radius: 6px; font-size: 13px; outline: none;
+}
+.config-row input:focus, .config-row select:focus, .config-row textarea:focus { border-color: #6c5ce7; }
+.config-row .field { display: flex; flex-direction: column; gap: 3px; }
+
+.btn {
+  padding: 7px 18px; border-radius: 6px; border: none; cursor: pointer;
+  font-size: 13px; font-weight: 500; transition: all 0.15s;
+}
+.btn-connect { background: #6c5ce7; color: #fff; }
+.btn-connect:hover { background: #7c6cf7; }
+.btn-connect.connected { background: #e74c3c; }
+.btn-connect.connected:hover { background: #f75c4c; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.scenario-bar {
+  display: flex; justify-content: center; gap: 0; padding: 12px 20px;
+  background: #1a1a2e; border-bottom: 1px solid #2a2a3e;
+}
+.scenario-btn {
+  padding: 8px 28px; font-size: 13px; font-weight: 500; cursor: pointer;
+  border: 1px solid #3a3a5e; background: #252540; color: #aaa; transition: all 0.15s;
+}
+.scenario-btn:first-child { border-radius: 6px 0 0 6px; }
+.scenario-btn:last-child { border-radius: 0 6px 6px 0; }
+.scenario-btn:not(:first-child):not(:last-child) { border-radius: 0; }
+.scenario-btn.active { background: #6c5ce7; color: #fff; border-color: #6c5ce7; }
+
+.debug-panel {
+  padding: 8px 20px; background: #151528; border-bottom: 1px solid #2a2a3e;
+  display: flex; gap: 24px; flex-wrap: wrap; font-family: monospace; font-size: 12px;
+}
+.debug-row { display: flex; align-items: center; gap: 6px; }
+.debug-label { color: #666; }
+.debug-value { color: #aaa; cursor: pointer; padding: 2px 6px; border-radius: 3px; transition: background 0.15s; }
+.debug-value:hover { background: #252540; color: #fff; }
+.debug-value.copied { background: #2ecc71; color: #fff; }
+.latency-s2t { color: #f39c12; font-weight: 600; }
+.latency-s2s { color: #6c5ce7; font-weight: 600; }
+
+.chat-area {
+  flex: 1; overflow-y: auto; padding: 16px 20px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.msg { max-width: 75%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+.msg.user { align-self: flex-end; background: #6c5ce7; color: #fff; border-bottom-right-radius: 4px; }
+.msg.assistant { align-self: flex-start; background: #252540; color: #e0e0e0; border-bottom-left-radius: 4px; }
+.msg.system { align-self: center; background: transparent; color: #666; font-size: 12px; }
+.msg.tool { align-self: center; background: #1e1e38; color: #f39c12; font-size: 12px; border: 1px solid #3a3a5e; padding: 6px 12px; }
+.msg.reasoning { align-self: center; background: #1e2838; color: #3498db; font-size: 12px; border: 1px solid #2a4a6e; padding: 6px 12px; }
+.msg-meta { display: block; font-size: 11px; color: #888; margin-top: 6px; cursor: pointer; opacity: 0.7; }
+.msg-meta:hover { opacity: 1; }
+.msg-meta.copied { color: #4ecdc4; }
+
+.controls {
+  padding: 20px; background: #1a1a2e; border-top: 1px solid #2a2a3e;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.status-bar { font-size: 12px; color: #888; display: flex; gap: 16px; align-items: center; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+.status-dot.green { background: #2ecc71; }
+.status-dot.red { background: #e74c3c; }
+.status-dot.yellow { background: #f1c40f; }
+.status-dot.blue { background: #3498db; animation: pulse 1s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.fd-btn {
+  width: 140px; height: 140px; border-radius: 50%; border: 3px solid #3a3a5e;
+  background: #252540; color: #aaa; font-size: 15px; font-weight: 500;
+  cursor: pointer; transition: all 0.15s; display: flex; align-items: center;
+  justify-content: center; flex-direction: column; gap: 4px;
+}
+.fd-btn:not(:disabled):hover { border-color: #6c5ce7; color: #ccc; }
+.fd-btn.listening { background: #6c5ce7; border-color: #7c6cf7; color: #fff; }
+.fd-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.event-log-toggle {
+  position: fixed; top: 8px; right: 8px; background: #252540; border: 1px solid #3a3a5e;
+  color: #888; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; z-index: 10;
+}
+.event-log {
+  display: none; position: fixed; top: 36px; right: 8px; bottom: 8px; width: 420px;
+  background: #1a1a2e; border: 1px solid #3a3a5e; border-radius: 8px;
+  overflow-y: auto; padding: 8px; font-family: monospace; font-size: 11px;
+  color: #888; z-index: 10; word-break: break-all;
+}
+.event-log.show { display: block; }
+.event-log div { padding: 2px 0; border-bottom: 1px solid #1f1f35; }
+
+.instructions-area { width: 100%; margin-top: 4px; }
+.instructions-area textarea {
+  width: 100%; height: 120px; resize: vertical; font-size: 12px;
+  font-family: inherit; line-height: 1.4;
+  background: #252540; border: 1px solid #3a3a5e; color: #e0e0e0;
+  border-radius: 6px; padding: 8px 10px; outline: none;
+}
+.instructions-area textarea:focus { border-color: #6c5ce7; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>qwen-audio-realtime Demo</h1>
+  <div class="config-row">
+    <div class="field">
+      <label>Model</label>
+      <input type="text" id="model" value="qwen-audio-3.0-realtime-plus" placeholder="model name">
+    </div>
+    <div class="field">
+      <label>Voice</label>
+      <select id="voice">
+        <option value="longanlingxin">longanlingxin - 温柔甜美，通用女</option>
+        <option value="longanqian" selected>longanqian - 活泼动态，通用女</option>
+        <option value="longanlingxi">longanlingxi - 温柔端庄，通用女</option>
+        <option value="longanxiaoxin">longanxiaoxin - 热情洋溢，通用女</option>
+        <option value="longanlufeng">longanlufeng - 通用男</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>VAD Mode</label>
+      <select id="vadMode">
+        <option value="server_vad">server_vad</option>
+        <option value="smart_turn" selected>smart_turn</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Silence (ms)</label>
+      <select id="silenceDuration">
+        <option value="600">600</option>
+        <option value="1000">1000</option>
+        <option value="1200">1200</option>
+        <option value="1500" selected>1500</option>
+        <option value="2000">2000</option>
+      </select>
+    </div>
+    <button class="btn btn-connect" id="connectBtn" onclick="toggleConnection()">Connect</button>
+  </div>
+  <div class="instructions-area">
+    <label style="font-size:12px;color:#888">Instructions</label>
+    <textarea id="instructions" placeholder="system prompt"></textarea>
+  </div>
+</div>
+
+<div class="scenario-bar">
+  <button class="scenario-btn active" data-scenario="companion" onclick="switchScenario('companion')">Companion Chat</button>
+  <button class="scenario-btn" data-scenario="tool" onclick="switchScenario('tool')">Tool Agent</button>
+  <button class="scenario-btn" data-scenario="reasoning" onclick="switchScenario('reasoning')">Reasoning Agent</button>
+</div>
+
+<div class="debug-panel" id="debugPanel">
+  <div class="debug-row">
+    <span class="debug-label">Session:</span>
+    <span class="debug-value" id="debugSessionId" onclick="copyText(this)">-</span>
+  </div>
+  <div class="debug-row">
+    <span class="debug-label">Response:</span>
+    <span class="debug-value" id="debugResponseId" onclick="copyText(this)">-</span>
+  </div>
+  <div class="debug-row">
+    <span class="debug-label">Latency:</span>
+    <span class="debug-value" id="debugLatency">-</span>
+  </div>
+  <div class="debug-row">
+    <span class="debug-label">Scenario:</span>
+    <span class="debug-value" id="debugScenario" style="color:#6c5ce7">companion</span>
+  </div>
+</div>
+
+<div class="chat-area" id="chatArea"></div>
+
+<div class="controls">
+  <div class="status-bar">
+    <span><span class="status-dot red" id="connDot"></span><span id="connText">Disconnected</span></span>
+    <span id="recStatus"></span>
+  </div>
+  <button class="fd-btn" id="fdBtn" disabled onclick="fdToggle()">
+    Start<br>Full-Duplex
+  </button>
+</div>
+
+<button class="event-log-toggle" onclick="document.getElementById('eventLog').classList.toggle('show')">Events</button>
+<div class="event-log" id="eventLog"></div>
+
+<script>
+// ============ Scenario definitions ============
+
+const SCENARIOS = {
+  companion: { tools: [] },
+  tool: {
+    tools: [
+      {
+        type: 'function',
+        function: {
+          name: 'get_weather',
+          description: 'Query weather for a city.',
+          parameters: {
+            type: 'object',
+            properties: { city: { type: 'string', description: 'City name, e.g. 北京、上海' } },
+            required: ['city'],
+          },
+        },
+      },
+      {
+        type: 'function',
+        function: {
+          name: 'get_train_price',
+          description: 'Query train ticket price between two cities.',
+          parameters: {
+            type: 'object',
+            properties: {
+              src: { type: 'string', description: 'Departure city' },
+              dst: { type: 'string', description: 'Arrival city' },
+            },
+            required: ['src', 'dst'],
+          },
+        },
+      },
+    ],
+  },
+  reasoning: {
+    tools: [
+      {
+        type: 'function',
+        function: {
+          name: 'deep_thinking',
+          description: '当用户的问题需要深度分析、多步推理、对比权衡、或综合规划时，调用此工具进行深度思考。简单的闲聊、问候、事实性问答不需要调用。',
+          parameters: {
+            type: 'object',
+            properties: { query: { type: 'string', description: '用户提出的需要深度分析的完整问题' } },
+            required: ['query'],
+          },
+        },
+      },
+    ],
+  },
+};
+
+async function loadConfig() {
+  try {
+    const res = await fetch('/api/config');
+    if (!res.ok) throw new Error(`status ${res.status}`);
+    const config = await res.json();
+    if (config.model) {
+      getEl('model').value = config.model;
+    }
+  } catch (err) {
+    console.error('Failed to load config:', err);
+  }
+}
+
+async function loadPrompts() {
+  try {
+    const res = await fetch('/api/prompts');
+    if (!res.ok) throw new Error(`status ${res.status}`);
+    const prompts = await res.json();
+    SCENARIOS.companion.instructions = prompts.companion;
+    SCENARIOS.tool.instructions = prompts.tool;
+    SCENARIOS.reasoning.instructions = prompts.reasoning;
+  } catch (err) {
+    console.error('Failed to load prompts:', err);
+    addMsg('system', 'Failed to load prompts from server.');
+  }
+  switchScenario('companion');
+}
+
+// ============ Tool implementations (browser-side mock) ============
+
+function execTool(name, args) {
+  switch (name) {
+    case 'get_weather':
+      return `${args.city || '未知城市'}今天多云转晴，气温 18-26°C，微风。`;
+    case 'get_train_price': {
+      const price = Math.abs(hashCode(String(args.src || '') + String(args.dst || ''))) % 500 + 50;
+      return `从${args.src}到${args.dst}的动车二等座票价约 ¥${price}，具体以 12306 为准。`;
+    }
+    case 'deep_thinking':
+      return `经过深度分析，关于「${args.query || ''}」：这个问题需要从多个维度综合考虑。核心建议是从实际需求出发，权衡短期成本与长期收益，优先选择可验证、可迭代的方案。`;
+    default:
+      return `Unknown tool: ${name}`;
+  }
+}
+
+function hashCode(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+  return h;
+}
+
+// ============ State ============
+
+const SAMPLE_RATE_IN = 16000;
+const SAMPLE_RATE_OUT = 24000;
+const CHUNK_MS = 100;
+const CHUNK_SAMPLES = SAMPLE_RATE_IN * CHUNK_MS / 1000;
+
+let ws = null;
+let audioCtx = null;
+let micStream = null;
+let scriptNode = null;
+let sourceNode = null;
+let connected = false;
+let isRecording = false;
+let isPlaying = false;
+let isResponding = false;
+let fdActive = false;
+let currentScenario = 'companion';
+
+let tSpeechStopped = 0;
+let tFirstText = 0;
+let tFirstAudio = 0;
+
+const LOCAL_VAD_THRESHOLD = 0.012;
+const LOCAL_VAD_SILENCE_MS = 300;
+let localVadActive = false;
+let lastLocalSpeechTime = 0;
+let tLocalSpeechEnd = 0;
+let tServerSpeechStopped = 0;
+
+let currentSessionId = '';
+let currentResponseId = '';
+
+// ============ UI helpers ============
+
+function getEl(id) { return document.getElementById(id); }
+
+function copyText(el) {
+  const text = el.textContent;
+  if (!text || text === '-') return;
+  navigator.clipboard.writeText(text).then(() => {
+    el.classList.add('copied');
+    setTimeout(() => el.classList.remove('copied'), 800);
+  });
+}
+
+function updateDebugIds() {
+  getEl('debugSessionId').textContent = currentSessionId || '-';
+  getEl('debugResponseId').textContent = currentResponseId || '-';
+}
+
+function updateLatencyDisplay() {
+  if (!tSpeechStopped) { getEl('debugLatency').innerHTML = '-'; return; }
+  let html = '';
+  if (tFirstText) {
+    const s2t = tFirstText - tSpeechStopped;
+    html += `S2T: <span class="latency-s2t">${s2t}ms</span>`;
+  }
+  if (tFirstAudio) {
+    const s2s = tFirstAudio - tSpeechStopped;
+    html += `${html ? ' | ' : ''}S2S: <span class="latency-s2s">${s2s}ms</span>`;
+  }
+  if (tLocalSpeechEnd && tServerSpeechStopped) {
+    const vadDelay = tServerSpeechStopped - tLocalSpeechEnd;
+    html += `${html ? ' | ' : ''}VAD: <span style="color:#e17055">${vadDelay}ms</span>`;
+  }
+  if (!html) html = 'measuring...';
+  getEl('debugLatency').innerHTML = html;
+}
+
+function addMsg(role, text, meta) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + role;
+  const textNode = document.createElement('span');
+  textNode.className = 'msg-text';
+  textNode.textContent = text;
+  d.appendChild(textNode);
+  if (meta) {
+    const metaEl = document.createElement('span');
+    metaEl.className = 'msg-meta';
+    metaEl.textContent = meta;
+    metaEl.onclick = () => {
+      navigator.clipboard.writeText(meta).then(() => {
+        metaEl.classList.add('copied');
+        setTimeout(() => metaEl.classList.remove('copied'), 800);
+      });
+    };
+    d.appendChild(metaEl);
+  }
+  getEl('chatArea').appendChild(d);
+  getEl('chatArea').scrollTop = getEl('chatArea').scrollHeight;
+  return d;
+}
+
+function updateMsg(el, text) {
+  if (!el) return;
+  const textNode = el.querySelector('.msg-text');
+  if (textNode) textNode.textContent = text;
+  else el.textContent = text;
+  getEl('chatArea').scrollTop = getEl('chatArea').scrollHeight;
+}
+
+function logEvent(type, detail) {
+  const el = getEl('eventLog');
+  const d = document.createElement('div');
+  const ts = new Date().toLocaleTimeString();
+  d.textContent = `[${ts}] ${type}` + (detail ? ': ' + detail : '');
+  el.appendChild(d);
+  el.scrollTop = el.scrollHeight;
+}
+
+function setConnStatus(on) {
+  getEl('connDot').className = 'status-dot ' + (on ? 'green' : 'red');
+  getEl('connText').textContent = on ? 'Connected' : 'Disconnected';
+  getEl('connectBtn').textContent = on ? 'Disconnect' : 'Connect';
+  getEl('connectBtn').classList.toggle('connected', on);
+  getEl('fdBtn').disabled = !on;
+}
+
+function setRecStatus(text, color) {
+  getEl('recStatus').innerHTML = text ? `<span class="status-dot ${color}"></span>${text}` : '';
+}
+
+// ============ Scenario switching ============
+
+function switchScenario(name) {
+  currentScenario = name;
+  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.toggle('active', b.dataset.scenario === name));
+  getEl('debugScenario').textContent = name;
+
+  const sc = SCENARIOS[name];
+  getEl('instructions').value = sc.instructions;
+
+  if (connected) sendSessionUpdate();
+}
+
+// Init config and prompts on load
+loadConfig().then(loadPrompts);
+
+// ============ Connection ============
+
+async function toggleConnection() {
+  if (connected) { disconnect(); return; }
+  const model = getEl('model').value.trim();
+  if (!model) { alert('Please fill in Model'); return; }
+
+  getEl('connectBtn').disabled = true;
+  getEl('connectBtn').textContent = 'Connecting...';
+
+  try {
+    addMsg('system', 'Requesting microphone access...');
+    await initAudio();
+    addMsg('system', 'Microphone ready. Connecting to server...');
+
+    const wsProto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsPortOverride = new URLSearchParams(location.search).get('wsPort');
+    const defaultWsPort = parseInt(location.port || '8080') + 1;
+    const wsPort = wsPortOverride || defaultWsPort;
+    const url = `${wsProto}//${location.hostname}:${wsPort}/ws?model=${encodeURIComponent(model)}`;
+    ws = new WebSocket(url);
+    ws.onopen = () => {
+      connected = true;
+      setConnStatus(true);
+      getEl('connectBtn').disabled = false;
+      addMsg('system', `Connected (${currentScenario}). Ready to talk.`);
+      logEvent('ws.open');
+      sendSessionUpdate();
+    };
+    ws.onclose = (e) => {
+      logEvent('ws.close', `code=${e.code} reason=${e.reason}`);
+      if (connected) addMsg('system', `Connection closed (code=${e.code})`);
+      cleanupConnection();
+    };
+    ws.onerror = () => {
+      logEvent('ws.error', 'WebSocket error');
+      cleanupConnection();
+      addMsg('system', 'Connection failed. Check server and API key.');
+    };
+    ws.onmessage = (e) => {
+      try { handleServerEvent(JSON.parse(e.data)); }
+      catch (err) { logEvent('parse_error', err.message); }
+    };
+  } catch (err) {
+    addMsg('system', 'Error: ' + err.message);
+    getEl('connectBtn').disabled = false;
+    getEl('connectBtn').textContent = 'Connect';
+  }
+}
+
+function disconnect() {
+  if (ws) { ws.close(); ws = null; }
+  cleanupConnection();
+}
+
+function cleanupConnection() {
+  connected = false;
+  isRecording = false;
+  isResponding = false;
+  fdActive = false;
+  stopRecording();
+  clearPlayback();
+  setConnStatus(false);
+  setRecStatus('', '');
+  updateFdBtn();
+  getEl('connectBtn').disabled = false;
+}
+
+function sendEvent(event) {
+  if (!ws || ws.readyState !== 1) return;
+  event.event_id = 'evt_' + Date.now();
+  ws.send(JSON.stringify(event));
+}
+
+function sendSessionUpdate() {
+  const sc = SCENARIOS[currentScenario];
+  const instructions = getEl('instructions').value.trim();
+  const session = {
+    modalities: ['text', 'audio'],
+    voice: getEl('voice').value,
+    instructions: instructions,
+    input_audio_format: 'pcm',
+    output_audio_format: 'pcm',
+    turn_detection: {
+      type: getEl('vadMode').value,
+      threshold: 0.1,
+      silence_duration_ms: parseInt(getEl('silenceDuration').value),
+    },
+  };
+  if (sc.tools.length > 0) session.tools = sc.tools;
+  sendEvent({ type: 'session.update', session });
+}
+
+// ============ Audio capture ============
+
+async function initAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: SAMPLE_RATE_IN });
+  micStream = await navigator.mediaDevices.getUserMedia({
+    audio: { sampleRate: SAMPLE_RATE_IN, channelCount: 1, echoCancellation: true, noiseSuppression: true },
+  });
+}
+
+function startRecording() {
+  if (isRecording || !audioCtx || !micStream) return;
+  isRecording = true;
+  localVadActive = false;
+  lastLocalSpeechTime = 0;
+  tLocalSpeechEnd = 0;
+
+  sourceNode = audioCtx.createMediaStreamSource(micStream);
+  scriptNode = audioCtx.createScriptProcessor(4096, 1, 1);
+  let pcmBuffer = new Float32Array(0);
+
+  scriptNode.onaudioprocess = (e) => {
+    if (!isRecording) return;
+    const input = e.inputBuffer.getChannelData(0);
+
+    let rms = 0;
+    for (let i = 0; i < input.length; i++) rms += input[i] * input[i];
+    rms = Math.sqrt(rms / input.length);
+
+    const now = Date.now();
+    if (rms >= LOCAL_VAD_THRESHOLD) {
+      localVadActive = true;
+      lastLocalSpeechTime = now;
+      tLocalSpeechEnd = 0;
+    } else if (localVadActive && (now - lastLocalSpeechTime >= LOCAL_VAD_SILENCE_MS)) {
+      localVadActive = false;
+      tLocalSpeechEnd = lastLocalSpeechTime + LOCAL_VAD_SILENCE_MS;
+    }
+
+    const merged = new Float32Array(pcmBuffer.length + input.length);
+    merged.set(pcmBuffer);
+    merged.set(input, pcmBuffer.length);
+    pcmBuffer = merged;
+
+    while (pcmBuffer.length >= CHUNK_SAMPLES) {
+      const chunk = pcmBuffer.slice(0, CHUNK_SAMPLES);
+      pcmBuffer = pcmBuffer.slice(CHUNK_SAMPLES);
+      sendAudioChunk(chunk);
+    }
+  };
+
+  sourceNode.connect(scriptNode);
+  scriptNode.connect(audioCtx.destination);
+  setRecStatus('Recording', 'blue');
+}
+
+function stopRecording() {
+  if (!isRecording && !scriptNode) return;
+  isRecording = false;
+  if (scriptNode) { scriptNode.disconnect(); scriptNode = null; }
+  if (sourceNode) { sourceNode.disconnect(); sourceNode = null; }
+  setRecStatus('', '');
+}
+
+function sendAudioChunk(floatData) {
+  const pcm16 = new Int16Array(floatData.length);
+  for (let i = 0; i < floatData.length; i++) {
+    const s = Math.max(-1, Math.min(1, floatData[i]));
+    pcm16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  sendEvent({ type: 'input_audio_buffer.append', audio: arrayBufferToBase64(pcm16.buffer) });
+}
+
+function arrayBufferToBase64(buffer) {
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}
+
+// ============ Audio playback (schedule-based AudioBufferSourceNode) ============
+
+let playAudioCtx = null;
+let playNextTime = 0;
+let serverDoneStreaming = false;
+let playbackStarted = false;
+let scheduledSources = [];
+
+function ensurePlaybackCtx() {
+  if (!playAudioCtx || playAudioCtx.state === 'closed') {
+    playAudioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: SAMPLE_RATE_OUT });
+  }
+  if (playAudioCtx.state === 'suspended') playAudioCtx.resume();
+}
+
+function enqueueAudio(b64) {
+  ensurePlaybackCtx();
+  const raw = atob(b64);
+  const abuf = new ArrayBuffer(raw.length);
+  const bytes = new Uint8Array(abuf);
+  for (let i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
+  const pcm16 = new Int16Array(abuf);
+  const float32 = new Float32Array(pcm16.length);
+  for (let i = 0; i < pcm16.length; i++) float32[i] = pcm16[i] / 32768;
+
+  const buffer = playAudioCtx.createBuffer(1, float32.length, SAMPLE_RATE_OUT);
+  buffer.getChannelData(0).set(float32);
+  const source = playAudioCtx.createBufferSource();
+  source.buffer = buffer;
+  source.connect(playAudioCtx.destination);
+
+  const now = playAudioCtx.currentTime;
+  if (playNextTime < now) playNextTime = now;
+  source.start(playNextTime);
+  playNextTime += buffer.duration;
+  playbackStarted = true;
+
+  scheduledSources.push(source);
+  source.onended = () => {
+    const idx = scheduledSources.indexOf(source);
+    if (idx !== -1) scheduledSources.splice(idx, 1);
+    if (scheduledSources.length === 0 && serverDoneStreaming) {
+      serverDoneStreaming = false;
+      isPlaying = false;
+      playbackStarted = false;
+    }
+  };
+}
+
+function clearPlayback() {
+  for (const s of scheduledSources) { try { s.stop(); } catch(e) {} }
+  scheduledSources = [];
+  playNextTime = 0;
+  playbackStarted = false;
+  serverDoneStreaming = false;
+  isPlaying = false;
+}
+
+// ============ Server event handling ============
+
+let currentInputTranscript = null;
+let currentOutputTranscript = null;
+let currentOutputText = '';
+let currentInputText = '';
+let pendingFunctionCalls = {};
+
+function handleServerEvent(event) {
+  const t = event.type;
+
+  if (t === 'response.audio.delta') {
+    logEvent(t, `<audio b64 len=${(event.delta||'').length}>`);
+  } else {
+    logEvent(t, JSON.stringify(event).substring(0, 200));
+  }
+
+  switch (t) {
+    case 'session.created':
+      currentSessionId = (event.session && event.session.id) || event.id || '';
+      updateDebugIds();
+      break;
+
+    case 'session.updated':
+      if (event.session && event.session.turn_detection) {
+        logEvent('session.updated', 'turn_detection: ' + JSON.stringify(event.session.turn_detection));
+      }
+      break;
+
+    case 'input_audio_buffer.speech_started':
+      // Only cancel if the server still has an active response.
+      if (isResponding) {
+        sendEvent({ type: 'response.cancel' });
+        isResponding = false;
+      }
+      if (isPlaying) {
+        clearPlayback();
+      }
+      break;
+
+    case 'input_audio_buffer.speech_stopped':
+      tServerSpeechStopped = Date.now();
+      tSpeechStopped = tLocalSpeechEnd || tServerSpeechStopped;
+      tFirstText = 0;
+      tFirstAudio = 0;
+      updateLatencyDisplay();
+      break;
+
+    case 'response.created':
+      isResponding = true;
+      currentOutputText = '';
+      currentOutputTranscript = null;
+      currentResponseId = (event.response && event.response.id) || '';
+      updateDebugIds();
+      if (currentInputTranscript) {
+        const txt = currentInputTranscript.querySelector('.msg-text');
+        if (txt && txt.textContent === '...') currentInputTranscript.remove();
+      }
+      currentInputTranscript = addMsg('user', '...');
+      break;
+
+    case 'response.audio.delta':
+      isPlaying = true;
+      enqueueAudio(event.delta);
+      if (tSpeechStopped && !tFirstAudio) {
+        tFirstAudio = Date.now();
+        updateLatencyDisplay();
+      }
+      break;
+
+    case 'response.audio_transcript.delta':
+      if (event.delta) {
+        if (tSpeechStopped && !tFirstText) {
+          tFirstText = Date.now();
+          updateLatencyDisplay();
+        }
+        currentOutputText += event.delta;
+        if (!currentOutputTranscript) {
+          currentOutputTranscript = addMsg('assistant', currentOutputText, currentResponseId);
+        } else {
+          updateMsg(currentOutputTranscript, currentOutputText);
+        }
+      }
+      break;
+
+    case 'conversation.item.input_audio_transcription.completed':
+      if (event.transcript) {
+        currentInputText = event.transcript;
+        if (currentInputTranscript) {
+          updateMsg(currentInputTranscript, currentInputText);
+        } else {
+          addMsg('user', currentInputText);
+        }
+      }
+      currentInputTranscript = null;
+      break;
+
+    case 'response.function_call_arguments.done': {
+      const fcName = event.name;
+      const fcArgs = event.arguments || '{}';
+      const callId = event.call_id;
+      logEvent('function_call', `${fcName}(${fcArgs})`);
+
+      let parsed = {};
+      try { parsed = JSON.parse(fcArgs); } catch(e) {}
+
+      if (fcName === 'deep_thinking') {
+        const query = parsed.query || '';
+        const reasoningEl = addMsg('reasoning', `Reasoning: ${fcName}(query="${query}")`);
+        let dotCount = 0;
+        const thinkingInterval = setInterval(() => {
+          dotCount = (dotCount + 1) % 4;
+          updateMsg(reasoningEl, `Thinking${'.'.repeat(dotCount)}: ${fcName}(query="${query}")`);
+        }, 500);
+        setTimeout(() => {
+          clearInterval(thinkingInterval);
+          const result = execTool(fcName, parsed);
+          updateMsg(reasoningEl, `Reasoning done: ${fcName}(query="${query}")`);
+          addMsg('reasoning', `Reasoning Result: ${result}`);
+          sendEvent({
+            type: 'conversation.item.create',
+            item: { type: 'function_call_output', call_id: callId, output: result },
+          });
+          sendEvent({ type: 'response.create' });
+        }, 2000);
+      } else {
+        addMsg('tool', `Tool: ${fcName}(${fcArgs})`);
+        const result = execTool(fcName, parsed);
+        addMsg('tool', `Result: ${result}`);
+        sendEvent({
+          type: 'conversation.item.create',
+          item: { type: 'function_call_output', call_id: callId, output: result },
+        });
+        sendEvent({ type: 'response.create' });
+      }
+      break;
+    }
+
+    case 'response.done':
+      isResponding = false;
+      currentOutputTranscript = null;
+      currentOutputText = '';
+      currentInputText = '';
+      serverDoneStreaming = true;
+      break;
+
+    case 'error': {
+      const err = event.error || event;
+      const errStr = JSON.stringify(err);
+      // Suppress benign interruption error when no response is active.
+      if (err && err.param === 'response.cancel' && err.message === 'Conversation has no active response.') {
+        logEvent('error', 'ignored: ' + errStr);
+        break;
+      }
+      addMsg('system', 'Error: ' + errStr);
+      break;
+    }
+  }
+}
+
+// ============ Full-Duplex ============
+
+function fdToggle() {
+  if (!connected) return;
+  if (fdActive) fdStop(); else fdStart();
+}
+
+function fdStart() {
+  fdActive = true;
+  startRecording();
+  updateFdBtn();
+  setRecStatus('Full-Duplex active', 'blue');
+}
+
+function fdStop() {
+  fdActive = false;
+  stopRecording();
+  clearPlayback();
+  updateFdBtn();
+  setRecStatus('', '');
+}
+
+function updateFdBtn() {
+  const btn = getEl('fdBtn');
+  btn.classList.remove('listening');
+  if (fdActive) {
+    btn.classList.add('listening');
+    btn.innerHTML = 'Active<br><small>tap to stop</small>';
+  } else {
+    btn.innerHTML = 'Start<br>Full-Duplex';
+  }
+}
+
+</script>
+</body>
+</html>
