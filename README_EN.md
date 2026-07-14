@@ -9,13 +9,7 @@ This repository demonstrates how to call **Tongyi Speech Large Models** (includi
 ## ⭐ Latest Updates ⭐
 
 #### 2026/07/14
-- Added fun-audiochat-realtime end-to-end real-time voice conversation example (companion chat, tool calling, and reasoning routing scenarios).
-
-#### 2026/06/16
-- Added Fun-Music (Bailing Music Generation) examples, supporting music generation from prompts and lyrics.
-- Improved graceful session termination in the Omni demo.
-- Added Omni function calling example.
-
+- Added qwen-audio-3.0-realtime end-to-end real-time voice conversation example (companion chat, tool calling, and reasoning routing scenarios).
 
 ## :point_right: Getting Started
 - Clone the repository via `git clone` or download the [ZIP file](https://github.com/aliyun/alibabacloud-bailian-speech-demo/archive/refs/heads/master.zip).
@@ -72,7 +66,7 @@ This repository demonstrates how to call **Tongyi Speech Large Models** (includi
 | Sentence-Level Recognition & Translation | Real-time sentence recognition and translation | [Sentence-Level Example](./samples/speech-recognition/translate_speech_from_microphone_for_one_sentence/) |
 | Voice Chat with LLM | Voice interaction with large language models | [Alibaba Cloud Documentation](https://help.aliyun.com/zh/isi/developer-reference/voice-dialogue) |
 | Video Chat with LLM | Video chat via multimodal large models | [Omni Example](./samples/conversation/omni) |
-| End-to-End Real-Time Voice Chat | WebSocket-based real-time voice conversation SDK and examples (companion chat, tool calling, reasoning routing) | [fun-audiochat-realtime](./samples/conversation/fun-audiochat-realtime) |
+| End-to-End Real-Time Voice Chat | WebSocket-based real-time voice conversation SDK and examples (companion chat, tool calling, reasoning routing) | [qwen-audio-3.0-realtime](./samples/conversation/fun-audiochat-realtime) |
 
 ## :point_right: High-Concurrency Usage
 For Java-based services, refer to the high-concurrency guides:
@@ -91,6 +85,9 @@ The Gallery showcases creative applications built with Bailian AI capabilities. 
 This project is licensed under the [MIT License](https://opensource.org/license/MIT).
 
 ## :point_right: Changelog
+
+#### 2026/07/14
+- Added qwen-audio-3.0-realtime end-to-end real-time voice conversation example (companion chat, tool calling, and reasoning routing scenarios).
 
 #### 2026/06/16
 - Added Fun-Music (Bailing Music Generation) examples, supporting music generation from prompts and lyrics.

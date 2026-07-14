@@ -78,7 +78,7 @@
 | 一句话实时语音识别和翻译             | *实时从麦克风录音，断句并进行语音识别和翻译* | [麦克风实时一句话语音识别和翻译](./samples/speech-recognition/translate_speech_from_microphone_for_one_sentence/)                     |
 | 语音对话聊天 <img src="./docs/image/logo.svg" height="15"/>  | *通过语音与大语言模型进行对话聊天* | [阿里云文档](https://help.aliyun.com/zh/isi/developer-reference/voice-dialogue) |
 | 视频对话聊天 <img src="./docs/image/logo.svg" height="15"/>  | *通过多模态大模型进行视频聊天* | [阿里云文档](./samples/conversation/omni) |
-| 端到端实时语音对话 <img src="./docs/image/logo.svg" height="15"/>  | *基于 WebSocket 的实时语音对话 SDK 与示例，含陪伴对话、函数调用、推理路由三种智能体场景* | [fun-audiochat-realtime](./samples/conversation/fun-audiochat-realtime) |
+| 端到端实时语音对话 <img src="./docs/image/logo.svg" height="15"/>  | *基于 WebSocket 的实时语音对话 SDK 与示例，含陪伴对话、函数调用、推理路由三种智能体场景* | [qwen-audio-3.0-realtime](./samples/conversation/fun-audiochat-realtime) |
 
 
 ## :point_right: 高并发调用
