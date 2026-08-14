@@ -25,4 +25,4 @@ This example demonstrates how to concurrently synthesize speech from multiple te
 When running the example, it will concurrently synthesize "I am <voice_style>, welcome to experience Alibaba Cloud Qwen large model speech synthesis service!" using three different voice styles and save them to `results/result_v<voice_style>_p<thread_id>.mp3` files.
 
 ### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group-en.png" width="400"/>
+<img src="../../../docs/image/group.png" width="400"/>

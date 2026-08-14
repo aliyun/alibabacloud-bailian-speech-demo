@@ -256,4 +256,4 @@ python3 run_live_ai.py
 
 
 ### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
+<img src="../../../../docs/image/group.png" width="400"/>

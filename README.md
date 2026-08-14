@@ -2,16 +2,21 @@
 
 简体中文| [English](./README_EN.md) 
 
-本仓库以示例代码的形式向开发者展示如何通过<strong>阿里云百炼</strong>调用<strong>通义语音大模型</strong>（包括[CosyVoice](https://fun-audio-llm.github.io/)、[Paraformer](https://github.com/modelscope/FunASR)、[SenseVoice](https://fun-audio-llm.github.io/)、[Gummy](https://fun-audio-llm.github.io/)等），从而实现<strong>语音识别</strong>（语音转文字）、<strong>语音生成</strong>（文字转语音）等基础功能。以及如何结合阿里云百炼支持的大语言模型（包括通义OMNI、通义千问、百川、月之暗面、零一万物、MiniMax等），从而实现<strong>视频聊天对话</strong>、<strong>语音聊天对话</strong>、<strong>语音分析理解</strong>、<strong>语音翻译</strong>等高阶AI功能。
+本仓库以示例代码的形式向开发者展示如何通过<strong>阿里云百炼</strong>调用<strong>语音大模型</strong>（包括[Qwen-Audio-3.0-TTS](https://help.aliyun.com/zh/model-studio/cosyvoice-websocket-api/)、[Qwen-Audio-3.0-ASR](https://help.aliyun.com/zh/model-studio/fun-asr-realtime-websocket-api)、[CosyVoice](https://fun-audio-llm.github.io/)、[Fun-ASR](https://github.com/modelscope/FunASR)等），从而实现<strong>语音识别</strong>（语音转文字）、<strong>语音生成</strong>（文字转语音）等基础功能。以及如何结合阿里云百炼支持的大语言模型（包括千问OMNI、Qwen、百川、月之暗面、零一万物、MiniMax等），从而实现<strong>视频聊天对话</strong>、<strong>语音聊天对话</strong>、<strong>语音分析理解</strong>、<strong>语音翻译</strong>等高阶AI功能。
 
-开发者可以通过阿里云百炼提供的模型调用 :moneybag: **免费额度** :moneybag: 试用本仓库中的各个示例，还可以直接将这些示例集成进自己的项目中进一步开发。在开发过程中如有任何疑问，都可以通过我们的钉钉 / 微信群进行沟通交流。
 
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" height="200"/>
+开发者可以通过阿里云百炼提供的模型调用 :moneybag: **免费额度** :moneybag: 试用本仓库中的各个示例，还可以直接将这些示例集成进自己的项目中进一步开发。在开发过程中如有任何疑问，都可以通过我们的钉钉群进行沟通交流。
+
+<img src="./docs/image/group.png" height="200"/>
 
 ## ⭐最新动态⭐
 
+### 2026/08/14
+- 增加 Qwen-Audio-3.0-TTS 语音合成与声音复刻示例，支持通过指令控制音色风格、方言与情感。
+- 增加 Qwen-Audio-3.0-ASR 系列语音识别示例，覆盖非流式识别、流式识别（支持热词与对话上下文）与录音文件转写。
+
 ### 2026/07/14
-- 增加 qwen-audio-3.0-realtime 端到端实时语音对话模型示例（含陪伴对话、函数调用、推理路由三种场景）。
+- 增加 Qwen-Audio-3.0-Realtime 端到端实时语音对话模型示例（含陪伴对话、函数调用、推理路由三种场景）。
 
 
 更多历史发布信息请见[变更记录](#point_right-变更记录)。
@@ -23,15 +28,28 @@
 
 ## :point_right: 应用场景与开发示例
 
-* ### :rocket: 入门场景
+* ### :rocket: 推荐场景
 
-| 典型用法 | 使用说明 | 开发示例                                                                          |
-| --- | --- |-------------------------------------------------------------------------------|
-| 麦克风语音识别 | *实时从麦克风录音并进行语音识别* | [麦克风实时语音识别](./samples/speech-recognition/recognize_speech_from_microphone)    |
-| 麦克风实时语音翻译 | *实时从麦克风录音并进行语音翻译* | [麦克风实时语音翻译](./samples/speech-recognition/translate_speech_from_microphone_for_realtime_stream)    |
-| 音视频文件语音识别 | *对音视频文件进行语音识别* | [语音识别本地的单个文件](./samples/speech-recognition/recognize_speech_from_single_file) |
-| 语音合成 | *将文字合成为语音并保存到文件* | [语音合成并保存（简单模式）](./samples/speech-synthesizer/synthesize_speech_from_text)         |
-| QWEN-TTS语音合成 | *将文字合成为语音并保存到文件* | [语音合成并保存（简单模式）](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_tts_by_server_commit_mode)         |
+| 典型用法 | 使用说明 | 开发示例 |
+| --- | --- | --- |
+| Qwen-Audio-3.0-ASR 流式语音识别 | *无时长限制的实时流式识别，支持热词与对话上下文* | [流式语音识别](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming) |
+| Qwen-Audio-3.0-ASR 非流式语音识别 | *对音频 URL 一次性识别，支持对话上下文，最大 5 分钟/2GB* | [非流式语音识别](./samples/speech-recognition/recognize_speech_qwen-audio_3.0_asr_flash) |
+| Qwen-Audio-3.0-ASR 录音文件转写 | *异步转写最长 12 小时录音，支持说话人分离* | [录音文件转写](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-filetrans) |
+| Qwen-Audio-3.0-TTS 语音合成 | *指令控制音色风格、方言和情感，实时流式播放* | [指令控制语音合成](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_model) |
+| Qwen-Audio-3.0-TTS 声音复刻 | *一段音频复刻音色，用复刻音色合成任意文本* | [声音复刻并合成](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_by_cloned_voice) |
+| Qwen-Audio-3.0-Realtime 实时语音对话 | *基于 WebSocket 的端到端实时语音对话，含陪伴对话、函数调用、推理路由* | [qwen-audio-3.0-realtime](./samples/conversation/fun-audiochat-realtime) |
+
+> **更多智能体场景**：[qwen-audio-agent](https://github.com/QwenAudio/qwen-audio-agent) 提供了基于 Qwen-Audio-3.0-Realtime 构建的多种 Agent 示例，包括多轮记忆、工具编排和多模态输入，可作为生产级参考。
+
+* ### :sparkles: 进阶用法
+
+| 典型用法 | 使用说明 | 开发示例 |
+| --- | --- | --- |
+| 流式识别 + 对话上下文 | *传入对话历史或领域词表提升识别准确率，含条数与长度限制的裁剪* | [对话上下文](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming-with-context) |
+| 流式识别 + 预创建热词表 | *创建热词表拿到 ID 后复用，覆盖创建、查询、识别、删除完整生命周期* | [预创建热词表](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming-with-vocabulary) |
+| TTS 指令控制详解 | *风格指令、方言指令、情感标签、组合用法的完整示例与标签对照表* | [指令控制详解](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_by_instruction) |
+| TTS 文本正则化（TN） | *数量词、单位、百分号、范围符、热线号码、多音字等难读文本的合成效果与检查点* | [文本正则化演示](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_text_normalization) |
+| TTS All-in-One 多语言 | *单一音色 longanhuan_mtlv7 支持 16 种语言，切换语种时音色保持一致* | [多语言语音合成](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_multilingual) |
 
 
 * ### :musical_note: 音乐生成场景
@@ -47,7 +65,10 @@
 | 实时通话语音识别 | *实时对电话系统通话进行语音识别* | [麦克风实时语音识别](./samples/speech-recognition/recognize_speech_from_microphone)                    |
 | 实时回复语音合成 | *对客服机器人回复进行语音合成* | [语音合成并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode)
 | 定制音色语音合成 | *使用定制音色进行语音合成* | [复刻你的音色进行语音合成并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_text_with_cloned_voice)                       |
+| Qwen-Audio-3.0-TTS 定制音色语音合成 | *使用 Qwen-Audio-3.0-TTS 模型复刻音色并进行语音合成* | [复刻你的音色进行语音合成并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_by_cloned_voice)                       |
 | 通话录音批量语音识别 | *对客服中心通话录音文件进行批量语音识别* | [批量音视频文件语音识别（批量模式）](./samples/speech-recognition/recognize_speech_from_files_by_batch_mode) |
+| Qwen-Audio-3.0-ASR 实时通话语音识别 | *使用热词和对话上下文提升产品名、业务术语的实时识别准确率* | [Qwen-Audio-3.0-ASR 流式语音识别](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming) |
+| Qwen-Audio-3.0-ASR 通话录音质检 | *对通话录音异步转写，并通过说话人分离区分坐席与客户* | [Qwen-Audio-3.0-ASR 录音文件转写](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-filetrans) |
 
 
 * ### :loudspeaker: 语音播报及配音场景
@@ -55,6 +76,10 @@
 | --- | --- |-------------------------------------------------------------------------------------|
 | 信息播报 | *对各类文字进行语音合成* | [语音合成并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode)                |
 | 大语言模型实时输出播报 <img src="./docs/image/logo.svg" height="15"/> | *对大语言模型产生的实时输出进行语音合成并播报* | [语音合成实时LLM输出并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_llm_by_streaming_mode)      |
+| 方言与情感配音 | *通过指令指定方言与说话风格，或用行内标签控制情感* | [指令控制语音合成并播放（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_model)      |
+| 专属音色播报 | *复刻主播或品牌音色，用于持续稳定的内容播报* | [声音复刻并合成语音（流式模式）](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_by_cloned_voice)      |
+| 多语言内容播报 | *使用 All-in-One 音色一键切换 16 种语言，适合国际化内容* | [多语言语音合成](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_multilingual)      |
+| 数字与专业文本播报 | *文本正则化自动处理数量词、单位、符号，让专业内容读得自然* | [文本正则化演示](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_text_normalization)      |
 
 * ### :raising_hand: 会议语音分析理解场景
 | 典型用法 | 使用说明 | 开发示例                                                                                        |
@@ -63,6 +88,8 @@
 | 实时会议语音翻译 | *实时对会议语音进行语音翻译* | [麦克风实时语音翻译](./samples/speech-recognition/translate_speech_from_microphone_for_realtime_stream/)                    |
 | 会议录音批量语音识别 | *对会议录音文件进行批量语音识别* | [批量音视频文件语音识别（批量模式）](./samples/speech-recognition/recognize_speech_from_files_by_batch_mode) |
 | 会议录音批量语音翻译 | *对会议录音文件进行批量语音翻译* | [批量音视频文件语音翻译（批量模式）](./samples/speech-recognition/translate_speech_from_files_by_realtime_mode) |
+| Qwen-Audio-3.0-ASR 实时会议字幕 | *基于 WebSocket 长连接对无时长限制的会议音频流实时转写* | [Qwen-Audio-3.0-ASR 流式语音识别](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming) |
+| Qwen-Audio-3.0-ASR 全天会议录音转写 | *异步转写最长 12 小时的会议录音，并通过说话人分离区分发言人* | [Qwen-Audio-3.0-ASR 录音文件转写](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-filetrans) |
 
 
 * ### :film_strip: 音视频语音分析理解场景
@@ -71,6 +98,7 @@
 | 音视频批量语音识别                                                    | *对音视频文件进行批量语音识别* | [批量音视频文件语音识别（批量模式）](./samples/speech-recognition/recognize_speech_from_files_by_batch_mode)                     |
 | 音视频批量富信息语音识别                                                 | *对音视频文件中的文本/情绪/事件进行识别* | [批量音视频文件富信息语音识别（批量模式）](./samples/speech-recognition/recognize_speech_and_rich_information_from_files_by_batch_mode) |
 | 音视频摘要与问答 <img src="./docs/image/logo.svg" height="15"/> | *对音视频文件进行语音识别，并使用大模型进行摘要总结和问答* | [视频转写并进行翻译摘要和问答](./samples/speech-plus/transcribe-video-and-do-translation-summarization-and-qa)|
+| 直播与课堂实时字幕 | *对直播、公开课等长时音频流持续输出低延迟字幕* | [Qwen-Audio-3.0-ASR 流式语音识别](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming)|
 
 * ### :speech_balloon: 语音对话聊天场景
 | 典型用法 | 使用说明 | 开发示例                                       |
@@ -84,9 +112,9 @@
 ## :point_right: 高并发调用
 
 如果您使用Java搭建语音服务，请参考`高并发示例文档`获得最佳的性能。
-- [Paraformer](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-in-high-concurrency-scenarios)实时语音识别。
-- [Sambert](https://help.aliyun.com/zh/model-studio/developer-reference/sambert-in-high-concurrency-scenarios)语音合成。
-- [Cosyvoice](https://help.aliyun.com/zh/model-studio/developer-reference/high-concurrency-scenarios)大模型语音合成。
+- [实时语音识别](https://help.aliyun.com/zh/model-studio/real-time-speech-recognition-user-guide?#rt03-hc-sec)
+- [实时语音合成](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide#ug-hc-sec)
+
 
 
 ## :video_game: [Gallery](./samples/gallery)
@@ -98,8 +126,8 @@
 
 ## :point_right: 常见问题
 
-Paraformer调用常见问题请参考[QA文档](docs/QA/paraformer.md)
-CosyVoice调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
+ASR 调用常见问题请参考[QA文档](docs/QA/paraformer.md)
+TTS 调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 
 ## :point_right: 许可协议
 
@@ -107,8 +135,12 @@ CosyVoice调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 
 ## :point_right: 变更记录
 
+### 2026/08/14
+- 增加 Qwen-Audio-3.0-TTS 语音合成与声音复刻示例，支持通过指令控制音色风格、方言与情感。
+- 增加 Qwen-Audio-3.0-ASR 系列语音识别示例，覆盖非流式识别、流式识别（支持热词与对话上下文）与录音文件转写。
+
 ### 2026/07/14
-- 增加 qwen-audio-3.0-realtime 端到端实时语音对话模型示例（含陪伴对话、函数调用、推理路由三种场景）。
+- 增加 Qwen-Audio-3.0-Realtime 端到端实时语音对话模型示例（含陪伴对话、函数调用、推理路由三种场景）。
 
 ### 2026/06/16
 - 增加百聆音乐生成大模型（Fun-Music）示例，支持通过提示词和歌词生成音乐。

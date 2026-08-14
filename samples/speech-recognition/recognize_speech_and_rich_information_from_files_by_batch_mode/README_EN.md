@@ -31,4 +31,4 @@ Upon completion, the service will return the submitted files ```file_url``` and 
 In the console, brief recognition results for each file will be printed.
 
 ### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group-en.png" width="400"/>
+<img src="../../../docs/image/group.png" width="400"/>

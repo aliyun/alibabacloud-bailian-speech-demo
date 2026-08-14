@@ -1,0 +1,2 @@
+# the conversation context (raw_input) requires dashscope >= 1.25.23
+dashscope>=1.26.7

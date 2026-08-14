@@ -27,4 +27,4 @@ When running this example, it will use the Chelsie voice to synthesize the sampl
 During the streaming text synthesis, the `server_commit` mode is used, which allows the server to control the accumulation and submission logic of the text. Users only need to continuously input the text, and the system automatically determines when to start the synthesis, balancing synthesis quality and response latency. It is suitable for most developers.
 
 ### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
+<img src="../../../docs/image/group.png" width="400"/>

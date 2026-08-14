@@ -27,4 +27,4 @@ You can modify the `task_list` to add/remove tasks for synthesizing specified nu
 :information_source: **Note**: Personal account appkeys currently only support 3 concurrency. Contact us if you need to enable higher concurrency.
 
 ### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group-en.png" width="400"/>
+<img src="../../../../docs/image/group.png" width="400"/>

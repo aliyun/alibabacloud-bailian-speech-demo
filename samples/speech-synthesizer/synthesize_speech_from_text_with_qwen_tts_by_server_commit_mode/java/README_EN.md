@@ -29,4 +29,4 @@ You can modify `text_to_synthesize` to synthesize specific text.
 
 [comment]: # (technical support of the sample)
 ### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
+<img src="../../../../docs/image/group.png" width="400"/>

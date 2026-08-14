@@ -185,3 +185,14 @@ Dual-mode routing — simple questions get fast direct replies from the realtime
 - **SDK = primitives**: connection, events, audio codec. No turn state machine, no built-in router.
 - **demo_app = patterns**: application-level logic lives here, showing best practices without baking them into the SDK.
 - **Escape hatch**: `send_event()` lets you send any WebSocket message. `ServerEvent.raw` gives you the full JSON. The SDK never blocks advanced use cases.
+
+## More Agent Scenarios: qwen-audio-agent
+
+For building more sophisticated voice agents on top of Qwen-Audio-Realtime, check out **[qwen-audio-agent](https://github.com/QwenAudio/qwen-audio-agent)**. Built upon this SDK, it provides:
+
+- **Multi-turn memory management** — automatic conversation history and context summarization for long-running companion or customer-service scenarios
+- **Tool orchestration framework** — declaratively register multiple tools with automatic routing, no manual dispatch needed
+- **Multimodal input** — support for audio, image, and other modalities simultaneously
+- **Production-grade architecture** — error retry, rate limiting, logging, and monitoring best practices
+
+The three demos in this repository show **minimal SDK-level usage** (companion chat, tool agent, reasoning agent), while qwen-audio-agent demonstrates how to build **production-ready Agent systems** on top. They work best together.

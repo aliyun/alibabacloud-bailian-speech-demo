@@ -39,7 +39,12 @@ class RealtimeClient:
             "Authorization": f"Bearer {self.api_key}",
             **self.extra_headers,
         }
-        self._ws = await websockets.connect(url, additional_headers=headers)
+        # websockets >= 14 names the header argument 'additional_headers',
+        # earlier versions (>= 12) name it 'extra_headers'.
+        try:
+            self._ws = await websockets.connect(url, additional_headers=headers)
+        except TypeError:
+            self._ws = await websockets.connect(url, extra_headers=headers)
 
     async def close(self) -> None:
         if self._ws:

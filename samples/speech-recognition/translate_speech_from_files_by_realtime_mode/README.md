@@ -50,4 +50,4 @@ translation with file :hello_world_male_16k_16bit_mono.wav
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
+<img src="../../../docs/image/group.png" width="400"/>

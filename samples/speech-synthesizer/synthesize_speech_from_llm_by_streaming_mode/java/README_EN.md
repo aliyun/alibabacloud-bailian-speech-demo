@@ -23,4 +23,4 @@ Run the example. It will call the Alibaba Cloud Qwen (qwen-turbo) large language
 You can modify `query_to_llm` to change the question content.
 
 ### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group-en.png" width="400"/>
+<img src="../../../../docs/image/group.png" width="400"/>

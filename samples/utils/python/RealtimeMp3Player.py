@@ -48,12 +48,18 @@ class RealtimeMp3Player:
 
     def stop(self):
         try:
-            self.ffmpeg_process.stdin.close()
-            self.ffmpeg_process.wait()
-            self.play_thread.join()
-            self._stream.stop_stream()
-            self._stream.close()
-            self._player.terminate()
+            if self.ffmpeg_process:
+                self.ffmpeg_process.stdin.close()
+                self.ffmpeg_process.wait()
+            # play_thread is created on the first audio frame, it stays None
+            # when the task failed before any audio was received
+            if self.play_thread:
+                self.play_thread.join()
+            if self._stream:
+                self._stream.stop_stream()
+                self._stream.close()
+            if self._player:
+                self._player.terminate()
             if self.ffmpeg_process:
                 self.ffmpeg_process.terminate()
             if self.verbose:

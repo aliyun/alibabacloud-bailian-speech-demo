@@ -71,4 +71,4 @@ To run the example code in this code repository, you need to call the Alibaba Cl
 After successfully completing the above steps, please refer to the [Application Scenarios and Development Examples](https://github.com/aliyun/alibabacloud-bailian-speech-demo#point_right-应用场景与开发示例) section to choose an example to run based on your interested application scenario.
 
 ## :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group-en.png" width="400"/>
+<img src="./docs/image/group.png" width="400"/>

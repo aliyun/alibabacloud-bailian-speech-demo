@@ -25,4 +25,4 @@ When synthesizing streaming text, the `commit` mode is used, where users activel
 You can modify the `text_to_synthesize` variable to specify the text to be synthesized.
 
 ### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
+<img src="../../../../docs/image/group.png" width="400"/>

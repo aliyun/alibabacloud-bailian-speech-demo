@@ -27,4 +27,4 @@ This example demonstrates how to synthesize speech from specified text, stream t
 When running the example, it will synthesize the sample text "Time flies so fast! Yesterday when we video chatted, seeing your proud and satisfied smile made my heart as sweet as drinking a bottle of honey! I'm truly happy for you!" using the longanhuan voice style. The synthesized audio will be streamed, played through the speaker, and saved to the file `result.mp3`.
 
 ### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group-en.png" width="400"/>
+<img src="../../../docs/image/group.png" width="400"/>

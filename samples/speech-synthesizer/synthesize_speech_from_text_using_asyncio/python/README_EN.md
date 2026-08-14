@@ -27,4 +27,4 @@ When running the example, it will synthesize the sample text "Time flies so fast
 In this example, the `async_streaming_complete` function first sends the TTS completion signal, then uses the thread-safe `ThreadSafeAsyncioEvent` to asynchronously wait for the synthesis task completion.
 
 ### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group-en.png" width="400"/>
+<img src="../../../../docs/image/group.png" width="400"/>

@@ -66,4 +66,4 @@ request id: a66eac0a04a24dddadeca3acc4a64c01 usage: {'duration': 4}
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group.png" width="400"/>
+<img src="../../../docs/image/group.png" width="400"/>

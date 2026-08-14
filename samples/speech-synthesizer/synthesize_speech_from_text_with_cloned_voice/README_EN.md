@@ -35,4 +35,4 @@ When running the example, it will start recording. Please follow the prompts to 
 When running the example, it will create a cloned voice style based on your recording, and use the cloned voice style to synthesize the sample text "Hello, I'm now reading this paragraph with your cloned voice~". The synthesized audio will be streamed, played through the speaker, and saved to the file `result.mp3`.
 
 ### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group-en.png" width="400"/>
+<img src="../../../docs/image/group.png" width="400"/>

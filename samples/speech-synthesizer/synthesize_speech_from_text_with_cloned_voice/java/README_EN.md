@@ -27,4 +27,4 @@ You can specify the text to be synthesized by modifying `textArray`.
 You can batch delete voice styles with a specific prefix by executing `DeleteVoiceByPrefix`.
 
 ### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group-en.png" width="400"/>
+<img src="../../../../docs/image/group.png" width="400"/>

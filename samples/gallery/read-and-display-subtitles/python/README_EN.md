@@ -52,4 +52,4 @@ SubtitlePlayer is a simple GUI interface containing a real-time audio player. It
 
 [comment]: # (technical support of the sample)
 ### :point_right: Technical Support
-<img src="https://dashscope.oss-cn-beijing.aliyuncs.com/samples/audio/group-en.png" width="400"/>
+<img src="../../../../docs/image/group.png" width="400"/>
