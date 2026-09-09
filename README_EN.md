@@ -101,6 +101,14 @@ For Java-based services, refer to the high-concurrency guides:
 - [real-time speech synthesis](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide#ug-hc-sec)
 
 ## :video_game: [Gallery](./samples/gallery)
+
+### :sparkles: Community Projects
+
+| Project | Description | Platform |
+| --- | --- | --- |
+| [Cosight](https://github.com/MrGood4U/cosight) | Contributed by community developer [@MrGood4U](https://github.com/MrGood4U). A realtime multimodal AI assistant desktop client: talk to it while it watches your screen, and let it draw annotations on the desktop to help explain | Windows 10 or later |
+
+
 The Gallery showcases creative applications built with Bailian AI capabilities. Contribute your projects to inspire others!
 
 ## :point_right: FAQ
