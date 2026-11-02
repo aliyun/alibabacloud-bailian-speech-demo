@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## Qwen-Audio-3.0-TTS All-in-One 多语言语音合成
+## Qwen-Audio-3.1-TTS All-in-One 多语言语音合成
 
 简体中文 | [English](./README_EN.md)
 
@@ -26,7 +26,7 @@
 [comment]: # (how to run the sample and expected results)
 ### :point_right: 运行示例
 
-不带参数运行时，示例会用**同一个音色** `longanhuan_mtlv7` 依次合成 **16 种语言**的同一句问候语，实时播放并分别保存为 `result_<语种代码>.mp3`：
+不带参数运行时，示例会用**同一个音色** `longanhuan_v3.1` 依次合成 **16 种语言**的同一句问候语，实时播放并分别保存为 `result_<语种代码>.mp3`：
 
 ```commandline
 python3 run.py

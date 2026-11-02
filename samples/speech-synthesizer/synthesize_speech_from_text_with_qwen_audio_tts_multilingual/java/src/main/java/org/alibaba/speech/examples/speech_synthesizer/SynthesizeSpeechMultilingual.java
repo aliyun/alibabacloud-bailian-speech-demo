@@ -20,9 +20,9 @@ import java.util.concurrent.CountDownLatch;
 import org.alibaba.speech.utils.RealtimeMp3Player;
 
 /**
- * Qwen-Audio-3.0-TTS All-in-One Multilingual Speech Synthesis Demo
+ * Qwen-Audio-3.1-TTS All-in-One Multilingual Speech Synthesis Demo
  *
- * <p>The {@code longanhuan_mtlv7} voice is an all-in-one multilingual voice: one single voice id
+ * <p>The {@code longanhuan_v3.1} voice is an all-in-one multilingual voice: one single voice id
  * speaks 16 languages. This demo walks through all of them with the same greeting, so you can hear
  * one voice switch languages back to back while the timbre stays consistent.
  *
@@ -35,8 +35,8 @@ import org.alibaba.speech.utils.RealtimeMp3Player;
  * </ul>
  */
 public class SynthesizeSpeechMultilingual {
-  private static final String MODEL = "qwen-audio-3.0-tts-flash";
-  private static final String VOICE = "longanhuan_mtlv7";
+  private static final String MODEL = "qwen-audio-3.1-tts-flash";
+  private static final String VOICE = "longanhuan_v3.1";
 
   // Each row: { lid, displayName, instruction (null for zh/en), sampleText }
   private static final String[][] LANGUAGES = {

@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## Qwen-Audio-3.0-TTS 指令控制语音合成详解
+## Qwen-Audio-3.1-TTS 指令控制语音合成详解
 
 简体中文 | [English](./README_EN.md)
 
-本示例**专门**演示 Qwen-Audio-3.0-TTS 的 **instruction 指令控制** 能力，覆盖以下四类用法：
+本示例**专门**演示 Qwen-Audio-3.1-TTS 的 **instruction 指令控制** 能力，覆盖以下四类用法：
 
 ### 一、风格指令（Style Instruction）
 
@@ -15,8 +15,8 @@ parameters = {'instruction': instruction}
 
 with Client(api_key=get_api_key()) as client:
     with client.audio.tts.connect(
-            model='qwen-audio-3.0-tts-flash',
-            voice='longanfengyue',
+            model='qwen-audio-3.1-tts-flash',
+            voice='longanfengyue_v3.1',
             format='mp3',
             parameters=parameters) as session:
         session.send_text(text)
@@ -65,8 +65,8 @@ text = '[excited]今天的天气真不错！[laughing]我们一起出去玩吧�
 
 with Client(api_key=get_api_key()) as client:
     with client.audio.tts.connect(
-            model='qwen-audio-3.0-tts-flash',
-            voice='longanfengyue',
+            model='qwen-audio-3.1-tts-flash',
+            voice='longanfengyue_v3.1',
             format='mp3') as session:
         session.send_text(text)
 ```
@@ -82,8 +82,8 @@ parameters = {'instruction': instruction}
 
 with Client(api_key=get_api_key()) as client:
     with client.audio.tts.connect(
-            model='qwen-audio-3.0-tts-flash',
-            voice='longanfengyue',
+            model='qwen-audio-3.1-tts-flash',
+            voice='longanfengyue_v3.1',
             format='mp3',
             parameters=parameters) as session:
         session.send_text(text)
@@ -99,7 +99,7 @@ with Client(api_key=get_api_key()) as client:
 ### :point_right: 参考详情
 | 推荐模型 | API 文档 |
 | --- | --- |
-| **Qwen-Audio-3.0-TTS** (`qwen-audio-3.0-tts-flash` / `qwen-audio-3.0-tts-plus`) | [实时语音合成](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
+| **Qwen-Audio-3.1-TTS** (`qwen-audio-3.1-tts-flash` / `qwen-audio-3.1-tts-plus`) | [实时语音合成](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
 
 ### :point_right: 预期结果
 

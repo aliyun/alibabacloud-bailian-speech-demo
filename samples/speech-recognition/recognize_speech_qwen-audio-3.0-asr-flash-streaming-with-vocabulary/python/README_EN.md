@@ -52,7 +52,7 @@ service.delete_vocabulary(vocabulary_id)   # always delete to free the quota
 
 You can edit `my_vocabulary` in `run.py` to test your own hotwords. `weight` accepts **[1, 5]** (4 recommended) **or 50**:
 
-> :fire: **Super hotword (weight = 50)**: **boosts recall dramatically**, for terms that must be transcribed correctly. :warning: **At most 50 of them**, and **only the Qwen-Audio-3.0-ASR-Flash-Streaming / Filetrans / Flash series support it**. In this example `通义千问` is configured as a super hotword for demonstration.
+> :fire: **Super hotword (weight = 50)**: **boosts recall dramatically**, for terms that must be transcribed correctly. :warning: **At most 50 of them**, and **only the Qwen-Audio-3.1-ASR-Flash-Streaming / Filetrans / Flash series support it**. In this example `通义千问` is configured as a super hotword for demonstration.
 
 See the "Format and Weight" section of [the example overview](../README_EN.md) for the full weight table and hotword text limits.
 

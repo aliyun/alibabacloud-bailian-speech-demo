@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## 使用 Qwen-Audio-3.0-ASR 流式识别的预创建热词表（Vocabulary）
+## 使用 Qwen-Audio-3.1-ASR 流式识别的预创建热词表（Vocabulary）
 
 简体中文 | [English](./README_EN.md)
 
-本示例专门演示 **`qwen-audio-3.0-asr-flash-streaming`** 的**预创建热词表（Vocabulary）**能力。热词用于提升专有名词、人名、品牌名、行业术语的识别准确率。
+本示例专门演示 **`qwen-audio-3.1-asr-flash-streaming`** 的**预创建热词表（Vocabulary）**能力。热词用于提升专有名词、人名、品牌名、行业术语的识别准确率。
 
 > **对话上下文能力**请参考另一个示例：[对话上下文](../recognize_speech_qwen-audio-3.0-asr-flash-streaming-with-context)
 
@@ -65,7 +65,7 @@ my_vocabulary = [
 >
 > :warning: **三条约束**：
 > 1. **数量最多 50 个**（仅指 weight=50 的超级热词，普通热词不占用此额度）
-> 2. **仅 Qwen-Audio-3.0-ASR-Flash-Streaming / Filetrans / Flash 系列模型支持**，其他模型不支持
+> 2. **仅 Qwen-Audio-3.1-ASR-Flash-Streaming / Filetrans / Flash 系列模型支持**，其他模型不支持
 > 3. 合法取值只有 **[1, 5] 或 50**，不存在 6~49 这段。注意：实测发现服务端对越界值**不报错**（10、51 也能创建成功），但越界后的行为未定义，**请勿依赖**——写 10 并不会比 5 “更强”
 >
 > 预编译热词与即时热词均支持超级热词。
@@ -93,7 +93,7 @@ my_vocabulary = [
 
 | 推荐模型 | 模式 | API 类型 | 关键特性 |
 | --- | --- | --- | --- |
-| **qwen-audio-3.0-asr-flash-streaming** | 实时 (Real-time) | WebSocket | 支持热词、对话上下文、多语种/方言、**无时长限制** |
+| **qwen-audio-3.1-asr-flash-streaming** | 实时 (Real-time) | WebSocket | 支持热词、对话上下文、多语种/方言、**无时长限制** |
 
 🔗 **API 文档**：[实时语音识别 Python SDK](https://help.aliyun.com/zh/model-studio/fun-asr-realtime-python-sdk) ｜ [Java SDK](https://help.aliyun.com/zh/model-studio/fun-asr-realtime-java-sdk)
 

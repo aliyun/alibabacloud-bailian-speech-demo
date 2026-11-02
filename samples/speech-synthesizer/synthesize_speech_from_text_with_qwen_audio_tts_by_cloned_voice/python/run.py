@@ -15,9 +15,9 @@ sys.path.append(
 
 from RealtimeMp3Player import RealtimeMp3Player
 
-# supported models : 'qwen-audio-3.0-tts-flash'、'qwen-audio-3.0-tts-plus'
+# supported models : 'qwen-audio-3.1-tts-flash'、'qwen-audio-3.1-tts-plus'
 # the voice enrollment and the speech synthesis must use the same model
-MODEL = 'qwen-audio-3.0-tts-flash'
+MODEL = 'qwen-audio-3.1-tts-flash'
 
 # the prefix of your cloned voice name
 PREFIX = 'demo'

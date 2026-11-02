@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## 使用 Qwen-Audio-3.0-ASR 流式识别的对话上下文（Context）
+## 使用 Qwen-Audio-3.1-ASR 流式识别的对话上下文（Context）
 
 简体中文 | [English](./README_EN.md)
 
-本示例专门演示 **`qwen-audio-3.0-asr-flash-streaming`** 的**对话上下文（`context`）**能力。通过传入前几轮的对话内容或领域术语，模型能在特定语境下显著提升专有名词、人名、行业术语的识别准确率。
+本示例专门演示 **`qwen-audio-3.1-asr-flash-streaming`** 的**对话上下文（`context`）**能力。通过传入前几轮的对话内容或领域术语，模型能在特定语境下显著提升专有名词、人名、行业术语的识别准确率。
 
 > **热词能力**请参考另一个示例：[预创建热词表](../recognize_speech_qwen-audio-3.0-asr-flash-streaming-with-vocabulary)
 
@@ -61,7 +61,7 @@ context = {'context': [
 - `input_text` 与 `text` 类型消息**各最多 5 条**，超出时保留最近 5 条
 - 每轮上下文文本总长度**不超过 400 字符**，超出部分从末尾截断
 - 消息必须**按对话轮次排列**，每轮中 `user`（`input_text`）必须在对应的 `assistant`（`text`）**之前**
-- 仅 `qwen-audio-3.0-asr-flash-streaming`、`fun-asr-realtime` 及 `fun-asr-realtime-2025-11-07` 支持 `context`
+- 仅 `qwen-audio-3.1-asr-flash-streaming`、`fun-asr-realtime` 及 `fun-asr-realtime-2025-11-07` 支持 `context`
 - :warning: **Python 与 Java 版本都需要 `DASHSCOPE_WORKSPACE_ID` 环境变量**：qwen-audio 系列模型使用 workspace 专属接入点 `https://{WORKSPACE_ID}.cn-beijing.maas.aliyuncs.com`，未设置时示例会打印提示并退出。
 
 [comment]: # (supported programming languages of the sample)
@@ -74,7 +74,7 @@ context = {'context': [
 
 | 推荐模型 | 模式 | API 类型 | 关键特性 |
 | --- | --- | --- | --- |
-| **qwen-audio-3.0-asr-flash-streaming** | 实时 (Real-time) | WebSocket | 支持对话上下文、热词、多语种/方言、**无时长限制** |
+| **qwen-audio-3.1-asr-flash-streaming** | 实时 (Real-time) | WebSocket | 支持对话上下文、热词、多语种/方言、**无时长限制** |
 
 🔗 **API 文档**：[实时语音识别 Python SDK](https://help.aliyun.com/zh/model-studio/fun-asr-realtime-python-sdk) ｜ [Java SDK](https://help.aliyun.com/zh/model-studio/fun-asr-realtime-java-sdk)
 

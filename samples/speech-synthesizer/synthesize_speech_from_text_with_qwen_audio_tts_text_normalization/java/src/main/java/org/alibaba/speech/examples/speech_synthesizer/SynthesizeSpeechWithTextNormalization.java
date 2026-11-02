@@ -19,7 +19,7 @@ import java.util.concurrent.CountDownLatch;
 import org.alibaba.speech.utils.RealtimeMp3Player;
 
 /**
- * Qwen-Audio-3.0-TTS Text Normalization (TN) Demo
+ * Qwen-Audio-3.1-TTS Text Normalization (TN) Demo
  *
  * <p>Text Normalization is the step that turns "written form" into "spoken form" before acoustic
  * synthesis: digits, units, symbols and abbreviations all have to be expanded into the words a
@@ -28,8 +28,8 @@ import org.alibaba.speech.utils.RealtimeMp3Player;
  * listen for (checkpoints) so you can compare against what you hear.
  */
 public class SynthesizeSpeechWithTextNormalization {
-  private static final String MODEL = "qwen-audio-3.0-tts-flash";
-  private static final String VOICE = "longanfengyue";
+  private static final String MODEL = "qwen-audio-3.1-tts-flash";
+  private static final String VOICE = "longanfengyue_v3.1";
 
   // =========================================================================
   // Test passages and checkpoints
@@ -54,7 +54,7 @@ public class SynthesizeSpeechWithTextNormalization {
 
   public static void main(String[] args) {
     System.out.println("======================================================================");
-    System.out.println(" Qwen-Audio-3.0-TTS 文本正则化（TN）能力演示");
+    System.out.println(" Qwen-Audio-3.1-TTS 文本正则化（TN）能力演示");
     System.out.println(" 以下 3 段文本密集包含数量词、单位、符号、号码与多音字，");
     System.out.println(" 请边听边对照每段列出的检查点。");
     System.out.println("======================================================================");

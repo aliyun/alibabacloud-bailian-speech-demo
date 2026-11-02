@@ -9,13 +9,13 @@ import time
 
 from dashscope import Client
 
-# This demo shows how to use qwen-audio-3.0-asr-flash-streaming with a precompiled
+# This demo shows how to use qwen-audio-3.1-asr-flash-streaming with a precompiled
 # vocabulary: create the vocabulary list to get its id, pass the id when recognizing,
 # and delete the list afterwards.
 # for more information, please refer to https://help.aliyun.com/document_detail/2712536.html
 
-# supported model : 'qwen-audio-3.0-asr-flash-streaming'
-MODEL = 'qwen-audio-3.0-asr-flash-streaming'
+# supported model : 'qwen-audio-3.1-asr-flash-streaming'
+MODEL = 'qwen-audio-3.1-asr-flash-streaming'
 
 # the prefix of your vocabulary name
 PREFIX = 'demo'
@@ -57,7 +57,7 @@ def recognize_speech_with_vocabulary(audio_path):
         # define the precompiled vocabulary.
         # 'weight' accepts [1, 5] (regular hotword, 4 recommended) or 50 (super
         # hotword). A super hotword boosts recall dramatically, but at most 50 of
-        # them are allowed and only the qwen-audio-3.0-asr-flash-streaming /
+        # them are allowed and only the qwen-audio-3.1-asr-flash-streaming /
         # -filetrans / -flash series support it.
         my_vocabulary = [
             {'text': '语音实验室', 'weight': 4},  # regular hotword

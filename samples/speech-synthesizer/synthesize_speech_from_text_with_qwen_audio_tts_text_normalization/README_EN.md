@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## Qwen-Audio-3.0-TTS Text Normalization (TN) Showcase
+## Qwen-Audio-3.1-TTS Text Normalization (TN) Showcase
 
 [简体中文](./README.md) | English
 
@@ -12,7 +12,7 @@
 | `965113` | nine hundred sixty-five thousand ... | digit by digit (九六五一一三) |
 | `150石` | 一百五十 **shí** | 一百五十 **dàn** |
 
-This sample feeds Qwen-Audio-3.0-TTS three **deliberately difficult** Chinese passages, densely packed with quantities, rare measure words, polyphonic characters, percent signs, full-width tilde ranges, hotline numbers and time spans.
+This sample feeds Qwen-Audio-3.1-TTS three **deliberately difficult** Chinese passages, densely packed with quantities, rare measure words, polyphonic characters, percent signs, full-width tilde ranges, hotline numbers and time spans.
 
 ### :point_right: The three passages and what to listen for
 
@@ -67,7 +67,7 @@ This sample therefore makes no automatic assertions. Instead it prints a **check
 ### :point_right: Reference
 | Recommended Model | API Documentation |
 | --- | --- |
-| **Qwen-Audio-3.0-TTS** (`qwen-audio-3.0-tts-flash` / `qwen-audio-3.0-tts-plus`) | [Realtime Speech Synthesis](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
+| **Qwen-Audio-3.1-TTS** (`qwen-audio-3.1-tts-flash` / `qwen-audio-3.1-tts-plus`) | [Realtime Speech Synthesis](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
 
 ### :point_right: Expected Results
 

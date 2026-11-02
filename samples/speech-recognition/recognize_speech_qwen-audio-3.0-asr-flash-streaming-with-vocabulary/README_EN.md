@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## Precompiled Vocabulary for Qwen-Audio-3.0-ASR Streaming Recognition
+## Precompiled Vocabulary for Qwen-Audio-3.1-ASR Streaming Recognition
 
 English | [简体中文](./README.md)
 
-This example specifically demonstrates the **precompiled vocabulary** capability of **`qwen-audio-3.0-asr-flash-streaming`**. Hotwords improve the recognition accuracy of proper nouns, personal names, brand names, and industry jargon.
+This example specifically demonstrates the **precompiled vocabulary** capability of **`qwen-audio-3.1-asr-flash-streaming`**. Hotwords improve the recognition accuracy of proper nouns, personal names, brand names, and industry jargon.
 
 > For the **conversation context** capability, see the other example: [Conversation Context](../recognize_speech_qwen-audio-3.0-asr-flash-streaming-with-context)
 
@@ -65,7 +65,7 @@ Start from `weight=4` and tune step by step based on the results.
 >
 > :warning: **Three constraints:**
 > 1. **At most 50 super hotwords** (only weight=50 entries count; regular hotwords do not consume this quota)
-> 2. **Only the Qwen-Audio-3.0-ASR-Flash-Streaming / Filetrans / Flash series support it** — other models do not
+> 2. **Only the Qwen-Audio-3.1-ASR-Flash-Streaming / Filetrans / Flash series support it** — other models do not
 > 3. The only valid values are **[1, 5] or 50**; there is no 6~49 range. Note: in our tests the service **does not report an error** for out-of-range values (10 and 51 were accepted), but the resulting behaviour is undefined — **do not rely on it**; 10 is not "stronger" than 5
 >
 > Both precompiled and instant hotwords support super hotwords.
@@ -93,7 +93,7 @@ Other fields and limits:
 
 | Model | Mode | API Type | Key Features |
 | --- | --- | --- | --- |
-| **qwen-audio-3.0-asr-flash-streaming** | Real-time | WebSocket | Hotwords, dialog context, multilingual/dialects, **no duration limit** |
+| **qwen-audio-3.1-asr-flash-streaming** | Real-time | WebSocket | Hotwords, dialog context, multilingual/dialects, **no duration limit** |
 
 🔗 **API Docs**: [Realtime ASR Python SDK](https://help.aliyun.com/zh/model-studio/fun-asr-realtime-python-sdk) ｜ [Java SDK](https://help.aliyun.com/zh/model-studio/fun-asr-realtime-java-sdk)
 

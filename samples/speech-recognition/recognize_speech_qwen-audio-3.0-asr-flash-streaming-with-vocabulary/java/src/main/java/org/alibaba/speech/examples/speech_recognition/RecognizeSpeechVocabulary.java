@@ -21,13 +21,13 @@ import java.nio.file.Paths;
 
 /**
  * A demo of streaming recognition with a pre-created custom vocabulary, using
- * qwen-audio-3.0-asr-flash-streaming. The full flow is: create a vocabulary -> get its id -> pass
+ * qwen-audio-3.1-asr-flash-streaming. The full flow is: create a vocabulary -> get its id -> pass
  * the id when recognizing -> delete the vocabulary. for more information, please refer to
  * https://help.aliyun.com/document_detail/2712536.html
  */
 public class RecognizeSpeechVocabulary {
-  // supported model : 'qwen-audio-3.0-asr-flash-streaming'
-  private static final String MODEL = "qwen-audio-3.0-asr-flash-streaming";
+  // supported model : 'qwen-audio-3.1-asr-flash-streaming'
+  private static final String MODEL = "qwen-audio-3.1-asr-flash-streaming";
 
   // the local audio file, relative to the JVM working directory (the java module directory)
   private static final String AUDIO_RELATIVE_PATH =
@@ -39,7 +39,7 @@ public class RecognizeSpeechVocabulary {
 
     // Build the custom vocabulary. "text" is the hotword, "weight" accepts [1, 5] (regular
     // hotword, 4 recommended) or 50 (super hotword). A super hotword boosts recall dramatically,
-    // but at most 50 of them are allowed and only the qwen-audio-3.0-asr-flash-streaming,
+    // but at most 50 of them are allowed and only the qwen-audio-3.1-asr-flash-streaming,
     // -filetrans and -flash series support it.
     JsonArray vocabularyJson = new JsonArray();
 

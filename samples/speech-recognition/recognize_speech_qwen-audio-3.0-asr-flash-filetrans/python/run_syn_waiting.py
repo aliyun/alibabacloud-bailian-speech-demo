@@ -17,8 +17,8 @@ sys.path.append(
 # thread until the task finishes (async submit + synchronous wait).
 # for more information, please refer to https://help.aliyun.com/document_detail/2712535.html
 
-# supported model : 'qwen-audio-3.0-asr-flash-filetrans'
-MODEL = 'qwen-audio-3.0-asr-flash-filetrans'
+# supported model : 'qwen-audio-3.1-asr-flash-filetrans'
+MODEL = 'qwen-audio-3.1-asr-flash-filetrans'
 
 # the audio url, must be accessible from the public network
 AUDIO_URL = 'https://gw.alipayobjects.com/os/bmw-prod/0574ee2e-f494-45a5-820f-63aee583045a.wav'
@@ -97,7 +97,7 @@ if __name__ == '__main__':
     try:
         # async submit the transcription task, returns immediately with a task id
         # language_hints (optional): zh=Chinese, en=English. Leave it unset to let the
-        # model detect the language automatically. qwen-audio-3.0-asr-flash-filetrans
+        # model detect the language automatically. qwen-audio-3.1-asr-flash-filetrans
         # supports up to 4 values (only the first 4 take effect).
         job = client.audio.asr.transcribe(
             model=MODEL,

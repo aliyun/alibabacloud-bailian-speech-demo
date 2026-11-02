@@ -2,7 +2,7 @@
 
 English | [简体中文](./README.md)
 
-This example uses the DashScope SDK 2.0.2 `Client`/v2 API and Qwen-Audio-3.0-TTS to narrate a complete story by role. It is suitable for audiobooks, online education, and similar scenarios.
+This example uses the DashScope SDK 2.0.2 `Client`/v2 API and Qwen-Audio-3.1-TTS to narrate a complete story by role. It is suitable for audiobooks, online education, and similar scenarios.
 <!--
 ### :point_right: Applicable Scenarios
 
@@ -32,7 +32,7 @@ This example uses the DashScope SDK 2.0.2 `Client`/v2 API and Qwen-Audio-3.0-TTS
 python3 run.py
 ```
 
-The `qwen-audio-3.0-tts-flash` model narrates "Duck Mother," "Duck Baby," and "Narrator" with the verified `longanfengyue` voice. The code keeps a separate voice variable for each role so you can replace them with other voices available to your account. The story content is stored in `story.json`.
+The `qwen-audio-3.1-tts-flash` model narrates "Duck Mother," "Duck Baby," and "Narrator" with the verified `longanfengyue_v3.1` voice. The code keeps a separate voice variable for each role so you can replace them with other voices available to your account. The story content is stored in `story.json`.
 
 [comment]: # (technical support of the sample)
 ### :point_right: Technical Support

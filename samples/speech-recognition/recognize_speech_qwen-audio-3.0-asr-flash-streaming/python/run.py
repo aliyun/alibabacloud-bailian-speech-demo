@@ -9,7 +9,7 @@ import threading
 from dashscope import Client
 
 # This demo shows the most basic real-time speech recognition with
-# qwen-audio-3.0-asr-flash-streaming: read a local audio file, send it to the
+# qwen-audio-3.1-asr-flash-streaming: read a local audio file, send it to the
 # service frame by frame, and print the recognition result.
 #
 # Advanced capabilities are demonstrated in dedicated samples:
@@ -18,8 +18,8 @@ from dashscope import Client
 #
 # for more information, please refer to https://help.aliyun.com/document_detail/2712536.html
 
-# supported model : 'qwen-audio-3.0-asr-flash-streaming'
-MODEL = 'qwen-audio-3.0-asr-flash-streaming'
+# supported model : 'qwen-audio-3.1-asr-flash-streaming'
+MODEL = 'qwen-audio-3.1-asr-flash-streaming'
 
 
 def get_api_key():

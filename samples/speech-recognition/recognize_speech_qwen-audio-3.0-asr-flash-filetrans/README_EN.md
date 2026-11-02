@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## Long Audio Asynchronous Transcription with Speaker Diarization using Qwen-Audio-3.0-ASR-Flash-Filetrans
+## Long Audio Asynchronous Transcription with Speaker Diarization using Qwen-Audio-3.1-ASR-Flash-Filetrans
 
 English | [简体中文](./README.md)
 
-This example demonstrates how to perform **non-real-time (asynchronous)** speech recognition on **long audio files** using the **`qwen-audio-3.0-asr-flash-filetrans`** model on Alibaba Cloud Bailian. Based on the **HTTP** protocol, this model supports massive audio files up to **12 hours** or **2GB**, offers robust multilingual and dialect recognition, features built-in **Speaker Diarization**, and enhances accuracy via **Prompt Context** and **Hotwords**.
+This example demonstrates how to perform **non-real-time (asynchronous)** speech recognition on **long audio files** using the **`qwen-audio-3.1-asr-flash-filetrans`** model on Alibaba Cloud Bailian. Based on the **HTTP** protocol, this model supports massive audio files up to **12 hours** or **2GB**, offers robust multilingual and dialect recognition, features built-in **Speaker Diarization**, and enhances accuracy via **Prompt Context** and **Hotwords**.
 
 [comment]: # (list of scenarios of the sample)
 ### :point_right: Applicable Scenarios
@@ -24,7 +24,7 @@ This example demonstrates how to perform **non-real-time (asynchronous)** speech
 
 | Recommended Model | Mode | API Type | Key Features |
 | ----- | ----- | ----- | ----- |
-| **qwen-audio-3.0-asr-flash-filetrans** | Non-Real-Time (Asynchronous) | HTTP | Hotwords, Prompt Context, **Speaker Diarization**, Multilingual/Dialects, Max 12 hrs/2GB |
+| **qwen-audio-3.1-asr-flash-filetrans** | Non-Real-Time (Asynchronous) | HTTP | Hotwords, Prompt Context, **Speaker Diarization**, Multilingual/Dialects, Max 12 hrs/2GB |
 
 🔗 **API Documentation**: [Qwen-Audio File Transcription API Reference](https://help.aliyun.com/en/model-studio/non-realtime-speech-recognition-user-guide)
 

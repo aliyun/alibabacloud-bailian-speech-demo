@@ -35,10 +35,10 @@ player = RealtimeMp3Player()
 # start player
 player.start()
 
-model = 'qwen-audio-3.0-tts-flash'
-voice_narrator = 'longanfengyue'
-voice_motherDuck = 'longanfengyue'
-voice_babyDuck = 'longanfengyue'
+model = 'qwen-audio-3.1-tts-flash'
+voice_narrator = 'longanfengyue_v3.1'
+voice_motherDuck = 'longanfengyue_v3.1'
+voice_babyDuck = 'longanfengyue_v3.1'
 
 # Please replace the path with your audio file path
 current_dir = os.path.dirname(os.path.abspath(__file__))

@@ -3,10 +3,10 @@
 # MIT License (https://opensource.org/licenses/MIT)
 
 """
-Qwen-Audio-3.0-TTS Instruction-Controlled Speech Synthesis Demo
+Qwen-Audio-3.1-TTS Instruction-Controlled Speech Synthesis Demo
 
 This demo showcases the full range of instruction control capabilities
-supported by the Qwen-Audio-3.0-TTS model:
+supported by the Qwen-Audio-3.1-TTS model:
 
   1. Style instruction   — describe the desired voice persona (tone, speed, emotion)
   2. Dialect instruction — synthesize in a specific Chinese dialect
@@ -33,9 +33,9 @@ from RealtimeMp3Player import RealtimeMp3Player
 # ===========================================================================
 # Configuration
 # ===========================================================================
-# Supported models: 'qwen-audio-3.0-tts-flash', 'qwen-audio-3.0-tts-plus'
-MODEL = 'qwen-audio-3.0-tts-flash'
-DEFAULT_VOICE = 'longanfengyue'
+# Supported models: 'qwen-audio-3.1-tts-flash', 'qwen-audio-3.1-tts-plus'
+MODEL = 'qwen-audio-3.1-tts-flash'
+DEFAULT_VOICE = 'longanfengyue_v3.1'
 
 
 def get_api_key():

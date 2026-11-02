@@ -9,7 +9,7 @@ import threading
 from dashscope import Client
 
 # This demo focuses on the conversation context (`context`) of
-# qwen-audio-3.0-asr-flash-streaming. The context is passed through the
+# qwen-audio-3.1-asr-flash-streaming. The context is passed through the
 # input context and helps the model recognize domain-specific words,
 # proper nouns and follow-up utterances more accurately.
 #
@@ -25,8 +25,8 @@ from dashscope import Client
 #
 # for more information, please refer to https://help.aliyun.com/document_detail/2712536.html
 
-# supported model : 'qwen-audio-3.0-asr-flash-streaming'
-MODEL = 'qwen-audio-3.0-asr-flash-streaming'
+# supported model : 'qwen-audio-3.1-asr-flash-streaming'
+MODEL = 'qwen-audio-3.1-asr-flash-streaming'
 
 # the service keeps at most 5 messages for each content type
 MAX_MESSAGES_PER_TYPE = 5

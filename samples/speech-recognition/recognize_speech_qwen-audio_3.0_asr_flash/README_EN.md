@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## High-Precision Non-Streaming Speech Recognition with Qwen-Audio-3.0-ASR-Flash
+## High-Precision Non-Streaming Speech Recognition with Qwen-Audio-3.1-ASR-Flash
 
 English | [简体中文](./README.md)
 
-This example demonstrates how to perform **non-streaming** speech recognition using the **`qwen-audio-3.0-asr-flash`** model on Alibaba Cloud Bailian. This model supports audio files up to **2GB** or **5 minutes** in length, offers robust multilingual and dialect recognition, and enhances accuracy via **Prompt Context** and **Hotwords**.
+This example demonstrates how to perform **non-streaming** speech recognition using the **`qwen-audio-3.1-asr-flash`** model on Alibaba Cloud Bailian. This model supports audio files up to **2GB** or **5 minutes** in length, offers robust multilingual and dialect recognition, and enhances accuracy via **Prompt Context** and **Hotwords**.
 
 [comment]: # (list of scenarios of the sample)
 ### :point_right: Applicable Scenarios
@@ -24,7 +24,7 @@ This example demonstrates how to perform **non-streaming** speech recognition us
 
 | Recommended Model | Mode | API Type | Key Features |
 | ----- | ----- | ----- | ----- |
-| **qwen-audio-3.0-asr-flash** | Non-Streaming | HTTP | Hotwords, Prompt Context, Multilingual/Dialects, Max 5 mins/2GB |
+| **qwen-audio-3.1-asr-flash** | Non-Streaming | HTTP | Hotwords, Prompt Context, Multilingual/Dialects, Max 5 mins/2GB |
 
 🔗 **API Documentation**: [Qwen-Audio-3.0  Speech Recognition API Reference](https://help.aliyun.com/en/model-studio/non-realtime-speech-recognition-user-guide#nrt02-funasr-flash-h2)
 

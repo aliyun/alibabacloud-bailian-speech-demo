@@ -2,9 +2,9 @@
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 """
-Qwen-Audio-3.0-TTS All-in-One Multilingual Speech Synthesis Demo
+Qwen-Audio-3.1-TTS All-in-One Multilingual Speech Synthesis Demo
 
-The `longanhuan_mtlv7` voice is an *all-in-one* multilingual voice: one single
+The `longanhuan_v3.1` voice is an *all-in-one* multilingual voice: one single
 voice id speaks 16 languages, so you do not have to switch voices — and the
 speaker timbre stays recognizably the same across all of them. This is what
 makes it suitable for one brand voice serving a global audience.
@@ -39,11 +39,11 @@ from RealtimeMp3Player import RealtimeMp3Player
 # ===========================================================================
 # Configuration
 # ===========================================================================
-# Supported models: 'qwen-audio-3.0-tts-flash', 'qwen-audio-3.0-tts-plus'
-MODEL = 'qwen-audio-3.0-tts-flash'
+# Supported models: 'qwen-audio-3.1-tts-flash', 'qwen-audio-3.1-tts-plus'
+MODEL = 'qwen-audio-3.1-tts-flash'
 
 # The all-in-one multilingual voice: one voice id, 16 languages.
-VOICE = 'longanhuan_mtlv7'
+VOICE = 'longanhuan_v3.1'
 
 # The 16 supported languages. `instruction` is None for Chinese and English,
 # because those two are recognized from `language_hints` alone. For every other

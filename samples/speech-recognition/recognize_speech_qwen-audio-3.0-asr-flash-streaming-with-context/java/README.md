@@ -57,7 +57,7 @@ Map<String, Object> input = new HashMap<>();
 input.put("context", Arrays.asList(userMessage));
 
 RecognitionParam param = RecognitionParam.builder()
-    .model("qwen-audio-3.0-asr-flash-streaming")
+    .model("qwen-audio-3.1-asr-flash-streaming")
     .format("wav")
     .sampleRate(16000)
     .input(input)

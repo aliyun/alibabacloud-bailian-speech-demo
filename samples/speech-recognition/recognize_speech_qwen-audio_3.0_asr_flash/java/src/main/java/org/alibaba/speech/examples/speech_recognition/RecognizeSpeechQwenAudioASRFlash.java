@@ -19,13 +19,13 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * A demo of qwen-audio-3.0-asr-flash speech recognition in non-streaming mode with conversation
+ * A demo of qwen-audio-3.1-asr-flash speech recognition in non-streaming mode with conversation
  * context. The context helps to improve the recognition accuracy of proper nouns. for more
  * information, please refer to https://help.aliyun.com/document_detail/2712536.html
  */
 public class RecognizeSpeechQwenAudioASRFlash {
-  // supported model : 'qwen-audio-3.0-asr-flash'
-  private static final String MODEL = "qwen-audio-3.0-asr-flash";
+  // supported model : 'qwen-audio-3.1-asr-flash'
+  private static final String MODEL = "qwen-audio-3.1-asr-flash";
 
   // the audio url, must be accessible from the public network, or a base64 data uri
   private static final String AUDIO_URL =

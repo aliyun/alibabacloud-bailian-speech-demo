@@ -21,9 +21,7 @@ English | [简体中文](./README.md)
 
 You can run this example by executing `run.sh` (for Linux and Mac systems) or `run.bat` (for Windows systems).
 
-When the example runs, it will use the Chelsie voice to synthesize a stream of sample text. The synthesized audio will be delivered in a streaming manner and played through the speaker.
-
-When the example runs, it will synthesize a sample text stream using the longanfengyue voice. The synthesized audio will be delivered in a streaming manner and played through the speaker.
+When the example runs, it will synthesize a sample text stream using the longanfengyue_v3.1 voice. The synthesized audio will be delivered in a streaming manner and played through the speaker.
 
 You can modify `textToSynthesize` to synthesize specific text.
 

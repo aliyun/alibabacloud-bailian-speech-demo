@@ -2,14 +2,15 @@
 
 English | [简体中文](./README.md)
 
-This repository demonstrates how to call **Speech Large Models** (including [Qwen-Audio-3.0-TTS](https://help.aliyun.com/zh/model-studio/cosyvoice-websocket-api/), [Qwen-Audio-3.0-ASR](https://help.aliyun.com/zh/model-studio/fun-asr-realtime-websocket-api), [CosyVoice](https://fun-audio-llm.github.io/), [Fun-ASR](https://github.com/modelscope/FunASR), etc.) via **Alibaba Cloud Bailian**, enabling functions like **speech recognition** (speech-to-text), **speech synthesis** (text-to-speech), and advanced AI capabilities such as **voice chat**, **audio analysis**, and **real-time translation** when integrated with large language models (e.g., Qwen-OMNI, Qwen, Baichuan, Moonshot, 01.AI, MiniMax). Developers can test examples using Bailian's **free quota** and integrate these samples into their projects for further development. For technical support, join our DingTalk group.
+This repository demonstrates how to call **Speech Large Models** (including [Qwen-Audio-3.1-TTS](https://help.aliyun.com/zh/model-studio/cosyvoice-websocket-api/), [Qwen-Audio-3.1-ASR](https://help.aliyun.com/zh/model-studio/fun-asr-realtime-websocket-api), [CosyVoice](https://fun-audio-llm.github.io/), [Fun-ASR](https://github.com/modelscope/FunASR), etc.) via **Alibaba Cloud Bailian**, enabling functions like **speech recognition** (speech-to-text), **speech synthesis** (text-to-speech), and advanced AI capabilities such as **voice chat**, **audio analysis**, and **real-time translation** when integrated with large language models (e.g., Qwen-OMNI, Qwen, Baichuan, Moonshot, 01.AI, MiniMax). Developers can test examples using Bailian's **free quota** and integrate these samples into their projects for further development. For technical support, join our DingTalk group.
 
 <img src="./docs/image/group.png" height="200"/>
 
 ## ⭐ Latest Updates ⭐
 
 #### 2026/11/02
-- Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs; MultiModalDialog examples are outside this migration scope.
+- Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs; qwen-tts and MultiModalDialog examples are outside this migration scope.
+- Upgraded Qwen-Audio ASR, streaming ASR, recorded-file transcription, and TTS examples to verified 3.1 models and voices.
 
 #### 2026/08/14
 - Added Qwen-Audio-3.0-TTS speech synthesis and voice cloning examples, with voice style, dialect and emotion controllable by instruction.
@@ -27,11 +28,11 @@ This repository demonstrates how to call **Speech Large Models** (including [Qwe
 ### :rocket: Recommended Scenarios
 | Use Case | Description | Example |
 |---------|-------------|---------|
-| Qwen-Audio-3.0-ASR Streaming Recognition | Unlimited-duration real-time streaming recognition with hotwords and dialog context | [Streaming Recognition](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming) |
-| Qwen-Audio-3.0-ASR Non-Streaming Recognition | One-shot recognition of an audio URL, with dialog context, up to 5 min / 2 GB | [Non-Streaming Recognition](./samples/speech-recognition/recognize_speech_qwen-audio_3.0_asr_flash) |
-| Qwen-Audio-3.0-ASR File Transcription | Asynchronous transcription of recordings up to 12 hours, with speaker diarization | [File Transcription](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-filetrans) |
-| Qwen-Audio-3.0-TTS Synthesis | Control style, dialect and emotion by instruction, with real-time streaming playback | [Instruction-Controlled Synthesis](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_model) |
-| Qwen-Audio-3.0-TTS Voice Cloning | Clone a voice from one audio sample and synthesize any text with it | [Voice Cloning Synthesis](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_by_cloned_voice) |
+| Qwen-Audio-3.1-ASR Streaming Recognition | Unlimited-duration real-time streaming recognition with hotwords and dialog context | [Streaming Recognition](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming) |
+| Qwen-Audio-3.1-ASR Non-Streaming Recognition | One-shot recognition of an audio URL, with dialog context, up to 5 min / 2 GB | [Non-Streaming Recognition](./samples/speech-recognition/recognize_speech_qwen-audio_3.0_asr_flash) |
+| Qwen-Audio-3.1-ASR File Transcription | Asynchronous transcription of recordings up to 12 hours, with speaker diarization | [File Transcription](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-filetrans) |
+| Qwen-Audio-3.1-TTS Synthesis | Control style, dialect and emotion by instruction, with real-time streaming playback | [Instruction-Controlled Synthesis](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_model) |
+| Qwen-Audio-3.1-TTS Voice Cloning | Clone a voice from one audio sample and synthesize any text with it | [Voice Cloning Synthesis](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_by_cloned_voice) |
 | Qwen-Audio-3.0-Realtime Voice Chat | End-to-end real-time voice conversation over WebSocket (companion chat, tool calling, reasoning routing) | [qwen-audio-3.0-realtime](./samples/conversation/fun-audiochat-realtime) |
 
 > **More Agent scenarios**: [qwen-audio-agent](https://github.com/QwenAudio/qwen-audio-agent) provides production-grade Agent examples built on Qwen-Audio-3.0-Realtime, including multi-turn memory, tool orchestration, and multimodal input.
@@ -43,7 +44,7 @@ This repository demonstrates how to call **Speech Large Models** (including [Qwe
 | Streaming + Precompiled Vocabulary | Create a vocabulary once and reuse by ID; covers the full create/query/recognize/delete lifecycle | [Precompiled Vocabulary](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming-with-vocabulary) |
 | TTS Instruction Guide | Style, dialect, emotion tags and combined usage with a full tag reference table | [Instruction Guide](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_by_instruction) |
 | TTS Text Normalization (TN) | Synthesis of hard-to-read text: quantities, units, percent signs, ranges, hotline numbers and polyphones | [Text Normalization Showcase](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_text_normalization) |
-| TTS All-in-One Multilingual | One single voice longanhuan_mtlv7 speaks 16 languages while keeping the same timbre | [Multilingual Synthesis](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_multilingual) |
+| TTS All-in-One Multilingual | One single voice longanhuan_v3.1 speaks 16 languages while keeping the same timbre | [Multilingual Synthesis](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_multilingual) |
 
 ### :musical_note: Music Generation
 | Use Case | Description | Example |
@@ -57,10 +58,10 @@ This repository demonstrates how to call **Speech Large Models** (including [Qwe
 | Real-Time Call Recognition | Real-time speech recognition for call systems | [Microphone Real-Time Recognition](./samples/speech-recognition/recognize_speech_from_microphone) |
 | Real-Time Agent Response Synthesis | Synthesize agent responses | [Streaming Synthesis](./samples/speech-synthesizer/synthesize_speech_from_text_by_streaming_mode) |
 | Custom Voice Synthesis | Voice cloning for personalized TTS | [Voice Cloning Example](./samples/speech-synthesizer/synthesize_speech_from_text_with_cloned_voice) |
-| Custom Voice Synthesis by Qwen-Audio-3.0-TTS | Voice cloning with the Qwen-Audio-3.0-TTS model | [Voice Cloning Example](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_by_cloned_voice) |
+| Custom Voice Synthesis by Qwen-Audio-3.1-TTS | Voice cloning with the Qwen-Audio-3.1-TTS model | [Voice Cloning Example](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_by_cloned_voice) |
 | Batch Call Recording Recognition | Batch processing of call recordings | [Batch Mode Recognition](./samples/speech-recognition/recognize_speech_from_files_by_batch_mode) |
-| Qwen-Audio-3.0-ASR Real-Time Call Recognition | Improve accuracy on product names and business terms with hotwords and dialog context | [Qwen-Audio-3.0-ASR Streaming Recognition](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming) |
-| Qwen-Audio-3.0-ASR Call Recording Review | Asynchronously transcribe calls and separate agent from customer via speaker diarization | [Qwen-Audio-3.0-ASR File Transcription](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-filetrans) |
+| Qwen-Audio-3.1-ASR Real-Time Call Recognition | Improve accuracy on product names and business terms with hotwords and dialog context | [Qwen-Audio-3.1-ASR Streaming Recognition](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming) |
+| Qwen-Audio-3.1-ASR Call Recording Review | Asynchronously transcribe calls and separate agent from customer via speaker diarization | [Qwen-Audio-3.1-ASR File Transcription](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-filetrans) |
 
 ### :loudspeaker: Voice Broadcasting & Dubbing
 | Use Case | Description | Example |
@@ -79,8 +80,8 @@ This repository demonstrates how to call **Speech Large Models** (including [Qwe
 | Real-Time Meeting Translation | Real-time multilingual translation | [Real-Time Translation](./samples/speech-recognition/translate_speech_from_microphone_for_realtime_stream) |
 | Batch Meeting Recognition | Batch processing of meeting recordings | [Batch Mode Recognition](./samples/speech-recognition/recognize_speech_from_files_by_batch_mode) |
 | Batch Meeting Translation | Batch translation of meeting recordings | [Batch Mode Translation](./samples/speech-recognition/translate_speech_from_files_by_realtime_mode) |
-| Qwen-Audio-3.0-ASR Real-Time Meeting Captions | Transcribe unlimited-duration meeting audio streams over a WebSocket connection | [Qwen-Audio-3.0-ASR Streaming Recognition](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming) |
-| Qwen-Audio-3.0-ASR All-Day Meeting Transcription | Asynchronously transcribe recordings up to 12 hours and tell speakers apart via diarization | [Qwen-Audio-3.0-ASR File Transcription](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-filetrans) |
+| Qwen-Audio-3.1-ASR Real-Time Meeting Captions | Transcribe unlimited-duration meeting audio streams over a WebSocket connection | [Qwen-Audio-3.1-ASR Streaming Recognition](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming) |
+| Qwen-Audio-3.1-ASR All-Day Meeting Transcription | Asynchronously transcribe recordings up to 12 hours and tell speakers apart via diarization | [Qwen-Audio-3.1-ASR File Transcription](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-filetrans) |
 
 ### :film_strip: Audio/Video Analysis
 | Use Case | Description | Example |
@@ -88,7 +89,7 @@ This repository demonstrates how to call **Speech Large Models** (including [Qwe
 | Batch Audio/Video Recognition | Batch speech recognition | [Batch Recognition](./samples/speech-recognition/recognize_speech_from_files_by_batch_mode) |
 | Rich Info Recognition | Extract text/emotion/events from audio/video | [Rich Info Recognition](./samples/speech-recognition/recognize_speech_and_rich_information_from_files_by_batch_mode) |
 | Summary & Q&A | Summarize and answer questions from audio/video | [Transcribe & QA](./samples/speech-plus/transcribe-video-and-do-translation-summarization-and-qa) |
-| Live & Classroom Captions | Continuously caption long-running live streams and lectures with low latency | [Qwen-Audio-3.0-ASR Streaming Recognition](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming) |
+| Live & Classroom Captions | Continuously caption long-running live streams and lectures with low latency | [Qwen-Audio-3.1-ASR Streaming Recognition](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-streaming) |
 
 ### :speech_balloon: Voice Chat
 | Use Case | Description | Example |
@@ -124,7 +125,8 @@ This project is licensed under the [MIT License](https://opensource.org/license/
 ## :point_right: Changelog
 
 #### 2026/11/02
-- Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs; MultiModalDialog examples are outside this migration scope.
+- Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs; qwen-tts and MultiModalDialog examples are outside this migration scope.
+- Upgraded Qwen-Audio ASR, streaming ASR, recorded-file transcription, and TTS examples to verified 3.1 models and voices.
 
 #### 2026/08/14
 - Added Qwen-Audio-3.0-TTS speech synthesis and voice cloning examples, with voice style, dialect and emotion controllable by instruction.

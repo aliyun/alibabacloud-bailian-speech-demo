@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## 使用 Qwen-Audio-3.0-ASR-Flash 进行高精度非流式语音识别
+## 使用 Qwen-Audio-3.1-ASR-Flash 进行高精度非流式语音识别
 
 简体中文 | [English](./README_EN.md)
 
-本示例展示了如何使用阿里云百炼平台的 **`qwen-audio-3.0-asr-flash`** 模型进行**非流式语音识别**。该模型支持高达 **2GB** 或 **5分钟** 的音频文件，具备强大的多语种及方言识别能力，并支持通过 **Prompt 上下文**和**热词**增强识别精度。
+本示例展示了如何使用阿里云百炼平台的 **`qwen-audio-3.1-asr-flash`** 模型进行**非流式语音识别**。该模型支持高达 **2GB** 或 **5分钟** 的音频文件，具备强大的多语种及方言识别能力，并支持通过 **Prompt 上下文**和**热词**增强识别精度。
 
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景
@@ -24,7 +24,7 @@
 
 | 推荐模型 | 模式 | API 类型 | 关键特性 |
 | ----- | ----- | ----- | ----- |
-| **qwen-audio-3.0-asr-flash** | 非流式 | HTTP | 支持热词、Prompt上下文、多语种/方言、最大5分钟/2GB |
+| **qwen-audio-3.1-asr-flash** | 非流式 | HTTP | 支持热词、Prompt上下文、多语种/方言、最大5分钟/2GB |
 
 🔗 **API 文档**: [Qwen-Audio-3.0 语音识别 API 参考](https://help.aliyun.com/zh/model-studio/non-realtime-speech-recognition-user-guide#nrt02-funasr-flash-h2)
 

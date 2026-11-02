@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## Real-Time Streaming Speech Recognition with Qwen-Audio-3.0-ASR-Flash-Streaming
+## Real-Time Streaming Speech Recognition with Qwen-Audio-3.1-ASR-Flash-Streaming
 
 English | [简体中文](./README.md)
 
-This example demonstrates how to perform **real-time streaming** speech recognition using the **`qwen-audio-3.0-asr-flash-streaming`** model on Alibaba Cloud Bailian. Based on the **WebSocket** protocol, this model supports **unlimited duration** audio streams, offers robust multilingual and dialect recognition, and enhances accuracy via **Prompt Context** and **Hotwords**, making it ideal for low-latency scenarios like live captions and real-time meeting transcription.
+This example demonstrates how to perform **real-time streaming** speech recognition using the **`qwen-audio-3.1-asr-flash-streaming`** model on Alibaba Cloud Bailian. Based on the **WebSocket** protocol, this model supports **unlimited duration** audio streams, offers robust multilingual and dialect recognition, and enhances accuracy via **Prompt Context** and **Hotwords**, making it ideal for low-latency scenarios like live captions and real-time meeting transcription.
 
 [comment]: # (list of scenarios of the sample)
 ### :point_right: Applicable Scenarios
@@ -35,7 +35,7 @@ This example shows **only the most basic streaming recognition**: read a local a
 
 | Recommended Model | Mode | API Type | Key Features |
 | ----- | ----- | ----- | ----- |
-| **qwen-audio-3.0-asr-flash-streaming** | Real-Time | WebSocket | Hotwords, Prompt Context, Multilingual/Dialects, **Unlimited Duration** |
+| **qwen-audio-3.1-asr-flash-streaming** | Real-Time | WebSocket | Hotwords, Prompt Context, Multilingual/Dialects, **Unlimited Duration** |
 
 🔗 **API Documentation**: [Qwen-Audio Real-Time Speech Recognition API Reference](https://help.aliyun.com/en/model-studio/real-time-speech-recognition-user-guide)
 

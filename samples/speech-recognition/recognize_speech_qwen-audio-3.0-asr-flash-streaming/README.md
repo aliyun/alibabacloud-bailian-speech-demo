@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## 使用 Qwen-Audio-3.0-ASR-Flash-Streaming 进行实时流式语音识别
+## 使用 Qwen-Audio-3.1-ASR-Flash-Streaming 进行实时流式语音识别
 
 简体中文 | [English](./README_EN.md)
 
-本示例展示了如何使用阿里云百炼平台的 **`qwen-audio-3.0-asr-flash-streaming`** 模型进行**实时（Real-time）**流式语音识别。该模型基于 **WebSocket** 协议，支持**无限制时长**的音频流输入，具备强大的多语种及方言识别能力，并支持通过 **Prompt 上下文**和**热词**增强识别精度，适用于直播字幕、实时会议转录等低延迟场景。
+本示例展示了如何使用阿里云百炼平台的 **`qwen-audio-3.1-asr-flash-streaming`** 模型进行**实时（Real-time）**流式语音识别。该模型基于 **WebSocket** 协议，支持**无限制时长**的音频流输入，具备强大的多语种及方言识别能力，并支持通过 **Prompt 上下文**和**热词**增强识别精度，适用于直播字幕、实时会议转录等低延迟场景。
 
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景
@@ -35,7 +35,7 @@
 
 | 推荐模型 | 模式 | API 类型 | 关键特性 |
 | ----- | ----- | ----- | ----- |
-| **qwen-audio-3.0-asr-flash-streaming** | 实时 (Real-time) | WebSocket | 支持热词、Prompt上下文、多语种/方言、**无时长限制** |
+| **qwen-audio-3.1-asr-flash-streaming** | 实时 (Real-time) | WebSocket | 支持热词、Prompt上下文、多语种/方言、**无时长限制** |
 
 🔗 **API 文档**: [Qwen-Audio 实时语音识别 API 参考](https://help.aliyun.com/zh/model-studio/real-time-speech-recognition-user-guide)
 

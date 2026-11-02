@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## Qwen-Audio-3.0-TTS Instruction-Controlled Speech Synthesis (Detailed)
+## Qwen-Audio-3.1-TTS Instruction-Controlled Speech Synthesis (Detailed)
 
 English | [简体中文](./README.md)
 
-This example **specifically** demonstrates the **instruction control** capabilities of the Qwen-Audio-3.0-TTS model, covering four categories:
+This example **specifically** demonstrates the **instruction control** capabilities of the Qwen-Audio-3.1-TTS model, covering four categories:
 
 ### 1. Style Instruction
 
@@ -15,8 +15,8 @@ parameters = {'instruction': instruction}
 
 with Client(api_key=get_api_key()) as client:
     with client.audio.tts.connect(
-            model='qwen-audio-3.0-tts-flash',
-            voice='longanfengyue',
+            model='qwen-audio-3.1-tts-flash',
+            voice='longanfengyue_v3.1',
             format='mp3',
             parameters=parameters) as session:
         session.send_text(text)
@@ -51,7 +51,7 @@ Set a base persona via `instruction`, then overlay emotion shifts via inline tag
 ### :point_right: Reference
 | Model | Documentation |
 | --- | --- |
-| **Qwen-Audio-3.0-TTS** (`qwen-audio-3.0-tts-flash` / `qwen-audio-3.0-tts-plus`) | [Realtime TTS Guide](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
+| **Qwen-Audio-3.1-TTS** (`qwen-audio-3.1-tts-flash` / `qwen-audio-3.1-tts-plus`) | [Realtime TTS Guide](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
 
 ### :point_right: Expected Results
 

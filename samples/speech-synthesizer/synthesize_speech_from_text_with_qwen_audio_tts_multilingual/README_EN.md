@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## Qwen-Audio-3.0-TTS All-in-One Multilingual Speech Synthesis
+## Qwen-Audio-3.1-TTS All-in-One Multilingual Speech Synthesis
 
 [简体中文](./README.md) | English
 
-`longanhuan_mtlv7` is an **all-in-one multilingual voice**: **a single voice id speaks 16 languages**, so you never have to swap voices when switching languages, and the speaker timbre stays recognizably the same throughout. That makes it a good fit for "one brand voice serving a global audience" — multilingual customer-service announcements, multilingual product tours, or a unified voice identity for apps going global.
+`longanhuan_v3.1` is an **all-in-one multilingual voice**: **a single voice id speaks 16 languages**, so you never have to swap voices when switching languages, and the speaker timbre stays recognizably the same throughout. That makes it a good fit for "one brand voice serving a global audience" — multilingual customer-service announcements, multilingual product tours, or a unified voice identity for apps going global.
 
 ### :point_right: The 16 supported languages
 
@@ -27,8 +27,8 @@ parameters = {'instruction': '请讲日语。'}
 
 with Client(api_key=get_api_key()) as client:
     with client.audio.tts.connect(
-            model='qwen-audio-3.0-tts-flash',
-            voice='longanhuan_mtlv7',
+            model='qwen-audio-3.1-tts-flash',
+            voice='longanhuan_v3.1',
             format='mp3',
             language_hints=['ja'],      # tells the model which language the text is in
             parameters=parameters) as session:
@@ -78,7 +78,7 @@ The sample outputs MP3 by default, which is convenient for real-time playback an
 ### :point_right: Reference
 | Recommended Model | Voice | API Documentation |
 | --- | --- | --- |
-| **Qwen-Audio-3.0-TTS** (`qwen-audio-3.0-tts-flash` / `qwen-audio-3.0-tts-plus`) | `longanhuan_mtlv7` | [Realtime Speech Synthesis](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
+| **Qwen-Audio-3.1-TTS** (`qwen-audio-3.1-tts-flash` / `qwen-audio-3.1-tts-plus`) | `longanhuan_v3.1` | [Realtime Speech Synthesis](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
 
 ### :point_right: Expected Results
 

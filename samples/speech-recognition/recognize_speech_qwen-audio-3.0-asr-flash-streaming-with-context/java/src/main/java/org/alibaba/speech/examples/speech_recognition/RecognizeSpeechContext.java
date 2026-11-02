@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  * A demo focusing on the conversation context (<code>context</code>) of
- * qwen-audio-3.0-asr-flash-streaming. The context is passed through the <code>input</code>
+ * qwen-audio-3.1-asr-flash-streaming. The context is passed through the <code>input</code>
  * parameter of RecognitionParam and helps the model recognize domain-specific words, proper nouns
  * and follow-up utterances more accurately.
  *
@@ -50,8 +50,8 @@ import java.util.Map;
  * for more information, please refer to https://help.aliyun.com/document_detail/2712536.html
  */
 public class RecognizeSpeechContext {
-  // supported model : 'qwen-audio-3.0-asr-flash-streaming'
-  private static final String MODEL = "qwen-audio-3.0-asr-flash-streaming";
+  // supported model : 'qwen-audio-3.1-asr-flash-streaming'
+  private static final String MODEL = "qwen-audio-3.1-asr-flash-streaming";
 
   // the local audio file, relative to the JVM working directory (the java module directory)
   private static final String AUDIO_RELATIVE_PATH =

@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## Conversation Context for Qwen-Audio-3.0-ASR Streaming Recognition
+## Conversation Context for Qwen-Audio-3.1-ASR Streaming Recognition
 
 English | [简体中文](./README.md)
 
-This example specifically demonstrates the **conversation context (`context`)** capability of **`qwen-audio-3.0-asr-flash-streaming`**. By passing previous dialog turns or domain terms, the model recognizes proper nouns, personal names, and industry jargon much more accurately in a given context.
+This example specifically demonstrates the **conversation context (`context`)** capability of **`qwen-audio-3.1-asr-flash-streaming`**. By passing previous dialog turns or domain terms, the model recognizes proper nouns, personal names, and industry jargon much more accurately in a given context.
 
 > For the **vocabulary (hotword)** capability, see the other example: [Precompiled Vocabulary](../recognize_speech_qwen-audio-3.0-asr-flash-streaming-with-vocabulary)
 
@@ -61,7 +61,7 @@ The following limits are **enforced by the service**. The `build_context()` / `b
 - At most **5 `input_text` messages and 5 `text` messages**; the latest ones are kept
 - The total context text length of one round must **not exceed 400 characters**; the excess is truncated from the tail
 - Messages must be **ordered by dialog turn**; within one turn, the `user` (`input_text`) message must come **before** its `assistant` (`text`) message
-- Only `qwen-audio-3.0-asr-flash-streaming`, `fun-asr-realtime`, and `fun-asr-realtime-2025-11-07` support `context`
+- Only `qwen-audio-3.1-asr-flash-streaming`, `fun-asr-realtime`, and `fun-asr-realtime-2025-11-07` support `context`
 - :warning: **Both the Python and the Java version require the `DASHSCOPE_WORKSPACE_ID` environment variable.** The qwen-audio series models are served under the workspace-specific endpoint `https://{WORKSPACE_ID}.cn-beijing.maas.aliyuncs.com`; without it the example prints a hint and exits.
 
 [comment]: # (supported programming languages of the sample)
@@ -74,7 +74,7 @@ The following limits are **enforced by the service**. The `build_context()` / `b
 
 | Model | Mode | API Type | Key Features |
 | --- | --- | --- | --- |
-| **qwen-audio-3.0-asr-flash-streaming** | Real-time | WebSocket | Dialog context, hotwords, multilingual/dialects, **no duration limit** |
+| **qwen-audio-3.1-asr-flash-streaming** | Real-time | WebSocket | Dialog context, hotwords, multilingual/dialects, **no duration limit** |
 
 🔗 **API Docs**: [Realtime ASR Python SDK](https://help.aliyun.com/zh/model-studio/fun-asr-realtime-python-sdk) ｜ [Java SDK](https://help.aliyun.com/zh/model-studio/fun-asr-realtime-java-sdk)
 

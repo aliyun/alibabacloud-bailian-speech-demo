@@ -2,7 +2,7 @@
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 """
-Qwen-Audio-3.0-TTS Text Normalization (TN) Demo
+Qwen-Audio-3.1-TTS Text Normalization (TN) Demo
 
 Text Normalization is the step that turns "written form" into "spoken form"
 before acoustic synthesis: digits, units, symbols and abbreviations all have to
@@ -13,7 +13,7 @@ common sources of audible errors in speech synthesis, e.g.
   "4~30"     read as "four tilde thirty"     instead of "four to thirty"
   "965113"   read as one huge cardinal number instead of digit by digit
 
-This demo feeds Qwen-Audio-3.0-TTS three deliberately hard Chinese passages that are
+This demo feeds Qwen-Audio-3.1-TTS three deliberately hard Chinese passages that are
 dense with quantities, units, symbols, hotline numbers and polyphonic
 characters, then prints the expected spoken form of each tricky span so that you
 can compare it against what you hear.
@@ -37,9 +37,9 @@ from RealtimeMp3Player import RealtimeMp3Player
 # ===========================================================================
 # Configuration
 # ===========================================================================
-# Supported models: 'qwen-audio-3.0-tts-flash', 'qwen-audio-3.0-tts-plus'
-MODEL = 'qwen-audio-3.0-tts-flash'
-VOICE = 'longanfengyue'
+# Supported models: 'qwen-audio-3.1-tts-flash', 'qwen-audio-3.1-tts-plus'
+MODEL = 'qwen-audio-3.1-tts-flash'
+VOICE = 'longanfengyue_v3.1'
 
 
 def get_api_key():
@@ -132,7 +132,7 @@ TN_CASES = [
 
 def main():
     print('=' * 70)
-    print(' Qwen-Audio-3.0-TTS 文本正则化（TN）能力演示')
+    print(' Qwen-Audio-3.1-TTS 文本正则化（TN）能力演示')
     print(' 以下 3 段文本密集包含数量词、单位、符号、号码与多音字，')
     print(' 请边听边对照每段列出的检查点。')
     print('=' * 70)

@@ -32,7 +32,7 @@ You can run this example using the following command:
 python3 run.py
 ```
 
-When the example runs, it will synthesize a sample text stream using the longanfengyue voice. The synthesized audio will be delivered in a streaming manner and played through the speaker.
+When the example runs, it will synthesize a sample text stream using the longanfengyue_v3.1 voice. The synthesized audio will be delivered in a streaming manner and played through the speaker.
 
 When synthesizing streaming text, you can control the audio's speech rate, intonation, dialect, and emotion by setting the `instruction` parameter.
 

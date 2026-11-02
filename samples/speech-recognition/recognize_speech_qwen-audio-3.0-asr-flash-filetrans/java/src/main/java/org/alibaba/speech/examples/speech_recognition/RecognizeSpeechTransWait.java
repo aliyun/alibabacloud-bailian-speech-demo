@@ -27,13 +27,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A demo of file transcription with a custom vocabulary, using qwen-audio-3.0-asr-flash-filetrans.
+ * A demo of file transcription with a custom vocabulary, using qwen-audio-3.1-asr-flash-filetrans.
  * It submits the task asynchronously and blocks with wait() until the task finishes. for more
  * information, please refer to https://help.aliyun.com/document_detail/2712535.html
  */
 public class RecognizeSpeechTransWait {
-  // supported model : 'qwen-audio-3.0-asr-flash-filetrans'
-  private static final String MODEL = "qwen-audio-3.0-asr-flash-filetrans";
+  // supported model : 'qwen-audio-3.1-asr-flash-filetrans'
+  private static final String MODEL = "qwen-audio-3.1-asr-flash-filetrans";
 
   // the audio url, must be accessible from the public network
   private static final String AUDIO_URL =

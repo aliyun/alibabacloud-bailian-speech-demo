@@ -20,14 +20,13 @@
 
 [comment]: # (model and interface of the sample)
 ### :point_right: 参考详情
-| 语言 | 推荐模型 | API详情 |
-| --- | --- | --- |
-| Python | **qwen-audio-3.0-tts-flash** | [官方文档](https://help.aliyun.com/zh/model-studio/qwen-tts-realtime) |
-| Java | **qwen-tts-realtime** | [官方文档](https://help.aliyun.com/zh/model-studio/qwen-tts-realtime) |
+| 推荐模型 | API详情 |
+| --- | --- |
+| **qwen-tts-realtime** | [官方文档](https://help.aliyun.com/zh/model-studio/qwen-tts-realtime) |
 
 ### :point_right: 预期结果
 
-Python 示例使用 `longanfengyue` 音色，Java 示例使用 `Chelsie` 音色。合成音频将按照流式方式下发，并通过扬声器播放。
+示例运行时，将会使用 Chelsie 音色合成示例文本流，合成音频将按照流式方式下发，通过扬声器播放。
 
 在合成流式文本时，使用`commit`模式，用户主动控制输入缓存提交的模式，适合高级用户或延迟要求极高的系统使用，但需自行控制句子完整性与合成点，可能影响合成质量。
 

@@ -28,9 +28,9 @@ import org.alibaba.speech.utils.RealtimeMp3Player;
  * please refer to the documentation.
  */
 public class CloneVoiceByQwenAudioTTSModel {
-  // supported models : 'qwen-audio-3.0-tts-flash'、'qwen-audio-3.0-tts-plus'
+  // supported models : 'qwen-audio-3.1-tts-flash'、'qwen-audio-3.1-tts-plus'
   // the voice enrollment and the speech synthesis must use the same model
-  private static final String MODEL = "qwen-audio-3.0-tts-flash";
+  private static final String MODEL = "qwen-audio-3.1-tts-flash";
 
   // the prefix of your cloned voice name
   private static final String PREFIX = "demo";

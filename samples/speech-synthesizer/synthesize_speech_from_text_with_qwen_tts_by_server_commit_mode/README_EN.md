@@ -16,14 +16,13 @@ This example demonstrates how to synthesize speech from a specified text, stream
 - [Java](./java)
 
 ### :point_right: Reference Details
-| Language | Recommended Model | API Details |
-| --- | --- | --- |
-| Python | **qwen-audio-3.0-tts-flash** | [Official documentation](https://help.aliyun.com/zh/model-studio/qwen-tts-realtime) |
-| Java | **qwen-tts-realtime** | [Official documentation](https://help.aliyun.com/zh/model-studio/qwen-tts-realtime) |
+| Recommended Model | API Details |
+| --- | --- |
+| **qwen-tts-realtime** | [官方文档](https://help.aliyun.com/zh/model-studio/qwen-tts-realtime) |
 
 ### :point_right: Expected Results
 
-The Python example uses the `longanfengyue` voice, while the Java example uses `Chelsie`. The synthesized audio is streamed and played through the speaker.
+When running this example, it will use the Chelsie voice to synthesize the sample text stream. The synthesized audio will be delivered in a streaming manner and played through the speaker.
 
 During the streaming text synthesis, the `server_commit` mode is used, which allows the server to control the accumulation and submission logic of the text. Users only need to continuously input the text, and the system automatically determines when to start the synthesis, balancing synthesis quality and response latency. It is suitable for most developers.
 
