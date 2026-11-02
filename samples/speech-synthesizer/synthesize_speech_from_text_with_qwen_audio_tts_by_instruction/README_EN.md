@@ -11,7 +11,15 @@ Pass a natural-language description via the `instruction` parameter to control *
 
 ```python
 instruction = '年轻活泼的女性声音，声音清脆甜美，语速很快，带有明显的上扬语调，适合介绍时尚产品'
-synthesizer = SpeechSynthesizer(model=model, voice=voice, instruction=instruction, callback=callback)
+parameters = {'instruction': instruction}
+
+with Client(api_key=get_api_key()) as client:
+    with client.audio.tts.connect(
+            model='qwen-audio-3.0-tts-flash',
+            voice='longanfengyue',
+            format='mp3',
+            parameters=parameters) as session:
+        session.send_text(text)
 ```
 
 ### 2. Dialect Instruction

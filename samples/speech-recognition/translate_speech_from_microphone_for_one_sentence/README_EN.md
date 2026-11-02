@@ -24,7 +24,8 @@ This example demonstrates how to record audio from a microphone, send the captur
 
 | Recommended Model | API Details |
 | ----- | ----- |
-| **gummy-realtime-v1** | [Paraformer Real-time Speech Recognition API Details (TODO: Update)](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
+| Python: **qwen3.8-livetranslate-flash-realtime** | DashScope SDK 2.0.2 `Client`/v2 API |
+| Java: **gummy-chat-v1** | [Real-time Speech Recognition API Details](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
 
 ### :point_right: Expected Results
 

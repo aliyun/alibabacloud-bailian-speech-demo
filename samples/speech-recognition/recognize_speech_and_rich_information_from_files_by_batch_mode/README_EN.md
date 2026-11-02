@@ -6,6 +6,8 @@ This example demonstrates how to submit audio/video file URLs stored in cloud st
 
 By using the SenseVoice large speech model, multi-language speech can be recognized while simultaneously returning rich information such as emotions and audio events. The **Rich Information Speech Recognition** for audio/video files is more suitable for scenarios requiring recognition of richer languages, emotions, audio events, etc. For general audio/video file speech recognition scenarios, it is recommended to use the more cost-effective Paraformer model. Please refer to the example: [Batch Audio/Video File Speech Recognition (Batch Mode)](../recognize_speech_from_files_by_batch_mode/).
 
+> The Python example uses the DashScope SDK 2.0.2 `Client`/v2 API. Because the v2 batch transcription endpoint does not currently expose `sensevoice-v1`, it uses `qwen-audio-3.1-asr-flash-filetrans`, submits one URL per task, and demonstrates the file transcription flow. The Java example continues to use `sensevoice-v1` for rich-information recognition.
+
 ### :point_right: Applicable Scenarios
 
 | Application Scenario           | Typical Use | Usage Description                 |
@@ -19,16 +21,15 @@ By using the SenseVoice large speech model, multi-language speech can be recogni
 
 ### :point_right: Reference Details
 
-| Recommended Model | API Details  | Model Features                              |
-| ----- |--------------------------|-----------------------------------|
-| **sensevoice-v1** | [SenseVoice Recording File Speech Recognition](https://help.aliyun.com/zh/model-studio/developer-reference/sensevoice-api) | Up to 50+ languages <br/> Emotion recognition <br/> Audio event detection |
+| Language | Recommended Model | API Details | Model Features |
+| --- | --- | --- | --- |
+| Python | **qwen-audio-3.1-asr-flash-filetrans** | File transcription `Client`/v2 API | One recorded-file URL per task |
+| Java | **sensevoice-v1** | [SenseVoice Recording File Speech Recognition](https://help.aliyun.com/zh/model-studio/developer-reference/sensevoice-api) | Up to 50+ languages <br/> Emotion recognition <br/> Audio event detection |
 
 ### :point_right: Expected Results
-Running the example will access the file transcription service, submit the list of transcription files you input, and wait for the recognition to complete.
+The Python version submits a separate transcription task for each `file_url` and waits for completion; the Java version submits the file list.
 
-Upon completion, the service will return the submitted files ```file_url``` and corresponding transcription result file links ```transcription_url``` in a JSON list format. You can copy the printed links from the console to open or download them in your browser.
-
-In the console, brief recognition results for each file will be printed.
+After recognition completes, the service returns a `transcription_url` for each submitted file. The example downloads the result and prints each file's recognized content in the console.
 
 ### :point_right: Technical Support
 <img src="../../../docs/image/group.png" width="400"/>

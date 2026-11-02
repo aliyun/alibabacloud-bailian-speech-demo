@@ -13,8 +13,7 @@ import sys
 import time
 from typing import Dict, Any, Optional, List
 import pyaudio
-import dashscope
-from dashscope.audio.qwen_omni import *
+from dashscope import Client
 
 from B64PCMPlayer import B64PCMPlayer
 
@@ -22,10 +21,12 @@ from B64PCMPlayer import B64PCMPlayer
 # ==================== Constants ====================
 VOICE = 'Tina'
 MODEL = "qwen3.5-omni-plus-realtime"
-WS_URL = "wss://dashscope.aliyuncs.com/api-ws/v1/realtime"
 AUDIO_SAMPLE_RATE = 16000
 AUDIO_CHUNK_SIZE = 3200
 OUTPUT_AUDIO_SAMPLE_RATE = 24000
+
+
+session = None
 
 
 def init_dashscope_api_key():
@@ -34,10 +35,9 @@ def init_dashscope_api_key():
     https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     """
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ[
-            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+        return os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
     else:
-        dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
+        return '<your-dashscope-api-key>'  # set API-key manually
 
 
 # ==================== Tool Definitions ====================
@@ -156,10 +156,10 @@ def handle_tool_call(tool_call_response: Dict[str, Any]) -> Dict[str, Any]:
         return tool_call_response
 
 
-def send_tool_call_response(conversation: OmniRealtimeConversation,
-                            response: Dict[str, Any]) -> None:
+def send_tool_call_response(response: Dict[str, Any]) -> None:
     """Send tool call result to the server"""
-    conversation.create_item({
+    global session
+    session.create_item({
         "id": 'item_' + uuid.uuid4().hex,
         "type": "function_call_output",
         "call_id": response['call_id'],
@@ -211,51 +211,32 @@ class AudioManager:
         print('Audio resources cleaned up')
 
 
-# ==================== Callback Handler ====================
-class OmniCallback(OmniRealtimeCallback):
-    """Omni real-time conversation callback handler"""
+# ==================== Event Handler ====================
+class OmniEventHandler:
+    """Omni real-time conversation event handler"""
 
     def __init__(self, audio_manager: AudioManager):
         self.audio_manager = audio_manager
         self.tool_calls: Dict[str, Dict[str, Any]] = {}
+        self.tool_calls_lock = threading.Lock()
         self.all_response_text: str = ''
         self.last_package_time: float = 0
         self.is_first_text: bool = True
         self.is_first_audio: bool = True
-        self.conversation: Optional[OmniRealtimeConversation] = None
 
-    def set_conversation(self, conversation: OmniRealtimeConversation) -> None:
-        """Set conversation instance reference"""
-        self.conversation = conversation
-
-    def on_open(self) -> None:
-        """Callback when connection is established"""
-        print('Connection established')
-        self.audio_manager.initialize()
-        self.last_package_time = time.time() * 1000
-        self.is_first_text = True
-        self.is_first_audio = True
-        self.tool_calls = {}
-        self.all_response_text = ''
-
-    def on_close(self, close_status_code: int, close_msg: str) -> None:
-        """Callback when connection is closed"""
-        print(f'Connection closed: code={close_status_code}, msg={close_msg}')
-        self.audio_manager.cleanup()
-        sys.exit(0)
-
-    def on_event(self, response: Dict[str, Any]) -> None:
-        """Handle event callback"""
+    def handle_event(self, event: Dict[str, Any]) -> None:
+        """Handle a single event"""
+        global session
         try:
-            event_type = response.get('type', '')
+            event_type = event.get('type', '')
 
             # Session created
             if event_type == 'session.created':
-                print(f'Session started: {response["session"]["id"]}')
+                print(f'Session started: {event["session"]["id"]}')
 
             # Speech-to-text completed
             elif event_type == 'conversation.item.input_audio_transcription.completed':
-                print(f'User question: {response.get("transcript", "")}')
+                print(f'User question: {event.get("transcript", "")}')
 
             # Text delta response
             elif event_type in ('response.audio_transcript.delta', 'response.text.delta'):
@@ -263,7 +244,7 @@ class OmniCallback(OmniRealtimeCallback):
                     self.is_first_text = False
                     latency = time.time() * 1000 - self.last_package_time
                     print(f'First text latency (from VAD end): {latency:.0f} ms')
-                text = response.get('delta', '')
+                text = event.get('delta', '')
                 self.all_response_text += text
 
             # Audio delta response
@@ -273,7 +254,7 @@ class OmniCallback(OmniRealtimeCallback):
                     latency = time.time() * 1000 - self.last_package_time
                     print(f'First audio latency (from VAD end): {latency:.0f} ms')
 
-                recv_audio_b64 = response.get('delta', '')
+                recv_audio_b64 = event.get('delta', '')
                 if self.audio_manager.player:
                     self.audio_manager.player.add_data(recv_audio_b64)
 
@@ -289,24 +270,26 @@ class OmniCallback(OmniRealtimeCallback):
                 self.last_package_time = time.time() * 1000
                 self.is_first_text = True
                 self.is_first_audio = True
-                self.tool_calls = {}
+                with self.tool_calls_lock:
+                    self.tool_calls = {}
 
             # Function call arguments done
             elif event_type == 'response.function_call_arguments.done':
                 print('====== Tool Call Request Received ======')
-                call_id = response.get('call_id', '')
-                self.tool_calls[call_id] = response.copy()
-                self.tool_calls[call_id]['processed'] = False
+                call_id = event.get('call_id', '')
+                with self.tool_calls_lock:
+                    self.tool_calls[call_id] = event.copy()
+                    self.tool_calls[call_id]['processed'] = False
 
             # Response done
             elif event_type == 'response.done':
                 print('====== Response Done ======')
                 print(f'Full response: {self.all_response_text}')
 
-                if self.conversation:
-                    response_id = self.conversation.get_last_response_id()
-                    text_delay = self.conversation.get_last_first_text_delay()
-                    audio_delay = self.conversation.get_last_first_audio_delay()
+                if session:
+                    response_id = session.last_response_id
+                    text_delay = session.last_first_text_delay
+                    audio_delay = session.last_first_audio_delay
 
                     if response_id is not None and text_delay is not None and audio_delay is not None:
                         print(f'[Metric] ResponseID: {response_id}, '
@@ -329,13 +312,16 @@ class OmniCallback(OmniRealtimeCallback):
         """
         has_pending = False
 
-        for call_id, tool_call in self.tool_calls.items():
+        with self.tool_calls_lock:
+            pending = list(self.tool_calls.items())
+
+        for call_id, tool_call in pending:
             if not tool_call.get('processed', False):
                 has_pending = True
-                tool_call['processed'] = True
+                with self.tool_calls_lock:
+                    self.tool_calls[call_id]['processed'] = True
                 result = handle_tool_call(tool_call)
-                if self.conversation:
-                    send_tool_call_response(self.conversation, result)
+                send_tool_call_response(result)
 
         return has_pending
 
@@ -343,84 +329,88 @@ class OmniCallback(OmniRealtimeCallback):
 # ==================== Main Program ====================
 def main():
     """Main function"""
+    global session
+
     print('Initializing Omni real-time conversation...')
-    init_dashscope_api_key()
+    api_key = init_dashscope_api_key()
 
     # Create audio manager
     audio_manager = AudioManager()
 
-    # Create callback handler
-    callback = OmniCallback(audio_manager)
+    # Create event handler
+    event_handler = OmniEventHandler(audio_manager)
 
-    # Create conversation instance
-    conversation = OmniRealtimeConversation(
-        api_key=dashscope.api_key,
-        url=WS_URL,
-        model=MODEL,
-        callback=callback,
-    )
+    with Client(api_key=api_key) as client:
+        with client.audio.realtime.connect(
+            model=MODEL,
+        ) as session:
+            session.update_session(
+                output_modalities=["audio", "text"],
+                voice=VOICE,
+                input_audio_config={"type": "pcm", "sample_rate": 16000},
+                output_audio_config={"type": "pcm", "sample_rate": 24000},
+                enable_input_audio_transcription=True,
+                enable_turn_detection=True,
+                turn_detection_type='server_vad',
+                tools=TOOLS,
+            )
 
-    # Set conversation reference in callback
-    callback.set_conversation(conversation)
+            print('Connection established')
+            audio_manager.initialize()
+            event_handler.last_package_time = time.time() * 1000
 
-    # Establish connection
-    conversation.connect()
+            # start event dispatch thread
+            def dispatch_events():
+                try:
+                    for event in session.events():
+                        event_handler.handle_event(event)
+                except Exception as e:
+                    print(f'[Error] Event dispatch exception: {e}')
+                    traceback.print_exc()
 
-    # Configure session parameters
-    omni_output_modalities = [MultiModality.AUDIO, MultiModality.TEXT]
+            event_thread = threading.Thread(target=dispatch_events, daemon=True)
+            event_thread.start()
 
-    conversation.update_session(
-        output_modalities=omni_output_modalities,
-        voice=VOICE,
-        input_audio_format=AudioFormat.PCM_16000HZ_MONO_16BIT,
-        output_audio_format=AudioFormat.PCM_24000HZ_MONO_16BIT,
-        enable_input_audio_transcription=True,
-        enable_turn_detection=True,
-        turn_detection_type='server_vad',
-        tools=TOOLS,
-    )
+            # Set signal handler
+            def signal_handler(sig, frame):
+                print('\nReceived Ctrl+C, stopping...')
+                session.close()
+                audio_manager.cleanup()
+                print('Omni real-time conversation stopped')
+                sys.exit(0)
 
-    # Set signal handler
-    def signal_handler(sig, frame):
-        print('\nReceived Ctrl+C, stopping...')
-        conversation.close()
-        audio_manager.cleanup()
-        print('Omni real-time conversation stopped')
-        sys.exit(0)
+            signal.signal(signal.SIGINT, signal_handler)
+            print("Press Ctrl+C to stop conversation...\n")
 
-    signal.signal(signal.SIGINT, signal_handler)
-    print("Press Ctrl+C to stop conversation...\n")
+            # Main loop: continuously send audio and check for tool calls
+            try:
+                while True:
+                    # Process pending tool calls
+                    has_tool_calls = event_handler.process_pending_tool_calls()
 
-    # Main loop: continuously send audio and check for tool calls
-    try:
-        while True:
-            # Process pending tool calls
-            has_tool_calls = callback.process_pending_tool_calls()
+                    if has_tool_calls:
+                        print("*** Tool calls completed, creating new response ***")
+                        session.create_response(
+                            instructions=None,
+                            modalities=["audio", "text"],
+                        )
+                        print('====== Tool call processing completed ======\n')
 
-            if has_tool_calls:
-                print("*** Tool calls completed, creating new response ***")
-                conversation.create_response(
-                    instructions=None,
-                    output_modalities=omni_output_modalities
-                )
-                print('====== Tool call processing completed ======\n')
+                    # Read and send audio data
+                    audio_data = audio_manager.read_audio_chunk()
+                    if audio_data:
+                        session.append_audio(audio_data)
+                    else:
+                        break
 
-            # Read and send audio data
-            audio_data = audio_manager.read_audio_chunk()
-            if audio_data:
-                audio_b64 = base64.b64encode(audio_data).decode('ascii')
-                conversation.append_audio(audio_b64)
-            else:
-                break
-
-    except KeyboardInterrupt:
-        signal_handler(signal.SIGINT, None)
-    except Exception as e:
-        print(f'[Error] Main loop exception: {e}')
-        traceback.print_exc()
-    finally:
-        conversation.close()
-        audio_manager.cleanup()
+            except KeyboardInterrupt:
+                signal_handler(signal.SIGINT, None)
+            except Exception as e:
+                print(f'[Error] Main loop exception: {e}')
+                traceback.print_exc()
+            finally:
+                session.close()
+                audio_manager.cleanup()
 
 
 if __name__ == '__main__':

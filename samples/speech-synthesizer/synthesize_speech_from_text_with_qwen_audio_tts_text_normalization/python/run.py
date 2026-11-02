@@ -26,8 +26,7 @@ import os
 import sys
 import threading
 
-import dashscope
-from dashscope.audio.tts_v2 import ResultCallback, SpeechSynthesizer
+from dashscope import Client
 
 sys.path.append(
     os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -43,51 +42,15 @@ MODEL = 'qwen-audio-3.0-tts-flash'
 VOICE = 'longanfengyue'
 
 
-def init_dashscope_api_key():
+def get_api_key():
     '''
     Set your DashScope API-key. More information:
     https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     '''
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ['DASHSCOPE_API_KEY']
+        return os.environ['DASHSCOPE_API_KEY']
     else:
-        dashscope.api_key = '<your-dashscope-api-key>'
-
-
-class SpeechSynthesisCallback(ResultCallback):
-    """Callback that plays audio in real-time and saves it to a file."""
-
-    def __init__(self, player: RealtimeMp3Player, output_file: str = None):
-        self.player = player
-        self.output_file = output_file
-        self.file = None
-        self.complete_event = threading.Event()
-
-    def on_open(self):
-        if self.output_file:
-            self.file = open(self.output_file, 'wb')
-
-    def on_complete(self):
-        self.complete_event.set()
-
-    def on_error(self, message: str):
-        print(f'  [ERROR] {message}')
-        self.complete_event.set()
-
-    def on_close(self):
-        if self.file:
-            self.file.close()
-
-    def on_event(self, message):
-        pass
-
-    def on_data(self, data: bytes) -> None:
-        self.player.write(data)
-        if self.file:
-            self.file.write(data)
-
-    def wait_for_complete(self):
-        self.complete_event.wait()
+        return '<your-dashscope-api-key>'
 
 
 def synthesize(text: str, output_file: str):
@@ -95,15 +58,34 @@ def synthesize(text: str, output_file: str):
     player = RealtimeMp3Player()
     player.start()
 
-    callback = SpeechSynthesisCallback(player, output_file)
-    synthesizer = SpeechSynthesizer(model=MODEL, voice=VOICE, callback=callback)
+    complete_event = threading.Event()
 
-    synthesizer.call(text)
-    callback.wait_for_complete()
+    with open(output_file, 'wb') as audio_file:
+        with Client(api_key=get_api_key()) as client:
+            with client.audio.tts.connect(
+                    model=MODEL, voice=VOICE, format='mp3') as session:
+
+                def read_audio():
+                    for chunk in session.audio_chunks():
+                        player.write(chunk)
+                        audio_file.write(chunk)
+                    complete_event.set()
+
+                reader_thread = threading.Thread(target=read_audio)
+                reader_thread.start()
+
+                session.send_text(text)
+                session.stop()
+                complete_event.wait()
+                reader_thread.join()
+
+                request_id = session.session.request_id
+                first_package_delay = session.first_package_delay
+
     player.stop()
 
-    print(f'  requestId: {synthesizer.get_last_request_id()}, '
-          f'first_package_delay: {synthesizer.get_first_package_delay():.0f}ms')
+    print(f'  requestId: {request_id}, '
+          f'first_package_delay: {first_package_delay:.0f}ms')
     print(f'  saved to: {output_file}')
 
 
@@ -149,8 +131,6 @@ TN_CASES = [
 
 
 def main():
-    init_dashscope_api_key()
-
     print('=' * 70)
     print(' Qwen-Audio-3.0-TTS 文本正则化（TN）能力演示')
     print(' 以下 3 段文本密集包含数量词、单位、符号、号码与多音字，')

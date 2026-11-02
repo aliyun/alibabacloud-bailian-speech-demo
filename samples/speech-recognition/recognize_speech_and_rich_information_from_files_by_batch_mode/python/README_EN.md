@@ -1,6 +1,8 @@
 [comment]: # (title and brief introduction of the sample)
-## Batch Audio/Video File Rich Text Speech Recognition
+## Batch Audio/Video File Transcription (SDK v2 Compatibility Mode)
 ## Python
+
+This example uses the DashScope SDK 2.0.2 `Client`/v2 API and the `qwen-audio-3.1-asr-flash-filetrans` model. Because the v2 batch transcription endpoint does not currently expose `sensevoice-v1`, it submits one task per URL and focuses on the file transcription flow.
 
 [comment]: # (prerequisites)
 ### :point_right: Prerequisites
@@ -24,7 +26,7 @@ You can run this example using the following command:
 python3 run.py
 ```
 
-When running the example, the audio file recognition service will process the submitted file list in the background. After successful transcription, each file's recognition results will be parsed and printed in the terminal using the parse_sensevoice_result tool.
+The service transcribes each URL in a separate background task. After transcription succeeds, the example downloads the result, uses `parse_sensevoice_result` to clean the text and any returned tags, and prints it in the terminal.
 
 
 [comment]: # (technical support of the sample)

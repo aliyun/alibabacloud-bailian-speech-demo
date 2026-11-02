@@ -24,14 +24,15 @@
 
 | 推荐模型 | API详情 |
 | ----- | ----- |
-| **gummy-realtime-v1** | [Paraformer实时语音识别API详情（TODO：更新）](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
+| Python：**qwen3.8-livetranslate-flash-realtime** | DashScope SDK 2.0.2 `Client`/v2 接口 |
+| Java：**gummy-realtime-v1** | [实时语音识别 API 详情](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
 
 ### :point_right: 预期结果
 
 运行示例，在控制台会提示您开始说话，控制台输入'Ctrl+C' 即可结束识别。识别结果文本会在控制台打印。
 ```text
 Press 'Ctrl+C' to stop recording and recognition
-RecognitionCallback text:  一
+ASR text:  一
 translate to en: The.
 translate to en: The.
 translate to en: The.

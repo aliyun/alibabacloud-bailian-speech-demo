@@ -6,8 +6,7 @@ import os
 import sys
 import threading
 
-import dashscope
-from dashscope.audio.tts_v2 import *
+from dashscope import Client
 
 sys.path.append(
     os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -19,64 +18,21 @@ from RealtimeMp3Player import RealtimeMp3Player
 MODEL = 'qwen-audio-3.0-tts-flash'
 
 # choose the voice matching the language of your text
-DEFAULT_VOICE = 'longanfengyue'
+# DEFAULT_VOICE = 'longanfengyue'
+DEFAULT_VOICE = "qwen-audio-3.0-tts-flash-demo-fe532601aa364c75b9736622ea311d39"
 
 text_to_synthesize = '今天的天气真不错！我们一起出去玩吧！'
 
 
-def init_dashscope_api_key():
+def get_api_key():
     '''
     Set your DashScope API-key. More information:
     https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     '''
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ[
-            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+        return os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
     else:
-        dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
-
-
-# Define a callback to handle the synthesis result
-class SpeechSynthesisCallback(ResultCallback):
-    def __init__(self,
-                 player: RealtimeMp3Player,
-                 output_file: str = 'result.mp3'):
-        self.player = player
-        self.output_file = output_file
-        self.file = None
-        self.complete_event = threading.Event()
-
-    def on_open(self):
-        self.file = open(self.output_file, 'wb')
-        print('websocket is open.')
-
-    def on_complete(self):
-        print('speech synthesis task complete successfully.')
-        self.complete_event.set()
-
-    def on_error(self, message: str):
-        print(f'speech synthesis task failed, {message}')
-        # wake up the main thread on failure, otherwise it waits forever
-        self.complete_event.set()
-
-    def on_close(self):
-        print('websocket is closed.')
-        if self.file:
-            self.file.close()
-
-    def on_event(self, message):
-        # print(f'recv speech synthesis message {message}')
-        pass
-
-    def on_data(self, data: bytes) -> None:
-        # send to player
-        self.player.write(data)
-        # save audio to file
-        if self.file:
-            self.file.write(data)
-
-    def wait_for_complete(self):
-        self.complete_event.wait()
+        return '<your-dashscope-api-key>'  # set API-key manually
 
 
 def synthesis_text_to_speech_and_play(text: str,
@@ -94,28 +50,47 @@ def synthesis_text_to_speech_and_play(text: str,
     # start player
     player.start()
 
-    callback = SpeechSynthesisCallback(player, output_file)
+    complete_event = threading.Event()
 
-    # Initialize the speech synthesizer
-    # you can customize the synthesis parameters, like voice, format, sample_rate or other parameters
-    speech_synthesizer = SpeechSynthesizer(model=model,
-                                           voice=voice,
-                                           instruction=instruction,
-                                           callback=callback)
+    parameters = {"word_timestamp_enabled": True}
+    if instruction is not None:
+        parameters["instruction"] = instruction
 
-    speech_synthesizer.call(text)
-    print('Synthesized text: {}'.format(text))
-    callback.wait_for_complete()
+    with open(output_file, 'wb') as audio_file:
+        with Client(api_key=get_api_key()) as client:
+            with client.audio.tts.connect(
+                    model=model,
+                    voice=voice,
+                    format='mp3',
+                    parameters=parameters) as session:
+
+                def read_audio():
+                    for chunk in session.audio_chunks():
+                        # send to player
+                        player.write(chunk)
+                        # save audio to file
+                        audio_file.write(chunk)
+                    complete_event.set()
+
+                reader_thread = threading.Thread(target=read_audio)
+                reader_thread.start()
+
+                session.send_text(text)
+                session.stop()
+                complete_event.wait()
+                reader_thread.join()
+
+                request_id = session.session.request_id
+                first_package_delay = session.first_package_delay
+
     player.stop()
+    print('Synthesized text: {}'.format(text))
     print('[Metric] requestId: {}, first package delay ms: {}'.format(
-        speech_synthesizer.get_last_request_id(),
-        speech_synthesizer.get_first_package_delay()))
+        request_id, first_package_delay))
 
 
 # main function
 if __name__ == '__main__':
-    init_dashscope_api_key()
-
     # ========================================================================
     # Example 1: Default style — synthesize plain text with the voice's native style
     # ========================================================================

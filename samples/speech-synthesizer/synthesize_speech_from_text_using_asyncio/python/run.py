@@ -4,92 +4,98 @@
 
 import asyncio
 import os
-import dashscope
+import queue
+import threading
 from datetime import datetime
-from dashscope.audio.tts_v2 import *
+
+from dashscope import Client
 
 test_text_array = ['想不到时间过得这么快！昨',
-                      '天和你视频聊天，看到你那',
-                      '自豪又满意的笑容，我的心里',
-                      '呀，就如同喝了一瓶蜜一样甜',
-                      '呢！真心为你开心呢！']
+                   '天和你视频聊天，看到你那',
+                   '自豪又满意的笑容，我的心里',
+                   '呀，就如同喝了一瓶蜜一样甜',
+                   '呢！真心为你开心呢！']
 
 
 class ThreadSafeAsyncioEvent(asyncio.Event):
     def set(self):
         self._loop.call_soon_threadsafe(super().set)
 
-def init_dashscope_api_key():
+
+def get_api_key():
     '''
     Set your DashScope API-key. More information:
     https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     '''
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ[
-            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+        return os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
     else:
-        dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
+        return '<your-dashscope-api-key>'  # set API-key manually
 
 
 def get_current_time_str():
     return datetime.now().strftime('%Y-%m-%d %H:%M:%S:%f')
+
 
 async def synthesis_text_to_speech_using_asyncio(text_array):
     '''
     Synthesize speech with given text by streaming mode, async call and play the synthesized audio in real-time.
     for more information, please refer to https://help.aliyun.com/document_detail/2712523.html
     '''
-
-    # Define a callback to handle the result
-
-    class Callback(ResultCallback):
-        def __init__(self, complete_event):
-            self.file = open('result.mp3', 'wb')
-            self.complete_event = complete_event
-        
-        def on_open(self):
-            print(f'[{get_current_time_str()}] websocket is open.')
-
-        def on_complete(self):
-            print(f'[{get_current_time_str()}] speech synthesis task complete successfully.')
-            self.complete_event.set()
-
-        def on_error(self, message: str):
-            print(f'[{get_current_time_str()}] speech synthesis task failed, {message}')
-
-        def on_close(self):
-            print(f'[{get_current_time_str()}] websocket is closed.')
-
-        def on_event(self, message):
-            # print(f'recv speech synthsis message {message}')
-            pass
-
-        def on_data(self, data: bytes) -> None:
-            # save audio to file
-            self.file.write(data)
-
-    # Call the speech synthesizer callback
     complete_event = ThreadSafeAsyncioEvent()
-    synthesizer_callback = Callback(complete_event)
+    text_queue = queue.Queue()
+    metrics = {}
 
-    # Initialize the speech synthesizer
-    # you can customize the synthesis parameters, like voice, format, sample_rate or other parameters
-    speech_synthesizer = SpeechSynthesizer(model='cosyvoice-v3-flash',
-                                           voice='longanhuan',
-                                           callback=synthesizer_callback)
+    with open('result.mp3', 'wb') as audio_file:
 
-    for text in text_array:
-        speech_synthesizer.streaming_call(text)
-        print(f'[{get_current_time_str()}] send text: {text}')
-        await asyncio.sleep(0.1)
-    speech_synthesizer.async_streaming_complete()
-    
-    await complete_event.wait()
-    
-    print(f'[{get_current_time_str()}]' + '[Metric] requestId: {}, first package delay ms: {}'.format(
-        speech_synthesizer.get_last_request_id(),
-        speech_synthesizer.get_first_package_delay()))
+        def run_synthesis():
+            with Client(api_key=get_api_key()) as client:
+                with client.audio.tts.connect(
+                        model='cosyvoice-v3-flash',
+                        voice='longanhuan',
+                        format='mp3') as session:
 
+                    def read_audio():
+                        for chunk in session.audio_chunks():
+                            audio_file.write(chunk)
+
+                    reader_thread = threading.Thread(target=read_audio)
+                    reader_thread.start()
+
+                    try:
+                        while True:
+                            try:
+                                text = text_queue.get(timeout=0.1)
+                            except queue.Empty:
+                                continue
+                            if text is None:
+                                break
+                            session.send_text(text)
+
+                        session.stop()
+                        reader_thread.join()
+                    finally:
+                        metrics['request_id'] = session.session.request_id
+                        metrics['first_package_delay'] = session.first_package_delay
+                        session.close()
+
+            complete_event.set()
+
+        synthesis_thread = threading.Thread(target=run_synthesis)
+        synthesis_thread.start()
+
+        for text in text_array:
+            text_queue.put(text)
+            print(f'[{get_current_time_str()}] send text: {text}')
+            await asyncio.sleep(0.1)
+        text_queue.put(None)
+
+        await complete_event.wait()
+        synthesis_thread.join()
+
+    print(f'[{get_current_time_str()}]' +
+          '[Metric] requestId: {}, first package delay ms: {}'.format(
+              metrics.get('request_id'), metrics.get('first_package_delay')))
 
 
 # this task will print the current time every second.
@@ -102,9 +108,11 @@ async def print_time():
             break
         await asyncio.sleep(1)  # 等待1秒
 
+
 async def main():
-    await asyncio.gather(print_time(), synthesis_text_to_speech_using_asyncio(test_text_array))
+    await asyncio.gather(print_time(),
+                         synthesis_text_to_speech_using_asyncio(test_text_array))
+
 
 if __name__ == "__main__":
-    init_dashscope_api_key()
     asyncio.run(main())

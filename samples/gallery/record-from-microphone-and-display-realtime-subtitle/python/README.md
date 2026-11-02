@@ -3,7 +3,7 @@
 
 简体中文 | [English](./README_EN.md)
 
-本示例展示了通过调用百炼平台的 Gummy 实时语音翻译模型结果中word字段和stash字段的使用方法，并且实现低延迟、实时的语音识别字幕。
+本示例使用 DashScope SDK 2.0.2 的 `Client`/v2 接口调用 `qwen3-asr-flash-realtime`，处理流式文本增量并实现低延迟实时语音识别字幕。
 
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景

@@ -32,8 +32,8 @@ This example demonstrates how to record audio from a microphone, send the captur
 Running the example will prompt you to start speaking. Enter 'Ctrl+C' in the console to stop recording and recognition. The recognized text will be printed in the console:
 ```text
 Press 'Ctrl+C' to stop recording and recognition
-RecognitionCallback text:  一
-RecognitionCallback text:  1234
+ASR text:  一
+ASR text:  1234
 ```
 
 [comment]: # (technical support of the sample)

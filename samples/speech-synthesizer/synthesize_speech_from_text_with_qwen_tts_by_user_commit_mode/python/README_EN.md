@@ -30,7 +30,7 @@ You can run this example using the following command:
 python3 run.py
 [code]
 
-When running the example, it will use the Chelsie voice to synthesize a stream of sample text. The synthesized audio will be delivered in a streaming manner and played through the speaker.
+The Python example uses the DashScope SDK 2.0.2 `Client`/v2 API with the `qwen-audio-3.0-tts-flash` model and `longanfengyue` voice. The synthesized audio is streamed and played through the speaker.
 
 When synthesizing streaming text, the `commit` mode is used, where users actively control when input buffers are submitted. This mode is suitable for advanced users or systems with extremely low latency requirements, but you need to manage sentence integrity and synthesis points yourself, which may affect synthesis quality.
 

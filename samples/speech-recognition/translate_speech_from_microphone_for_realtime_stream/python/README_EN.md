@@ -5,6 +5,8 @@ English | [简体中文](./README.md)
 
 ## Python
 
+The Python example uses the DashScope SDK 2.0.2 `Client`/v2 API and the `qwen3.8-livetranslate-flash-realtime` model.
+
 [comment]: # (prerequisites)
 ### :point_right: Prerequisites
 

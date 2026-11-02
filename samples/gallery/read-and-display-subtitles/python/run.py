@@ -6,14 +6,13 @@ import os
 import sys
 import threading
 import time
+from contextlib import closing
 from enum import Enum, unique
-from http import HTTPStatus
 
-import dashscope
 import wx
 import wx.richtext as rt
-from dashscope import Generation
-from dashscope.audio.tts_v2 import *
+from dashscope import Client
+
 sys.path.append(
     os.path.join(os.path.dirname(os.path.abspath(__file__)),
                  '../../../utils/python'))
@@ -25,17 +24,16 @@ from RealtimeMp3Player import RealtimeMp3Player
 # Alternatively, other libraries can be utilized either to decode MP3 or to play the audio directly.
 
 
-def init_dashscope_api_key():
+def get_api_key():
     """
         Set your DashScope API-key. More information:
         https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     """
 
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ[
-            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+        return os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
     else:
-        dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
+        return '<your-dashscope-api-key>'  # set API-key manually
 
 
 class SubtitlePlayer(wx.Frame):
@@ -205,9 +203,8 @@ class SubtitlePlayer(wx.Frame):
 # Define a callback to handle the result
 
 
-class CallbackWithFrame(ResultCallback):
+class CallbackWithFrame:
     def __init__(self, frame, audio_save) -> None:
-        super().__init__()
         self.frame = frame
         self.audio_save = audio_save
 
@@ -259,22 +256,47 @@ class TtsTask:
 
 
 class TtsTaskHandler:
-    def __init__(self, callback: CallbackWithFrame, frame: SubtitlePlayer):
+    def __init__(self, callback: CallbackWithFrame, frame: SubtitlePlayer,
+                 client: Client):
         self.task_list = []
         self.lock = threading.Lock()
         self.stop_task = False
-        self.synthesizer = None
+        self.session = None
+        self.reader_thread = None
         self.work_thread = threading.Thread(target=self.run)
         self.work_thread.start()
         self.frame = frame
         self.callback = callback
+        self.client = client
 
     def restart_synthesizer(self):
-        self.synthesizer = SpeechSynthesizer(
+        if self.session is not None:
+            try:
+                self.session.close()
+            except Exception:
+                pass
+            self.session = None
+        if self.reader_thread is not None:
+            self.reader_thread.join()
+            self.reader_thread = None
+
+        self.session = self.client.audio.tts.connect(
             model='cosyvoice-v3-flash',
             voice='longanhuan',
-            callback=self.callback,
-        )
+            format='mp3')
+        self.session.start()
+        self.callback.on_open()
+
+        def read_audio():
+            try:
+                for chunk in self.session.audio_chunks():
+                    self.callback.on_data(chunk)
+            except Exception as error:
+                self.callback.on_error(str(error))
+
+        self.reader_thread = threading.Thread(target=read_audio)
+        self.reader_thread.start()
+        print('[tts] restart synthesizer')
 
     def run(self):
         while True:
@@ -288,18 +310,22 @@ class TtsTaskHandler:
                 task = self.task_list.pop(0)
                 if task.type == TtsTask.TaskType.TEXT:
                     print('[tts] send text: ' + task.text)
-                    self.synthesizer.streaming_call(task.text)
+                    if self.session is not None:
+                        self.session.send_text(task.text)
                     self.frame.submit_text(task.text)
                     print('[tts] text submitted')
                 elif task.type == TtsTask.TaskType.SENTENCE_END:
                     print('[tts] streaming complete: ' + task.text)
-                    self.synthesizer.streaming_complete()
-                    print('[tts] streaming completed: ' + task.text)
+                    if self.session is not None:
+                        self.session.stop()
+                        self.reader_thread.join()
+                        self.session.close()
+                        self.session = None
+                        self.reader_thread = None
                     self.frame.sentence_end()
                     print('#' * 10 + 'sentence end' + '#' * 10)
                 elif task.type == TtsTask.TaskType.SENTENCE_BEGIN:
                     self.restart_synthesizer()
-                    print('[tts] restart synthesizer')
 
     def submit_task(self, task: TtsTask):
         with self.lock:
@@ -312,21 +338,23 @@ class TtsTaskHandler:
         with self.lock:
             self.stop_task = True
         self.work_thread.join()
+        if self.session is not None:
+            try:
+                self.session.close()
+            except Exception:
+                pass
 
 
-def process(frame: SubtitlePlayer, ttsTaskHandler: TtsTaskHandler):
+def process(frame: SubtitlePlayer, ttsTaskHandler: TtsTaskHandler,
+            client: Client):
     messages = [{'role': 'user', 'content': '请讲一个一百五十字的小故事。'}]
-    responses = Generation.call(
-        model='qwen-plus',
-        messages=messages,
-        result_format='message',  # set result format as 'message'
-        stream=True,  # enable stream output
-        incremental_output=True,  # enable incremental output
-    )
-    ttsTaskHandler.submit_task(TtsTask('', TtsTask.TaskType.SENTENCE_BEGIN))
-    for response in responses:
-        if response.status_code == HTTPStatus.OK:
-            text = response.output.choices[0]['message']['content']
+    with closing(client.chat.completions.create(
+            model='qwen-plus',
+            messages=messages,
+            stream=True,
+            parameters={'incremental_output': True})) as stream:
+        ttsTaskHandler.submit_task(TtsTask('', TtsTask.TaskType.SENTENCE_BEGIN))
+        for text in stream.text_stream:
             print('recv text from llm:' + text)
             if '。' in text:
                 # split text by '。'
@@ -342,16 +370,6 @@ def process(frame: SubtitlePlayer, ttsTaskHandler: TtsTaskHandler):
             else:
                 ttsTaskHandler.submit_task(TtsTask(text,
                                                    TtsTask.TaskType.TEXT))
-
-        else:
-            print(
-                'Request id: %s, Status code: %s, error code: %s, error message: %s'
-                % (
-                    response.request_id,
-                    response.status_code,
-                    response.code,
-                    response.message,
-                ))
     ttsTaskHandler.stop()
 
 
@@ -359,12 +377,15 @@ def process(frame: SubtitlePlayer, ttsTaskHandler: TtsTaskHandler):
 # you can customize the synthesis parameters, like model, format, sample_rate or other parameters
 # for more information, please refer to https://help.aliyun.com/document_detail/2712523.html
 if __name__ == '__main__':
-    init_dashscope_api_key()
-    app = wx.App(False)
-    frame = SubtitlePlayer()
-    audio_save = open('result.mp3', 'wb')
-    callback = CallbackWithFrame(frame, audio_save)
-    ttsTaskHandler = TtsTaskHandler(callback, frame)
-    thread = threading.Thread(target=process, args=(frame, ttsTaskHandler))
-    thread.start()
-    app.MainLoop()
+    with Client(api_key=get_api_key()) as client:
+        app = wx.App(False)
+        frame = SubtitlePlayer()
+        audio_save = open('result.mp3', 'wb')
+        callback = CallbackWithFrame(frame, audio_save)
+        ttsTaskHandler = TtsTaskHandler(callback, frame, client)
+        thread = threading.Thread(target=process,
+                                  args=(frame, ttsTaskHandler, client))
+        thread.start()
+        app.MainLoop()
+        thread.join()
+        audio_save.close()

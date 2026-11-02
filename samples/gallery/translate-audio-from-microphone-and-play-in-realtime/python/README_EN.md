@@ -2,7 +2,7 @@
 
 English | [简体中文](./README.md)
 
-This example demonstrates the integration of the Gummy real-time speech translation model and Cosyvoice streaming speech synthesis model on the Bailian platform, achieving low-latency simultaneous interpretation with real-time bilingual subtitles.
+This example uses the DashScope SDK 2.0.2 `Client`/v2 API with the `qwen3.8-livetranslate-flash-realtime` translation model and `cosyvoice-v3-flash` streaming synthesis model to provide low-latency simultaneous interpretation and real-time bilingual subtitles.
 
 ### :point_right: Applicable Scenarios
 

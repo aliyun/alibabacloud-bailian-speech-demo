@@ -23,13 +23,16 @@
 语种由两个参数共同决定：
 
 ```python
-synthesizer = SpeechSynthesizer(
-    model='qwen-audio-3.0-tts-flash',
-    voice='longanhuan_mtlv7',
-    language_hints=['ja'],      # 告诉模型输入文本是什么语种
-    instruction='请讲日语。',     # 显式要求模型用该语种说话
-    callback=callback,
-)
+parameters = {'instruction': '请讲日语。'}
+
+with Client(api_key=get_api_key()) as client:
+    with client.audio.tts.connect(
+            model='qwen-audio-3.0-tts-flash',
+            voice='longanhuan_mtlv7',
+            format='mp3',
+            language_hints=['ja'],      # 告诉模型输入文本是什么语种
+            parameters=parameters) as session:
+        session.send_text(text)
 ```
 
 > :warning: **中文和英文只需要 `language_hints`**，其余 14 种语言**还必须传入对应的 `instruction`**，否则模型可能用中文或英文的发音方式去念这段文本。

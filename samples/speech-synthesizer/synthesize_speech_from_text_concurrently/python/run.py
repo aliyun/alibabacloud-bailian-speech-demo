@@ -5,20 +5,18 @@
 import multiprocessing
 import os
 
-import dashscope
-from dashscope.audio.tts_v2 import SpeechSynthesizer
+from dashscope import Client
 
 
-def init_dashscope_api_key():
+def get_api_key():
     '''
     Set your DashScope API-key. More information:
     https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     '''
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ[
-            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+        return os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
     else:
-        dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
+        return '<your-dashscope-api-key>'  # set API-key manually
 
 
 def synthesis_one_text_to_speech(task):
@@ -26,24 +24,25 @@ def synthesis_one_text_to_speech(task):
     Synthesize speech with given text and voice, sync call and save the audio into file_path
     for more information, please refer to https://help.aliyun.com/document_detail/2712523.html
     '''
-    init_dashscope_api_key()
     text_to_synthesize = task[0]
     voice = task[1]
     pid = os.getpid()
     file_to_save = os.path.join(f'result_{voice}_p{pid}.mp3')
 
-    # Initialize the speech synthesizer
-    # you can customize the synthesis parameters, like voice, format, sample_rate or other parameters
-    speech_synthesizer = SpeechSynthesizer(model='cosyvoice-v3-flash',
-                                           voice=voice,
-                                           callback=None)
+    with Client(api_key=get_api_key()) as client:
+        with client.audio.tts.connect(
+                model='cosyvoice-v3-flash',
+                voice=voice,
+                format='mp3') as session:
+            session.send_text(text_to_synthesize)
+            session.stop()
+            audio_chunks = list(session.audio_chunks())
+            request_id = session.session.request_id
+            first_package_delay = session.first_package_delay
 
-    # Synthesize speech with given text, sync call and return the audio data in result
-    # for more information, please refer to https://help.aliyun.com/document_detail/2712523.html
-    audio_data = speech_synthesizer.call(text_to_synthesize)
+    audio_data = b''.join(audio_chunks)
     print('[Process {}][Metric] requestId: {}, first package delay ms: {}'.
-          format(pid, speech_synthesizer.get_last_request_id(),
-                 speech_synthesizer.get_first_package_delay()))
+          format(pid, request_id, first_package_delay))
     if audio_data is not None:
         # Save the synthesized audio to a file
         with open(file_to_save, 'wb') as f:

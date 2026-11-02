@@ -1,12 +1,13 @@
 # For prerequisites running the following sample, visit https://help.aliyun.com/zh/model-studio/getting-started/first-api-call-to-qwen
 
 import os
+import signal
 import sys
+import threading
 from datetime import datetime
 
-import dashscope
 import pyaudio
-from dashscope.audio.asr import *
+from dashscope import Client
 
 
 def get_timestamp():
@@ -14,147 +15,114 @@ def get_timestamp():
     return datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
 
 
-mic = None
-stream = None
-target_language = 'en'
-
-
-def init_dashscope_api_key():
+def get_api_key():
     """
         Set your DashScope API-key. More information:
         https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     """
-
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ[
-            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
-    else:
-        dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
+        return os.environ['DASHSCOPE_API_KEY']
+    return '<your-dashscope-api-key>'
 
 
-class Callback(TranslationRecognizerCallback):
-    def __init__(self):
-        super().__init__()
-        self.pre_end_detected = False
+mic = None
+stream = None
+target_language = 'en'
+running = True
+sentence_finished = threading.Event()
 
-    def on_open(self) -> None:
-        global mic
-        global stream
-        print('\t[log] TranslationRecognizerCallback open.')
-        mic = pyaudio.PyAudio()
-        stream = mic.open(format=pyaudio.paInt16,
-                          channels=1,
-                          rate=16000,
-                          input=True)
-        print('\t[log] Recording...')
 
-    def on_close(self) -> None:
-        global mic
-        global stream
-        print('\t[log] TranslationRecognizerCallback close.')
-        stream.stop_stream()
-        stream.close()
-        mic.terminate()
-        stream = None
-        mic = None
+def signal_handler(sig, frame):
+    global running
+    print('\t[log] Ctrl+C pressed, stop translation ...')
+    running = False
 
-    def on_complete(self) -> None:
-        print('\t[log] Translation completed.')  # translation completed
 
-    def on_error(self, message) -> None:
-        print('\t[log] TranslationRecognizerCallback task_id: ',
-              message.request_id)
-        print('\t[log] TranslationRecognizerCallback error: ', message.message)
-        # Stop and close the audio stream if it is running
-        if 'stream' in globals() and stream.active:
-            stream.stop()
-            stream.close()
-        # Forcefully exit the program
-        sys.exit(1)
-
-    def on_event(
-        self,
-        request_id,
-        transcription_result: TranscriptionResult,
-        translation_result: TranslationResult,
-        usage,
-    ) -> None:
-        print('- - - - - - - - - - -')
-        if transcription_result is not None:
-            print('[{}] transcript : {}'.format(get_timestamp(),
-                                                transcription_result.text))
-
-        if translation_result is not None:
-            translation: Translation = translation_result.get_translation(
-                target_language)
-            if self.pre_end_detected:
-                if translation.pre_end_failed:
-                    print('[{}] <=== [vad pre_end failed] ===>'.format(
-                        get_timestamp()))
-                    self.pre_end_detected = False
-            if translation.vad_pre_end:
-                print('[{}] <=== [vad pre_end] ===>'.format(get_timestamp()))
-                self.pre_end_detected = True
-            # print("sentence id: ", translation.sentence_id)
-            print('[{}] translate to {}: {}'.format(get_timestamp(),
-                                                    target_language,
-                                                    translation.text))
-            if translation.is_sentence_end:
-                print('request id: {} usage: {}'.format(request_id, usage))
+def receive_events(session):
+    """Consume translation events until the first sentence finishes."""
+    try:
+        for event in session.events():
+            kind = event.get('type')
+            if kind == 'response.text.delta':
+                print('[{}] translate to {}: {}'.format(
+                    get_timestamp(), target_language, event.get('delta', '')),
+                    end='',
+                    flush=True)
+            elif kind == 'response.text.done':
+                print('\n[{}] translation done: {}'.format(
+                    get_timestamp(), event.get('text', '')))
+                sentence_finished.set()
+            elif kind == 'conversation.item.input_audio_transcription.completed':
+                print('\n[{}] transcript : {}'.format(
+                    get_timestamp(), event.get('transcript', '')))
+            elif kind == 'response.done':
+                sentence_finished.set()
+    except Exception as e:
+        print('\t[log] receive error: {}'.format(e))
 
 
 # main function
 if __name__ == '__main__':
-    init_dashscope_api_key()
+    api_key = get_api_key()
     print('\t[log] Initializing ...')
 
-    # Create the translation callback
-    callback = Callback()
+    mic = pyaudio.PyAudio()
+    stream = mic.open(format=pyaudio.paInt16,
+                      channels=1,
+                      rate=16000,
+                      input=True)
 
-    # Call translation service by async mode, you can customize the translation parameters, like model, format,
-    # sample_rate For more information, please refer to https://help.aliyun.com/document_detail/2712536.html
-    translator = TranslationRecognizerChat(
-        model='gummy-chat-v1',
-        format='pcm',
-        sample_rate=16000,
-        transcription_enabled=True,
-        translation_enabled=True,
-        translation_target_languages=[target_language],
-        callback=callback,
-    )
+    client = Client(api_key=api_key)
+    try:
+        session = client.audio.realtime.connect(
+            model='qwen3.8-livetranslate-flash-realtime',
+        )
+        session.connect()
+        session.update_session(
+            output_modalities=["text"],
+            translation_params={"language": target_language},
+        )
 
-    # Start translation
-    translator.start()
-    print('\t[log] Translation started')
+        receiver = threading.Thread(target=receive_events, args=(session,))
+        receiver.start()
 
-    print('translation will stop after recording one sentence...')
-    # Create a keyboard listener until "Ctrl+C" is pressed
+        signal.signal(signal.SIGINT, signal_handler)
+        print('\t[log] Translation started')
+        print('translation will stop after recording one sentence...')
 
-    # save recorded audio
-    audio_buffer = []
-    while True:
-        if stream:
-            data = stream.read(3200, exception_on_overflow=False)
-            audio_buffer.append(data)
-            if translator.send_audio_frame(data):
+        audio_buffer = []
+        try:
+            while running and not sentence_finished.is_set():
+                data = stream.read(3200, exception_on_overflow=False)
+                audio_buffer.append(data)
+                session.append_audio(data)
+        finally:
+            session.close()
+            receiver.join(timeout=30)
+
+        if audio_buffer:
+            filename = '{}_record.pcm'.format(
+                session.session_id or 'unknown')
+            with open(filename, 'wb') as f:
+                for audio in audio_buffer:
+                    f.write(audio)
+            print('\t[log] Recorded audio saved to {}'.format(filename))
+
+        print(
+            '[Metric] requestId: {}, first text delay ms: {}'.format(
+                session.last_response_id,
+                session.last_first_text_delay,
+            ))
+    finally:
+        if stream is not None:
+            try:
+                stream.stop_stream()
+                stream.close()
+            except Exception:
                 pass
-                # print("\t[log] send audio frame success")
-            else:
-                print('\t[log] sentence end, stop sending')
-                break
-        else:
-            break
-
-    translator.stop()
-
-    with open('{}_record.pcm'.format(translator.last_request_id), 'wb') as f:
-        for audio in audio_buffer:
-            f.write(audio)
-    print('\t[log] Recorded audio saved to {}_record.pcm')
-    print(
-        '[Metric] requestId: {}, first package delay ms: {}, last package delay ms: {}'
-        .format(
-            translator.get_last_request_id(),
-            translator.get_first_package_delay(),
-            translator.get_last_package_delay(),
-        ))
+        if mic is not None:
+            try:
+                mic.terminate()
+            except Exception:
+                pass
+        client.close()

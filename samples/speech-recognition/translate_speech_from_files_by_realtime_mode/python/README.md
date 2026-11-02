@@ -3,10 +3,11 @@
 
 简体中文 | [English](./README_EN.md)
 
-批量音视频文件语音翻译（实时模式）是指并发的将多个音频文件通过实时的方式将语音数据发送给语音翻译服务，并实时地返回翻译结果文本的过程。
-
+批量音视频文件语音翻译（实时模式）是指并发地将多个音频文件的语音数据发送给语音翻译服务，并实时返回翻译结果文本的过程。
 
 ## Python
+
+Python 示例使用 DashScope SDK 2.0.2 的 `Client`/v2 接口和 `qwen3.8-livetranslate-flash-realtime` 模型。
 
 [comment]: # (prerequisites)
 ### :point_right: 前提条件

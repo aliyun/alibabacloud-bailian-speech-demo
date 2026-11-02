@@ -8,6 +8,9 @@ This repository demonstrates how to call **Speech Large Models** (including [Qwe
 
 ## ⭐ Latest Updates ⭐
 
+#### 2026/11/02
+- Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs; MultiModalDialog examples are outside this migration scope.
+
 #### 2026/08/14
 - Added Qwen-Audio-3.0-TTS speech synthesis and voice cloning examples, with voice style, dialect and emotion controllable by instruction.
 - Added the Qwen-Audio-3.0-ASR speech recognition examples, covering non-streaming recognition, streaming recognition (with hotwords and dialog context) and recorded-file transcription.
@@ -119,6 +122,9 @@ The Gallery showcases creative applications built with Bailian AI capabilities. 
 This project is licensed under the [MIT License](https://opensource.org/license/MIT).
 
 ## :point_right: Changelog
+
+#### 2026/11/02
+- Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs; MultiModalDialog examples are outside this migration scope.
 
 #### 2026/08/14
 - Added Qwen-Audio-3.0-TTS speech synthesis and voice cloning examples, with voice style, dialect and emotion controllable by instruction.

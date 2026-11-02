@@ -11,7 +11,15 @@
 
 ```python
 instruction = '年轻活泼的女性声音，声音清脆甜美，语速很快，带有明显的上扬语调，适合介绍时尚产品'
-synthesizer = SpeechSynthesizer(model=model, voice=voice, instruction=instruction, callback=callback)
+parameters = {'instruction': instruction}
+
+with Client(api_key=get_api_key()) as client:
+    with client.audio.tts.connect(
+            model='qwen-audio-3.0-tts-flash',
+            voice='longanfengyue',
+            format='mp3',
+            parameters=parameters) as session:
+        session.send_text(text)
 ```
 
 示例中提供了 3 种风格对比：时尚产品主播、新闻播音员、温柔讲故事。
@@ -54,7 +62,13 @@ instruction = '请用河南话表达'
 使用示例：
 ```python
 text = '[excited]今天的天气真不错！[laughing]我们一起出去玩吧！'
-synthesizer.call(text)
+
+with Client(api_key=get_api_key()) as client:
+    with client.audio.tts.connect(
+            model='qwen-audio-3.0-tts-flash',
+            voice='longanfengyue',
+            format='mp3') as session:
+        session.send_text(text)
 ```
 
 ### 四、组合使用（Instruction + Tags）
@@ -64,6 +78,15 @@ synthesizer.call(text)
 ```python
 instruction = '温柔舒缓的女性声音，语速较慢'
 text = '[whispers]听好了，[excited]惊喜来了！[laughing]生日快乐！'
+parameters = {'instruction': instruction}
+
+with Client(api_key=get_api_key()) as client:
+    with client.audio.tts.connect(
+            model='qwen-audio-3.0-tts-flash',
+            voice='longanfengyue',
+            format='mp3',
+            parameters=parameters) as session:
+        session.send_text(text)
 ```
 
 ---

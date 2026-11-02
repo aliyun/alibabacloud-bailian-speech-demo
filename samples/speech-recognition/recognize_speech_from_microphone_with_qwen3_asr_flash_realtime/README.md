@@ -31,8 +31,8 @@
 运行示例，在控制台会提示您开始说话，控制台输入'Ctrl+C' 即可结束识别。识别结果文本会在控制台打印。
 ```text
 Press 'Ctrl+C' to stop recording and recognition
-RecognitionCallback text:  一
-RecognitionCallback text:  1234
+ASR text:  一
+ASR text:  1234
 ```
 
 [comment]: # (technical support of the sample)

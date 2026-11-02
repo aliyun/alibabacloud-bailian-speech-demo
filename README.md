@@ -11,6 +11,9 @@
 
 ## ⭐最新动态⭐
 
+### 2026/11/02
+- ASR、TTS、Omni 与 Realtime Python 示例已升级至 DashScope SDK 2.0.2 的 `Client`/v2 接口；MultiModalDialog 示例不在本次升级范围内。
+
 ### 2026/08/14
 - 增加 Qwen-Audio-3.0-TTS 语音合成与声音复刻示例，支持通过指令控制音色风格、方言与情感。
 - 增加 Qwen-Audio-3.0-ASR 系列语音识别示例，覆盖非流式识别、流式识别（支持热词与对话上下文）与录音文件转写。
@@ -140,6 +143,9 @@ TTS 调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 本项目遵循[The MIT License](https://opensource.org/license/MIT)开源协议
 
 ## :point_right: 变更记录
+
+### 2026/11/02
+- ASR、TTS、Omni 与 Realtime Python 示例已升级至 DashScope SDK 2.0.2 的 `Client`/v2 接口；MultiModalDialog 示例不在本次升级范围内。
 
 ### 2026/08/14
 - 增加 Qwen-Audio-3.0-TTS 语音合成与声音复刻示例，支持通过指令控制音色风格、方言与情感。

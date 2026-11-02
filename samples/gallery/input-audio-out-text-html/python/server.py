@@ -1,84 +1,93 @@
-import json
 import asyncio
+import json
+import queue
+import threading
+
 import websockets
-import dashscope
-from dashscope.audio.asr import *
+from dashscope import Client
+
+
+def get_api_key():
+    """Load DashScope API key from environment or use a placeholder."""
+    import os
+    if 'DASHSCOPE_API_KEY' in os.environ:
+        return os.environ['DASHSCOPE_API_KEY']
+    return '<your-dashscope-api-key>'
 
 
 # Real-time speech recognition callback
-class MyRecognitionCallback(RecognitionCallback):
-    def __init__(self, tag, websocket, loop) -> None:
-        super().__init__()
-        self.tag = tag
-        self.text = ''
-        self.websocket = websocket
-        self.loop = loop
-        self.send_events = []
-
-    def on_open(self) -> None:
-        print(f'[{self.tag}] Recognition started')  # recognition open
-
-    def on_complete(self) -> None:
-        print(f'[{self.tag}] Results ==> ', self.text)
-        print(f'[{self.tag}] Recognition completed')  # recognition complete
-
-    def on_error(self, result: RecognitionResult) -> None:
-        print(f'[{self.tag}] RecognitionCallback task_id: ', result.request_id)
-        print(f'[{self.tag}] RecognitionCallback error: ', result.message)
-        exit(0)
-
-    async def send_asr_result(self, message: str,
-                              event: asyncio.Event) -> None:
-        await self.websocket.send(message)
-        event.set()
-
-    def on_event(self, result: RecognitionResult) -> None:
-        sentence = result.get_sentence()
-        if 'text' in sentence:
-            is_end = False
-            if RecognitionResult.is_sentence_end(sentence):
-                is_end = True
-            print(sentence['text'])
-            msg = {'text': sentence['text'], 'is_end': is_end}
-            event = asyncio.Event()
-            self.send_events.append(event)
-            self.loop.call_soon_threadsafe(
-                asyncio.create_task,
-                self.send_asr_result(json.dumps(msg), event))
-
-    def on_close(self) -> None:
-        print(f'[{self.tag}] RecognitionCallback closed')
-
-
 class AudioServer:
     def __init__(self):
         pass
 
-    async def handle_client(self, websocket):
-        loop = asyncio.get_event_loop()
-        callback = MyRecognitionCallback('process0', websocket, loop)
-        recognition = Recognition(
-            model='fun-asr-realtime',
-            # 'paraformer-realtime-v1'、'paraformer-realtime-8k-v1'
-            format='pcm',
-            # 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr',
-            # you can check the supported formats in the document
-            # otherwise, we recommend using 'opus', opus is a very efficient zip format
-            sample_rate=16000,  # supported 8000、16000
-            semantic_punctuation_enabled=False,
-            callback=callback)
+    def _asr_worker(self, audio_queue, results_queue, stop_event, outfile,
+                    loop):
+        """Run the V2 ASR session in a worker thread."""
 
-        recognition.start()
+        with Client(api_key=get_api_key()) as client:
+            session = client.audio.asr.recognize(
+                model='fun-asr-realtime',
+                # 'paraformer-realtime-v2' is also supported by the V2 SDK
+                format='pcm',
+                # 'pcm'、'wav'、'opus'、'speex'、'aac'、'amr',
+                # you can check the supported formats in the document
+                # otherwise, we recommend using 'opus', opus is a very efficient zip format
+                sample_rate=16000,  # supported 8000、16000
+            )
+            session.start()
+
+            def consume_results():
+                """Push final and partial sentences back to the async handler."""
+                try:
+                    for result in session.results():
+                        sentence = result.get_sentence()
+                        if sentence and 'text' in sentence:
+                            msg = {
+                                'text': sentence['text'],
+                                'is_end': result.is_sentence_end()
+                            }
+                            loop.call_soon_threadsafe(
+                                results_queue.put_nowait, msg)
+                finally:
+                    loop.call_soon_threadsafe(results_queue.put_nowait, None)
+
+            consumer = threading.Thread(target=consume_results)
+            consumer.start()
+
+            try:
+                while not stop_event.is_set():
+                    try:
+                        data = audio_queue.get(timeout=0.1)
+                    except queue.Empty:
+                        continue
+                    if data is None:
+                        break
+                    session.send_audio_frame(data)
+                    outfile.write(data)
+                session.stop()
+                consumer.join(timeout=30)
+            finally:
+                session.close()
+
+    async def handle_client(self, websocket):
+        loop = asyncio.get_running_loop()
+        audio_queue = queue.Queue()
+        results_queue = asyncio.Queue()
+        stop_event = threading.Event()
 
         outfile = open('audio.pcm', 'wb')
+        asr_thread = threading.Thread(
+            target=self._asr_worker,
+            args=(audio_queue, results_queue, stop_event, outfile, loop),
+        )
+        asr_thread.start()
+
         try:
             print('Client connected')
             while True:
                 data = await websocket.recv()
                 if isinstance(data, bytes):
-                    # print("Received data:", len(data))
-                    recognition.send_audio_frame(data)
-                    outfile.write(data)
+                    audio_queue.put(data)
                 if isinstance(data, str):
                     print('Received message:', data)
                     if data == 'stop':
@@ -87,14 +96,25 @@ class AudioServer:
             print('Client disconnected')
         except Exception as e:
             print(f'Error: {e}')
-        recognition.stop()
+        finally:
+            stop_event.set()
+            audio_queue.put(None)
+            outfile.close()
 
-        # wait until all asr results are sent
-        for event in callback.send_events:
-            await event.wait()
+            # wait until all asr results are sent
+            while True:
+                try:
+                    msg = await asyncio.wait_for(results_queue.get(),
+                                                 timeout=5)
+                except asyncio.TimeoutError:
+                    break
+                if msg is None:
+                    break
+                await websocket.send(json.dumps(msg))
 
-        await websocket.send('asr stopped')
-        print('asr stopped')
+            await websocket.send('asr stopped')
+            print('asr stopped')
+            asr_thread.join(timeout=5)
 
     def close(self):
         print('server is closed')

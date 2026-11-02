@@ -23,13 +23,16 @@
 The language is selected by two parameters working together:
 
 ```python
-synthesizer = SpeechSynthesizer(
-    model='qwen-audio-3.0-tts-flash',
-    voice='longanhuan_mtlv7',
-    language_hints=['ja'],      # tells the model which language the text is in
-    instruction='请讲日语。',     # explicitly asks the model to speak Japanese
-    callback=callback,
-)
+parameters = {'instruction': '请讲日语。'}
+
+with Client(api_key=get_api_key()) as client:
+    with client.audio.tts.connect(
+            model='qwen-audio-3.0-tts-flash',
+            voice='longanhuan_mtlv7',
+            format='mp3',
+            language_hints=['ja'],      # tells the model which language the text is in
+            parameters=parameters) as session:
+        session.send_text(text)
 ```
 
 > :warning: **Chinese and English need `language_hints` only.** The other 14 languages **must also receive the matching `instruction`**, otherwise the model may read the text using Chinese or English pronunciation.

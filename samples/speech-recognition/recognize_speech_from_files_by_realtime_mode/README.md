@@ -34,13 +34,13 @@
 运行示例，在控制台会输出流式识别结果。每个文件的识别对应一个[process id], 每个文件的结果会不断返回增量的结果。如
 ```
     //process: 51389 对应sample_audio.mp3的识别结果1
-    [process 51389]RecognitionCallback text:  那河畔的金柳是夕阳中的
+    [process 51389]ASR text:  那河畔的金柳是夕阳中的
 
     //process: 51392 对应sample_video_story.mp4的识别结果
-    [process 51392]RecognitionCallback text:  在一个阳光明媚的早晨，鸭妈妈决定带着小鸭子们
+    [process 51392]ASR text:  在一个阳光明媚的早晨，鸭妈妈决定带着小鸭子们
 
     //process: 51389 对应sample_audio.mp3的识别结果2
-    [process 51389]RecognitionCallback text:  那河畔的金柳是夕阳中的新娘。
+    [process 51389]ASR text:  那河畔的金柳是夕阳中的新娘。
 ```
 
 [comment]: # (technical support of the sample)

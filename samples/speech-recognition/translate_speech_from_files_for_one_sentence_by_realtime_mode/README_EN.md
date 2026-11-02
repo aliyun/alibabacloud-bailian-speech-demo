@@ -28,7 +28,8 @@ If you use Java to build a speech service, refer to [High Concurrency Example Do
 
 | Recommended Model | API Details |
 | ----- | ----- |
-| **gummy-chat-v1** | [Paraformer Real-time Speech Recognition API Details (TODO: Update)](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
+| Python: **qwen3.8-livetranslate-flash-realtime** | DashScope SDK 2.0.2 `Client`/v2 API |
+| Java: **gummy-chat-v1** | [Real-time Speech Recognition API Details](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
 
 
 ### :point_right: Expected Results

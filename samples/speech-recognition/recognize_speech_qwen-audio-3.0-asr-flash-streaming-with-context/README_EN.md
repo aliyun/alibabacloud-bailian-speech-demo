@@ -92,7 +92,7 @@ The example runs 4 scenarios in sequence, printing the number of context message
 ```text
 === Example 2: dialog history as context ===
 [context] 4 message(s) sent to the service.
-RecognitionCallback sentence end, text:  hello world，这里是阿里巴巴语音实验室。
+ASR sentence end, text:  hello world，这里是阿里巴巴语音实验室。
 [Metric] requestId: xxx, first package delay ms: 644
 
 === Example 4: context exceeding the limits is trimmed ===
