@@ -3,7 +3,7 @@
 
 简体中文 | [English](./README_EN.md)
 
-分角色朗读故事是通过调用不同音色的语音合成朗读一个完整的故事。适用于多种场景，如有声读物、在线教育等需要区分说话人的场景。
+分角色朗读故事使用 DashScope SDK 2.0.2 的 `Client`/v2 接口，通过 Qwen-Audio-3.1-TTS 按角色朗读完整故事。适用于有声读物、在线教育等场景。
 <!--
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景
@@ -36,7 +36,7 @@
 ```commandline
 python3 run.py
 ```
-运行脚本后将会使用不同音色按照“鸭子妈妈”，“鸭子宝宝”和“旁白”三种不同的角色朗读小鸭子的故事。故事内容存放在story.json中。
+运行脚本后，`qwen-audio-3.1-tts-flash` 使用已验证可用的 `longanfengyue_v3.1` 音色朗读“鸭子妈妈”“鸭子宝宝”和“旁白”。代码为三个角色分别保留了音色变量，您可以将其替换为当前账号可用的其他音色。故事内容存放在 `story.json` 中。
 
 
 [comment]: # (technical support of the sample)

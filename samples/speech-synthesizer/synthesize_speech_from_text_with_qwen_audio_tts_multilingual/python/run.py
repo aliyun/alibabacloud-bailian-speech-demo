@@ -2,9 +2,9 @@
 # Copyright (C) Alibaba Group. All Rights Reserved.
 # MIT License (https://opensource.org/licenses/MIT)
 """
-Qwen-Audio-3.0-TTS All-in-One Multilingual Speech Synthesis Demo
+Qwen-Audio-3.1-TTS All-in-One Multilingual Speech Synthesis Demo
 
-The `longanhuan_mtlv7` voice is an *all-in-one* multilingual voice: one single
+The `longanhuan_v3.1` voice is an *all-in-one* multilingual voice: one single
 voice id speaks 16 languages, so you do not have to switch voices — and the
 speaker timbre stays recognizably the same across all of them. This is what
 makes it suitable for one brand voice serving a global audience.
@@ -28,8 +28,7 @@ import os
 import sys
 import threading
 
-import dashscope
-from dashscope.audio.tts_v2 import ResultCallback, SpeechSynthesizer
+from dashscope import Client
 
 sys.path.append(
     os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -40,11 +39,11 @@ from RealtimeMp3Player import RealtimeMp3Player
 # ===========================================================================
 # Configuration
 # ===========================================================================
-# Supported models: 'qwen-audio-3.0-tts-flash', 'qwen-audio-3.0-tts-plus'
-MODEL = 'qwen-audio-3.0-tts-flash'
+# Supported models: 'qwen-audio-3.1-tts-flash', 'qwen-audio-3.1-tts-plus'
+MODEL = 'qwen-audio-3.1-tts-flash'
 
 # The all-in-one multilingual voice: one voice id, 16 languages.
-VOICE = 'longanhuan_mtlv7'
+VOICE = 'longanhuan_v3.1'
 
 # The 16 supported languages. `instruction` is None for Chinese and English,
 # because those two are recognized from `language_hints` alone. For every other
@@ -162,51 +161,15 @@ LANGUAGES = [
 LANGUAGE_MAP = {item['lid']: item for item in LANGUAGES}
 
 
-def init_dashscope_api_key():
+def get_api_key():
     '''
     Set your DashScope API-key. More information:
     https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     '''
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ['DASHSCOPE_API_KEY']
+        return os.environ['DASHSCOPE_API_KEY']
     else:
-        dashscope.api_key = '<your-dashscope-api-key>'
-
-
-class SpeechSynthesisCallback(ResultCallback):
-    """Callback that plays audio in real-time and optionally saves to file."""
-
-    def __init__(self, player: RealtimeMp3Player, output_file: str = None):
-        self.player = player
-        self.output_file = output_file
-        self.file = None
-        self.complete_event = threading.Event()
-
-    def on_open(self):
-        if self.output_file:
-            self.file = open(self.output_file, 'wb')
-
-    def on_complete(self):
-        self.complete_event.set()
-
-    def on_error(self, message: str):
-        print(f'  [ERROR] {message}')
-        self.complete_event.set()
-
-    def on_close(self):
-        if self.file:
-            self.file.close()
-
-    def on_event(self, message):
-        pass
-
-    def on_data(self, data: bytes) -> None:
-        self.player.write(data)
-        if self.file:
-            self.file.write(data)
-
-    def wait_for_complete(self):
-        self.complete_event.wait()
+        return '<your-dashscope-api-key>'
 
 
 def synthesize(text: str,
@@ -217,27 +180,41 @@ def synthesize(text: str,
     player = RealtimeMp3Player()
     player.start()
 
-    callback = SpeechSynthesisCallback(player, output_file)
-
-    # `instruction` is only sent for languages that need it. Passing None is
-    # also accepted by the SDK, but keeping it out of the call makes it obvious
-    # which languages rely on the instruction and which do not.
-    kwargs = {
-        'model': MODEL,
-        'voice': VOICE,
-        'language_hints': [lid],
-        'callback': callback,
-    }
+    complete_event = threading.Event()
+    parameters = {}
     if instruction is not None:
-        kwargs['instruction'] = instruction
+        parameters['instruction'] = instruction
 
-    synthesizer = SpeechSynthesizer(**kwargs)
-    synthesizer.call(text)
-    callback.wait_for_complete()
+    with open(output_file, 'wb') as audio_file:
+        with Client(api_key=get_api_key()) as client:
+            with client.audio.tts.connect(
+                    model=MODEL,
+                    voice=VOICE,
+                    format='mp3',
+                    language_hints=[lid],
+                    parameters=parameters if parameters else None) as session:
+
+                def read_audio():
+                    for chunk in session.audio_chunks():
+                        player.write(chunk)
+                        audio_file.write(chunk)
+                    complete_event.set()
+
+                reader_thread = threading.Thread(target=read_audio)
+                reader_thread.start()
+
+                session.send_text(text)
+                session.stop()
+                complete_event.wait()
+                reader_thread.join()
+
+                request_id = session.session.request_id
+                first_package_delay = session.first_package_delay
+
     player.stop()
 
-    print(f'  requestId: {synthesizer.get_last_request_id()}, '
-          f'first_package_delay: {synthesizer.get_first_package_delay():.0f}ms')
+    print(f'  requestId: {request_id}, '
+          f'first_package_delay: {first_package_delay:.0f}ms')
     if output_file:
         print(f'  saved to: {output_file}')
 
@@ -302,8 +279,6 @@ def main():
     if args.text is not None and args.lid is None:
         parser.error('--text requires --lid, so that the model knows which '
                      'language the text is in.')
-
-    init_dashscope_api_key()
 
     if args.lid is None:
         run_all_languages()

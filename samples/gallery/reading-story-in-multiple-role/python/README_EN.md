@@ -2,7 +2,7 @@
 
 English | [简体中文](./README.md)
 
-Role-based story reading utilizes different voice synthesis tones to narrate a complete story. It is suitable for various scenarios such as audiobooks and online education where speaker differentiation is required.
+This example uses the DashScope SDK 2.0.2 `Client`/v2 API and Qwen-Audio-3.1-TTS to narrate a complete story by role. It is suitable for audiobooks, online education, and similar scenarios.
 <!--
 ### :point_right: Applicable Scenarios
 
@@ -32,7 +32,7 @@ Role-based story reading utilizes different voice synthesis tones to narrate a c
 python3 run.py
 ```
 
-After running the script, the story of little ducks will be narrated using different voices for three roles: "Duck Mother," "Duck Baby," and "Narrator." The story content is stored in story.json.
+The `qwen-audio-3.1-tts-flash` model narrates "Duck Mother," "Duck Baby," and "Narrator" with the verified `longanfengyue_v3.1` voice. The code keeps a separate voice variable for each role so you can replace them with other voices available to your account. The story content is stored in `story.json`.
 
 [comment]: # (technical support of the sample)
 ### :point_right: Technical Support

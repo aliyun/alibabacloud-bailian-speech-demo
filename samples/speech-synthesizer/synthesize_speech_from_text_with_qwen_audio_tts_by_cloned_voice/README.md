@@ -22,7 +22,7 @@
 ### :point_right: 参考详情
 | 推荐模型 | API详情 |
 | --- | --- |
-| **Qwen-Audio-3.0-TTS** | [官方文档](https://help.aliyun.com/zh/model-studio/sound-reengraving/?spm=a2c4g.11186623.0.0.40f04483d5aWee) |
+| **Qwen-Audio-3.1-TTS** | [官方文档](https://help.aliyun.com/zh/model-studio/sound-reengraving/?spm=a2c4g.11186623.0.0.40f04483d5aWee) |
 
 ### :point_right: 预期结果
 

@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## Qwen-Audio-3.0-TTS 指令控制语音合成详解
+## Qwen-Audio-3.1-TTS 指令控制语音合成详解
 
 简体中文 | [English](./README_EN.md)
 
-本示例**专门**演示 Qwen-Audio-3.0-TTS 的 **instruction 指令控制** 能力，覆盖以下四类用法：
+本示例**专门**演示 Qwen-Audio-3.1-TTS 的 **instruction 指令控制** 能力，覆盖以下四类用法：
 
 ### 一、风格指令（Style Instruction）
 
@@ -11,7 +11,15 @@
 
 ```python
 instruction = '年轻活泼的女性声音，声音清脆甜美，语速很快，带有明显的上扬语调，适合介绍时尚产品'
-synthesizer = SpeechSynthesizer(model=model, voice=voice, instruction=instruction, callback=callback)
+parameters = {'instruction': instruction}
+
+with Client(api_key=get_api_key()) as client:
+    with client.audio.tts.connect(
+            model='qwen-audio-3.1-tts-flash',
+            voice='longanfengyue_v3.1',
+            format='mp3',
+            parameters=parameters) as session:
+        session.send_text(text)
 ```
 
 示例中提供了 3 种风格对比：时尚产品主播、新闻播音员、温柔讲故事。
@@ -54,7 +62,13 @@ instruction = '请用河南话表达'
 使用示例：
 ```python
 text = '[excited]今天的天气真不错！[laughing]我们一起出去玩吧！'
-synthesizer.call(text)
+
+with Client(api_key=get_api_key()) as client:
+    with client.audio.tts.connect(
+            model='qwen-audio-3.1-tts-flash',
+            voice='longanfengyue_v3.1',
+            format='mp3') as session:
+        session.send_text(text)
 ```
 
 ### 四、组合使用（Instruction + Tags）
@@ -64,6 +78,15 @@ synthesizer.call(text)
 ```python
 instruction = '温柔舒缓的女性声音，语速较慢'
 text = '[whispers]听好了，[excited]惊喜来了！[laughing]生日快乐！'
+parameters = {'instruction': instruction}
+
+with Client(api_key=get_api_key()) as client:
+    with client.audio.tts.connect(
+            model='qwen-audio-3.1-tts-flash',
+            voice='longanfengyue_v3.1',
+            format='mp3',
+            parameters=parameters) as session:
+        session.send_text(text)
 ```
 
 ---
@@ -76,7 +99,7 @@ text = '[whispers]听好了，[excited]惊喜来了！[laughing]生日快乐！'
 ### :point_right: 参考详情
 | 推荐模型 | API 文档 |
 | --- | --- |
-| **Qwen-Audio-3.0-TTS** (`qwen-audio-3.0-tts-flash` / `qwen-audio-3.0-tts-plus`) | [实时语音合成](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
+| **Qwen-Audio-3.1-TTS** (`qwen-audio-3.1-tts-flash` / `qwen-audio-3.1-tts-plus`) | [实时语音合成](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
 
 ### :point_right: 预期结果
 

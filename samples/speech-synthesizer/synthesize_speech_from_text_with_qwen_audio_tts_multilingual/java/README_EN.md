@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## Qwen-Audio-3.0-TTS All-in-One Multilingual Speech Synthesis
+## Qwen-Audio-3.1-TTS All-in-One Multilingual Speech Synthesis
 
 [简体中文](./README.md) | English
 
@@ -20,7 +20,7 @@ mvn clean package
 java -jar target/alibabacloud-bailian-speech-demo-java-1.0-SNAPSHOT.jar
 ```
 
-The sample uses **one single voice** `longanhuan_mtlv7` to synthesize the same greeting in 16 languages, playing each back in real time and saving them as `result_<language-code>.mp3`.
+The sample uses **one single voice** `longanhuan_v3.1` to synthesize the same greeting in 16 languages, playing each back in real time and saving them as `result_<language-code>.mp3`.
 
 Functionally identical to the [Python version](../python). For the full 16-language table, `languageHints` + `instruction` usage and round-trip verification results, see the [parent README](../README_EN.md).
 

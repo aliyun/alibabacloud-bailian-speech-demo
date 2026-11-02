@@ -4,12 +4,10 @@ import sys
 import threading
 import time
 
-import dashscope
 import pyaudio
 import wx
 import wx.richtext as rt
-from dashscope.audio.asr import *
-from dashscope.audio.tts_v2 import *
+from dashscope import Client
 
 sys.path.append(
     os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -19,17 +17,14 @@ from RealtimeMp3Player import RealtimeMp3Player
 
 
 # Set your Dashscope API key
-def init_dashscope_api_key():
+def get_api_key():
     """
         Set your DashScope API-key. More information:
         https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     """
-
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ[
-            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
-    else:
-        dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
+        return os.environ['DASHSCOPE_API_KEY']
+    return '<your-dashscope-api-key>'
 
 
 # Set the target language for translation
@@ -45,127 +40,90 @@ audio_stream = None
 wx_text_queue = queue.Queue()
 # Queue for fixed words from ASR
 asr_fixed_words = queue.Queue()
+stop_asr = threading.Event()
 
 
 # Handle the ASR task. This function will get audio from microphone in while loop and send it to ASR.
-# The streaming output of ASR will be pushed back to the wx_text_queue and  asr_fixed_words
+# The streaming output of ASR will be pushed back to the wx_text_queue and asr_fixed_words.
 def gummyAsrTask():
-    class Callback(TranslationRecognizerCallback):
-        def __init__(self):
-            super().__init__()
-            # Initialize pointers for tracking words
-            self.sentence_ptr = 0
-            self.zh_word_ptr = 0
-            self.tg_word_ptr = 0
+    global mic
+    global audio_stream
 
-        def on_open(self) -> None:
-            # When the recognizer opens, set up the microphone stream
-            global mic
-            global audio_stream
-            with pyaudio_lock:
-                print('TranslationRecognizerCallback open.')
-                mic = pyaudio.PyAudio()
-                audio_stream = mic.open(format=pyaudio.paInt16,
-                                        channels=1,
-                                        rate=16000,
-                                        input=True)
+    api_key = get_api_key()
 
-        def on_close(self) -> None:
-            # Clean up the audio stream and microphone
-            global mic
-            global audio_stream
-            print('TranslationRecognizerCallback close.')
-            if audio_stream is None:
-                print('audio_stream is None')
-                return
-            if audio_stream is not None:
+    with pyaudio_lock:
+        print('TranslationRecognizerCallback open.')
+        mic = pyaudio.PyAudio()
+        audio_stream = mic.open(format=pyaudio.paInt16,
+                                channels=1,
+                                rate=16000,
+                                input=True)
+
+    with Client(api_key=api_key) as client:
+        with client.audio.realtime.connect(
+                model='qwen3.8-livetranslate-flash-realtime',
+        ) as session:
+            session.update_session(
+                output_modalities=["text"],
+                translation_params={"language": target_language},
+            )
+
+            def receive_events():
+                try:
+                    for event in session.events():
+                        kind = event.get('type')
+                        if kind == 'response.text.delta':
+                            delta = event.get('delta', '')
+                            wx_text_queue.put(['', delta, False])
+                            asr_fixed_words.put([delta, False])
+                        elif kind == 'response.text.done':
+                            wx_text_queue.put(['', event.get('text', ''), False])
+                        elif kind == 'conversation.item.input_audio_transcription.completed':
+                            wx_text_queue.put([event.get('transcript', ''), '', False])
+                        elif kind == 'response.done':
+                            wx_text_queue.put(['', '', True])
+                            asr_fixed_words.put(['', True])
+                except Exception as e:
+                    print('event consumer error: ', e)
+
+            receiver = threading.Thread(target=receive_events)
+            receiver.start()
+
+            print('translator start')
+            print('translator request_id: {}'.format(session.session_id or 'unknown'))
+
+            # Open a file to save microphone audio data
+            saved_mic_audio_file = open('mic_audio.pcm', 'wb')
+
+            # Continuously read audio data from the microphone
+            try:
+                while not stop_asr.is_set() and audio_stream:
+                    try:
+                        data = audio_stream.read(3200, exception_on_overflow=False)
+                        session.append_audio(data)
+                        saved_mic_audio_file.write(data)
+                    except Exception as e:
+                        print(e)
+            finally:
+                saved_mic_audio_file.close()
+                receiver.join(timeout=30)
+
+            print('translator stop')
+
+    with pyaudio_lock:
+        if audio_stream is not None:
+            try:
                 audio_stream.stop_stream()
                 audio_stream.close()
-                mic.terminate()
-                audio_stream = None
-                mic = None
-
-        def on_event(
-            self,
-            request_id,
-            transcription_result: TranscriptionResult,
-            translation_result: TranslationResult,
-            usage,
-        ) -> None:
-            new_chinese_words = ''
-            new_target_language_words = ''
-            is_sentence_end = False
-
-            # Process transcription results. Only new fixed words will be pushed back.
-            if transcription_result != None:
-                for i, word in enumerate(transcription_result.words):
-                    if word.fixed:
-                        if i >= self.zh_word_ptr:
-                            print('new fixed ch word: ', word.text)
-                            new_chinese_words += word.text
-                            self.zh_word_ptr += 1
-
-            # Process translation results. Only new fixed words will be pushed back.
-            if translation_result != None:
-                target_language_translation = translation_result.get_translation(
-                    'en')
-                if target_language_translation != None:
-                    for i, word in enumerate(
-                            target_language_translation.words):
-                        if word.fixed:
-                            if i >= self.tg_word_ptr:
-                                print('new fixed {} word: '.format(
-                                    target_language, word.text))
-                                asr_fixed_words.put([word.text, False])
-                                new_target_language_words += word.text
-                                self.tg_word_ptr += 1
-                    # Check if the current sentence has ended
-                    if target_language_translation.is_sentence_end:
-                        print('target_language sentence end')
-                        self.sentence_ptr += 1
-                        self.tg_word_ptr = 0
-                        self.zh_word_ptr = 0
-                        asr_fixed_words.put(['', True])
-                        is_sentence_end = True
-            wx_text_queue.put(
-                [new_chinese_words, new_target_language_words, False])
-            if is_sentence_end:
-                wx_text_queue.put(['', '', True])
-
-    callback = Callback()
-
-    # Set up the ASR translator
-    translator = TranslationRecognizerRealtime(
-        model='gummy-realtime-v1',
-        format='pcm',
-        sample_rate=16000,
-        transcription_enabled=True,
-        translation_enabled=True,
-        translation_target_languages=[target_language],
-        callback=callback,
-    )
-
-    print('translator start')
-    translator.start()
-    print('translator request_id: {}'.format(translator.get_last_request_id()))
-
-    # Open a file to save microphone audio data
-    saved_mic_audio_file = open('mic_audio.pcm', 'wb')
-
-    # Continuously read audio data from the microphone
-    while True:
-        if audio_stream:
+            except Exception:
+                pass
+            audio_stream = None
+        if mic is not None:
             try:
-                data = audio_stream.read(3200, exception_on_overflow=False)
-                translator.send_audio_frame(data)
-                saved_mic_audio_file.write(data)
-            except Exception as e:
-                print(e)
-        else:
-            break
-
-    print('translator stop')
-    translator.stop()
+                mic.terminate()
+            except Exception:
+                pass
+            mic = None
 
 
 # Handle the TTS task. This function will get text in asr_fixed_words in while loop and send it to TTS.
@@ -175,55 +133,49 @@ def cosyvoiceTtsTask():
     with pyaudio_lock:
         player.start()
 
-    class Callback(ResultCallback):
-        def on_open(self):
-            print('tts websocket is open.')
+    api_key = get_api_key()
+    with Client(api_key=api_key) as client:
+        with client.audio.tts.connect(
+                model='cosyvoice-v3-flash',
+                voice='longanhuan',
+                format='mp3') as session:
+            complete_event = threading.Event()
 
-        def on_complete(self):
-            print('speech synthesis task complete successfully.')
+            def receive_audio():
+                try:
+                    for chunk in session.audio_chunks():
+                        player.write(chunk)
+                except Exception as e:
+                    print('tts audio consumer error: ', e)
+                finally:
+                    complete_event.set()
 
-        def on_error(self, message: str):
-            print(f'speech synthesis task failed, {message}')
+            audio_thread = threading.Thread(target=receive_audio)
+            audio_thread.start()
 
-        def on_close(self):
-            print('tts websocket is closed.')
+            print('tts request_id: {}'.format(session.session.request_id))
 
-        def on_event(self, message):
-            pass
+            # Continuously check for new words to synthesize
+            while True:
+                if not asr_fixed_words.empty():
+                    word, is_sentence_end = asr_fixed_words.get()
+                    if is_sentence_end:
+                        # Commit the accumulated text so the server returns audio.
+                        session.flush()
+                    else:
+                        print('send word: ', word)
+                        session.send_text(word)
+                else:
+                    if stop_asr.is_set():
+                        break
+                    # Sleep briefly if no words are available
+                    time.sleep(0.01)
 
-        def on_data(self, data: bytes) -> None:
-            nonlocal player
-            player.write(data)
+            session.stop()
+            complete_event.wait(timeout=30)
+            audio_thread.join(timeout=30)
 
-    synthesizer_callback = Callback()
-
-    # Create a speech synthesizer instance
-    synthesizer = SpeechSynthesizer(model='cosyvoice-v3-flash',
-                                    voice='longanhuan',
-                                    callback=synthesizer_callback)
-
-    print('tts request_id: {}'.format(synthesizer.get_last_request_id()))
-
-    # Continuously check for new words to synthesize
-    while True:
-        if not asr_fixed_words.empty():
-            word, is_sentence_end = asr_fixed_words.get()
-            if is_sentence_end:
-                # when the sentence ends, wait for the previous sentence to finish synthesing and playing.
-                synthesizer.streaming_complete()
-                player.stop()
-                player.reset()
-                # reset the player and synthesizer
-                player.start()
-                synthesizer = SpeechSynthesizer(model='cosyvoice-v3-flash',
-                                                voice='longanhuan',
-                                                callback=synthesizer_callback)
-            else:
-                print('send word: ', word)
-                synthesizer.streaming_call(word)
-        else:
-            # Sleep briefly if no words are available
-            time.sleep(0.01)
+    player.stop()
 
 
 class SubtitleFrame(wx.Frame):
@@ -337,6 +289,10 @@ if __name__ == '__main__':
     tts_thread = threading.Thread(target=cosyvoiceTtsTask)
     tts_thread.start()
     # Create and start the application's main loop
-    app = wx.App(False)
-    frame = SubtitleFrame()
-    app.MainLoop()
+    try:
+        app = wx.App(False)
+        frame = SubtitleFrame()
+        app.MainLoop()
+    finally:
+        stop_asr.set()
+        asr_thread.join(timeout=5)

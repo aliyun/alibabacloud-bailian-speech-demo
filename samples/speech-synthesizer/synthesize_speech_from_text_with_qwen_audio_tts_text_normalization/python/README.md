@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## Qwen-Audio-3.0-TTS 文本正则化（TN）能力演示
+## Qwen-Audio-3.1-TTS 文本正则化（TN）能力演示
 
 简体中文 | [English](./README_EN.md)
 

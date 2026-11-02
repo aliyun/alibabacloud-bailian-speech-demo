@@ -3,9 +3,11 @@
 
 English | [简体中文](./README.md)
 
-Batch audio/video file speech translation in real-time mode refers to the process of concurrently sending multiple audio files to a speech translation service in real-time and returning translated text results immediately.
+Batch audio/video file speech translation in real-time mode concurrently streams multiple audio files to the speech translation service and returns translated text as it becomes available.
 
 ## Python
+
+The Python example uses the DashScope SDK 2.0.2 `Client`/v2 API and the `qwen3.8-livetranslate-flash-realtime` model.
 
 [comment]: # (prerequisites)
 ### :point_right: Prerequisites

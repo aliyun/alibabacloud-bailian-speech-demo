@@ -4,7 +4,7 @@
 
 简体中文 | [English](./README_EN.md)
 
-本示例展示了通过调用百炼平台的 Gummy 实时语音翻译模型和 Cosyvoice 流式语音合成模型，实现低延迟、实时的同声传译和实时双语字幕。
+本示例使用 DashScope SDK 2.0.2 的 `Client`/v2 接口调用 `qwen3.8-livetranslate-flash-realtime` 实时语音翻译模型和 `cosyvoice-v3-flash` 流式语音合成模型，实现低延迟同声传译和实时双语字幕。
 
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景

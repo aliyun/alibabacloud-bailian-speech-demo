@@ -1,8 +1,8 @@
-## Qwen-Audio-3.0-TTS Instruction-Controlled Speech Synthesis
+## Qwen-Audio-3.1-TTS Instruction-Controlled Speech Synthesis
 
 English | [简体中文](./README.md)
 
-This example demonstrates how to use the Qwen-Audio-3.0-TTS model for speech synthesis, covering:
+This example demonstrates how to use the Qwen-Audio-3.1-TTS model for speech synthesis, covering:
 
 1. **Default style** — synthesize with the voice's native style
 2. **Style instruction** — control speaking persona, speed, and tone via a natural-language instruction
@@ -25,13 +25,13 @@ This example demonstrates how to use the Qwen-Audio-3.0-TTS model for speech syn
 ### :point_right: Reference Details
 | Recommended Model | API Details |
 | --- | --- |
-| **Qwen-Audio-3.0-TTS** | [Official Documentation](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
+| **Qwen-Audio-3.1-TTS** | [Official Documentation](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
 
 ### :point_right: Expected Results
 
 The example runs 4 scenarios in sequence:
 
-1. **Default style** — synthesizes with longanfengyue voice, outputs `result_default.mp3`
+1. **Default style** — synthesizes with longanfengyue_v3.1 voice, outputs `result_default.mp3`
 2. **Style instruction** — "young, lively female voice" style, outputs `result_instruction_style.mp3`
 3. **Dialect instruction** — synthesizes in Henan dialect, outputs `result_instruction_dialect.mp3`
 4. **Emotion tags** — uses `[excited]` and `[laughing]` tags, outputs `result_emotion_tags.mp3`

@@ -24,11 +24,11 @@ import org.alibaba.speech.utils.RealtimeMp3Player;
  * please refer to the documentation.
  */
 public class SynthesizeSpeechFromTextByQwenAudioTTSModel {
-  // supported models : 'qwen-audio-3.0-tts-flash'、'qwen-audio-3.0-tts-plus'
-  private static final String MODEL = "qwen-audio-3.0-tts-flash";
+  // supported models : 'qwen-audio-3.1-tts-flash'、'qwen-audio-3.1-tts-plus'
+  private static final String MODEL = "qwen-audio-3.1-tts-flash";
 
   // choose the voice matching the language of your text
-  private static final String DEFAULT_VOICE = "longanfengyue";
+  private static final String DEFAULT_VOICE = "longanfengyue_v3.1";
 
   public static void main(String[] args) {
     String textToSynthesize = "今天的天气真不错！我们一起出去玩吧！";

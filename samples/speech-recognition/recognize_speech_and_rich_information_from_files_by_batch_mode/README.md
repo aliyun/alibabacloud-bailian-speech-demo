@@ -7,6 +7,8 @@
 
 通过使用SenseVoice语音大模型，可以对多语种语音进行识别，并同时返回情感、音频事件等富信息。音视频文件**富信息语音识别**更适合需要识别更丰富的语种、情感、音频事件等内容的场景。对一般的音视频文件语音识别场景，仍建议使用更具性价比的Paraformer模型，请参考示例：[批量音视频文件语音识别（批量模式）](../recognize_speech_from_files_by_batch_mode/)。
 
+> Python 示例使用 DashScope SDK 2.0.2 的 `Client`/v2 接口。由于 v2 批量转写端点当前不提供 `sensevoice-v1`，Python 示例改用 `qwen-audio-3.1-asr-flash-filetrans`，每个 URL 单独提交一个任务，主要展示文件转写流程；Java 示例仍使用 `sensevoice-v1` 展示富信息识别。
+
 [comment]: # (list of scenarios of the sample)
 ### :point_right: 适用场景
 
@@ -23,16 +25,15 @@
 [comment]: # (model and interface of the sample)
 ### :point_right: 参考详情
 
-| 推荐模型 | API详情  | 模型特色                              |
-| ----- |--------------------------|-----------------------------------|
-| **sensevoice-v1** | [SenseVoice录音文件语音识别](https://help.aliyun.com/zh/model-studio/developer-reference/sensevoice-api) | 多达50+语种 <br/> 情感识别 <br/> 音频事件检测 |
+| 语言 | 推荐模型 | API详情 | 模型特色 |
+| --- | --- | --- | --- |
+| Python | **qwen-audio-3.1-asr-flash-filetrans** | 文件转写 `Client`/v2 接口 | 单 URL 单任务的录音文件转写 |
+| Java | **sensevoice-v1** | [SenseVoice录音文件语音识别](https://help.aliyun.com/zh/model-studio/developer-reference/sensevoice-api) | 多达50+语种 <br/> 情感识别 <br/> 音频事件检测 |
 
 ### :point_right: 预期结果
-运行示例，示例会访问文件转写服务，提交您输入的转写文件列表，等待识别结束。
+运行示例后，Python 版本会为每个 `file_url` 分别提交转写任务并等待完成；Java 版本会提交文件列表。
 
-识别结束，服务会以json列表的形式返回提交文件```file_url```和对应的识别结果文件链接```transcription_url```，您可以复制控制台打印链接到浏览器打开或下载。
-
-在控制台，会打印每个文件对应的简略的识别结果。
+识别结束后，服务返回提交文件对应的 `transcription_url`，示例会下载结果并在控制台打印每个文件的识别内容。
 
 [comment]: # (technical support of the sample)
 ### :point_right: 技术支持

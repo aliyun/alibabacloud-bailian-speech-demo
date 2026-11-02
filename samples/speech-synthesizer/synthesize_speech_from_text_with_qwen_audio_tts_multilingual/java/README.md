@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## Qwen-Audio-3.0-TTS All-in-One 多语言语音合成
+## Qwen-Audio-3.1-TTS All-in-One 多语言语音合成
 
 简体中文 | [English](./README_EN.md)
 
@@ -20,7 +20,7 @@ mvn clean package
 java -jar target/alibabacloud-bailian-speech-demo-java-1.0-SNAPSHOT.jar
 ```
 
-示例会用**同一个音色** `longanhuan_mtlv7` 依次合成 16 种语言的同一句问候语，实时播放并分别保存为 `result_<语种代码>.mp3`。
+示例会用**同一个音色** `longanhuan_v3.1` 依次合成 16 种语言的同一句问候语，实时播放并分别保存为 `result_<语种代码>.mp3`。
 
 功能与 [Python 版本](../python) 完全一致。完整的 16 种语言列表、`languageHints` + `instruction` 用法与回环验证结果见[上层说明](../README.md)。
 

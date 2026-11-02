@@ -38,7 +38,7 @@ To run the example code in this code repository, you need to call the Alibaba Cl
     - Steps
 
         ```bash
-        pip3 install dashscope
+        pip3 install "dashscope>=2.0.2"
         ```
 
     #### Java

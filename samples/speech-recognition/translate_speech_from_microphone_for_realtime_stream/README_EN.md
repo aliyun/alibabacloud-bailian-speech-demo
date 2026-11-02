@@ -24,14 +24,15 @@ This example demonstrates how to record audio from a microphone, send the captur
 
 | Recommended Model | API Details |
 | ----- | ----- |
-| **gummy-realtime-v1** | [Paraformer Real-time Speech Recognition API Details (TODO: Update)](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
+| Python: **qwen3.8-livetranslate-flash-realtime** | DashScope SDK 2.0.2 `Client`/v2 API |
+| Java: **gummy-realtime-v1** | [Real-time Speech Recognition API Details](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
 
 ### :point_right: Expected Results
 
 Running the example will prompt you to start speaking in the console. Enter 'Ctrl+C' in the console to stop recording and recognition. The recognition results will be printed in the console:
 ```text
 Press 'Ctrl+C' to stop recording and recognition
-RecognitionCallback text:  一
+ASR text:  一
 translate to en: The.
 translate to en: The.
 translate to en: The.

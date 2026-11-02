@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## Qwen-Audio-3.0-TTS 文本正则化（TN）能力演示
+## Qwen-Audio-3.1-TTS 文本正则化（TN）能力演示
 
 简体中文 | [English](./README_EN.md)
 
@@ -12,7 +12,7 @@
 | `965113` | 九十六万五千一百一十三 | 九六五一一三（逐位） |
 | `150石` | 一百五十 **shí** | 一百五十 **dàn** |
 
-本示例挑选了 3 段**刻意难读**的中文文本，密集包含数量词、生僻量词、多音字、百分号、全角波浪范围符、服务热线号码与时间量，用于直观感受 Qwen-Audio-3.0-TTS 的 TN 表现。
+本示例挑选了 3 段**刻意难读**的中文文本，密集包含数量词、生僻量词、多音字、百分号、全角波浪范围符、服务热线号码与时间量，用于直观感受 Qwen-Audio-3.1-TTS 的 TN 表现。
 
 ### :point_right: 三段测试文本与检查点
 
@@ -67,7 +67,7 @@ TN 效果**最终只能靠人耳判断**。多音字声调、数字分组读法�
 ### :point_right: 参考详情
 | 推荐模型 | API 文档 |
 | --- | --- |
-| **Qwen-Audio-3.0-TTS** (`qwen-audio-3.0-tts-flash` / `qwen-audio-3.0-tts-plus`) | [实时语音合成](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
+| **Qwen-Audio-3.1-TTS** (`qwen-audio-3.1-tts-flash` / `qwen-audio-3.1-tts-plus`) | [实时语音合成](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
 
 ### :point_right: 预期结果
 

@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## Qwen-Audio-3.0-TTS All-in-One Multilingual Speech Synthesis
+## Qwen-Audio-3.1-TTS All-in-One Multilingual Speech Synthesis
 
 [简体中文](./README.md) | English
 
@@ -26,7 +26,7 @@
 [comment]: # (how to run the sample and expected results)
 ### :point_right: Run the sample
 
-With no arguments, the sample uses **one single voice** `longanhuan_mtlv7` to synthesize the same greeting in **16 languages**, playing each back in real time and saving them as `result_<language-code>.mp3`:
+With no arguments, the sample uses **one single voice** `longanhuan_v3.1` to synthesize the same greeting in **16 languages**, playing each back in real time and saving them as `result_<language-code>.mp3`:
 
 ```commandline
 python3 run.py

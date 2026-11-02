@@ -40,7 +40,7 @@
     - 操作步骤
 
         ```bash
-        pip3 install dashscope
+        pip3 install "dashscope>=2.0.2"
         ```
 
     #### Java

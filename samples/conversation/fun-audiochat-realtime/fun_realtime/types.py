@@ -43,7 +43,7 @@ class EventType(str, Enum):
 
 @dataclass
 class TurnDetection:
-    type: str = "smart_turn"
+    type: str = "smart_turn_v2"
     threshold: float = 0.1
     silence_duration_ms: int = 1500
 
@@ -54,7 +54,7 @@ class TurnDetection:
 @dataclass
 class SessionConfig:
     modalities: List[str] = field(default_factory=lambda: ["text", "audio"])
-    voice: str = "longanqian"
+    voice: str = "longanqian_v3.1"
     instructions: str = ""
     input_audio_format: str = "pcm"
     output_audio_format: str = "pcm"

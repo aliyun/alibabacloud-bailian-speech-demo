@@ -4,11 +4,10 @@
 
 import os
 import sys
-from http import HTTPStatus
+import threading
+from contextlib import closing
 
-import dashscope
-from dashscope import Generation
-from dashscope.audio.tts_v2 import *
+from dashscope import Client
 
 sys.path.append(
     os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -20,16 +19,15 @@ system_text = '你是一个闲聊型语音AI助手，主要任务是和用户展
 query_to_llm = '番茄炒鸡蛋怎么做？'
 
 
-def init_dashscope_api_key():
+def get_api_key():
     '''
     Set your DashScope API-key. More information:
     https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     '''
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ[
-            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
+        return os.environ['DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
     else:
-        dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
+        return '<your-dashscope-api-key>'  # set API-key manually
 
 
 def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
@@ -43,81 +41,62 @@ def synthesize_speech_from_llm_by_streaming_mode(query_text: str):
     # start player
     player.start()
 
-    # Define a callback to handle the result
+    complete_event = threading.Event()
 
-    class Callback(ResultCallback):
-        def on_open(self):
-            pass
+    with Client(api_key=get_api_key()) as client:
+        with client.audio.tts.connect(
+                model='cosyvoice-v3-flash',
+                voice='longanhuan',
+                format='mp3') as session:
 
-        def on_complete(self):
-            pass
+            def read_audio():
+                for chunk in session.audio_chunks():
+                    # send to player
+                    player.write(chunk)
+                complete_event.set()
 
-        def on_error(self, message: str):
-            print(f'speech synthesis task failed, {message}')
+            reader_thread = threading.Thread(target=read_audio)
+            reader_thread.start()
 
-        def on_close(self):
-            pass
+            try:
+                # Prepare for the LLM call
+                messages = [{
+                    'role': 'system',
+                    'content': system_text
+                }, {
+                    'role': 'user',
+                    'content': query_text
+                }]
+                print('>>> query: ' + query_text)
+                with closing(client.chat.completions.create(
+                        model='qwen-plus',
+                        messages=messages,
+                        stream=True,
+                        parameters={
+                            'incremental_output': True
+                        })) as stream:
+                    print('>>> answer: ', end='')
+                    for text_chunk in stream.text_stream:
+                        print(text_chunk, end='', flush=True)
+                        # send llm result to synthesizer
+                        session.send_text(text_chunk)
+            finally:
+                session.stop()
+                complete_event.wait()
+                reader_thread.join()
 
-        def on_event(self, message):
-            pass
+                request_id = session.session.request_id
+                first_package_delay = session.first_package_delay
 
-        def on_data(self, data: bytes) -> None:
-            # save audio to file
-            player.write(data)
-
-    # Call the speech synthesizer callback
-    synthesizer_callback = Callback()
-
-    synthesizer = SpeechSynthesizer(
-        model='cosyvoice-v3-flash',
-        voice='longanhuan',
-        callback=synthesizer_callback,
-    )
-
-    # Prepare for the LLM call
-    messages = [{
-        'role': 'system',
-        'content': system_text
-    }, {
-        'role': 'user',
-        'content': query_text
-    }]
-    print('>>> query: ' + query_text)
-    responses = Generation.call(
-        model='qwen-plus',
-        messages=messages,
-        result_format='message',  # set result format as 'message'
-        stream=True,  # enable stream output
-        incremental_output=True,  # enable incremental output
-    )
-    print('>>> answer: ', end='')
-    for response in responses:
-        if response.status_code == HTTPStatus.OK:
-            # send llm result to synthesizer
-            llm_text_chunk = response.output.choices[0]['message']['content']
-            print(llm_text_chunk, end='', flush=True)
-            synthesizer.streaming_call(llm_text_chunk)
-        else:
-            print(
-                'Request id: %s, Status code: %s, error code: %s, error message: %s'
-                % (
-                    response.request_id,
-                    response.status_code,
-                    response.code,
-                    response.message,
-                ))
-    synthesizer.streaming_complete()
     # add new line after llm outputs
     print('')
     print('>>> playback completed')
     print('[Metric] requestId: {}, first package delay ms: {}'.format(
-        synthesizer.get_last_request_id(),
-        synthesizer.get_first_package_delay()))
+        request_id, first_package_delay))
     # stop realtime mp3 player
     player.stop()
 
 
 # main function
 if __name__ == '__main__':
-    init_dashscope_api_key()
     synthesize_speech_from_llm_by_streaming_mode(query_text=query_to_llm)

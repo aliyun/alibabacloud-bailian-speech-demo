@@ -1,9 +1,9 @@
 [comment]: # (title and brief introduction of the sample)
-## Qwen-Audio-3.0-TTS All-in-One 多语言语音合成
+## Qwen-Audio-3.1-TTS All-in-One 多语言语音合成
 
 简体中文 | [English](./README_EN.md)
 
-`longanhuan_mtlv7` 是一个 **All-in-One 多语言音色**：**同一个音色 ID 支持 16 种语言**，切换语种时无需更换音色，说话人的音色特征保持一致。这使它适合「一个品牌声音服务全球用户」的场景——多语种客服播报、多语言产品介绍、出海应用的统一语音形象等。
+`longanhuan_v3.1` 是一个 **All-in-One 多语言音色**：**同一个音色 ID 支持 16 种语言**，切换语种时无需更换音色，说话人的音色特征保持一致。这使它适合「一个品牌声音服务全球用户」的场景——多语种客服播报、多语言产品介绍、出海应用的统一语音形象等。
 
 ### :point_right: 支持的 16 种语言
 
@@ -23,13 +23,16 @@
 语种由两个参数共同决定：
 
 ```python
-synthesizer = SpeechSynthesizer(
-    model='qwen-audio-3.0-tts-flash',
-    voice='longanhuan_mtlv7',
-    language_hints=['ja'],      # 告诉模型输入文本是什么语种
-    instruction='请讲日语。',     # 显式要求模型用该语种说话
-    callback=callback,
-)
+parameters = {'instruction': '请讲日语。'}
+
+with Client(api_key=get_api_key()) as client:
+    with client.audio.tts.connect(
+            model='qwen-audio-3.1-tts-flash',
+            voice='longanhuan_v3.1',
+            format='mp3',
+            language_hints=['ja'],      # 告诉模型输入文本是什么语种
+            parameters=parameters) as session:
+        session.send_text(text)
 ```
 
 > :warning: **中文和英文只需要 `language_hints`**，其余 14 种语言**还必须传入对应的 `instruction`**，否则模型可能用中文或英文的发音方式去念这段文本。
@@ -75,7 +78,7 @@ synthesizer = SpeechSynthesizer(
 ### :point_right: 参考详情
 | 推荐模型 | 音色 | API 文档 |
 | --- | --- | --- |
-| **Qwen-Audio-3.0-TTS** (`qwen-audio-3.0-tts-flash` / `qwen-audio-3.0-tts-plus`) | `longanhuan_mtlv7` | [实时语音合成](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
+| **Qwen-Audio-3.1-TTS** (`qwen-audio-3.1-tts-flash` / `qwen-audio-3.1-tts-plus`) | `longanhuan_v3.1` | [实时语音合成](https://help.aliyun.com/zh/model-studio/realtime-tts-user-guide) |
 
 ### :point_right: 预期结果
 

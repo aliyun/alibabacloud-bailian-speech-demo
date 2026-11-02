@@ -2,7 +2,7 @@
 
 English | [简体中文](./README.md)
 
-This example demonstrates the usage of the `word` and `stash` fields from the Gummy real-time speech translation model on the Bailian platform, achieving low-latency, real-time speech recognition subtitles.
+This example uses the DashScope SDK 2.0.2 `Client`/v2 API with `qwen3-asr-flash-realtime`, processes streaming text deltas, and displays low-latency real-time speech recognition subtitles.
 
 ### :point_right: Applicable Scenarios
 

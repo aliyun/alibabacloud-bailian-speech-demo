@@ -52,7 +52,7 @@ service.delete_vocabulary(vocabulary_id)   # 务必删除，避免占用配额
 
 您可以修改 `run.py` 中的 `my_vocabulary` 来测试自己的热词。`weight` 取值 **[1, 5]**（推荐 4）**或 50**：
 
-> :fire: **超级热词（weight = 50）**：**召回率大幅提升**，适合必须识别准的关键术语。:warning: **数量最多 50 个**，且**仅 Qwen-Audio-3.0-ASR-Flash-Streaming / Filetrans / Flash 系列模型支持**。本示例的词表中 `通义千问` 已设为超级热词作为演示。
+> :fire: **超级热词（weight = 50）**：**召回率大幅提升**，适合必须识别准的关键术语。:warning: **数量最多 50 个**，且**仅 Qwen-Audio-3.1-ASR-Flash-Streaming / Filetrans / Flash 系列模型支持**。本示例的词表中 `通义千问` 已设为超级热词作为演示。
 
 权重对照表与热词文本规范参见[本示例说明的“词表格式与权重”章节](../README.md)。
 

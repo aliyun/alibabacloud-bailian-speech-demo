@@ -3,10 +3,10 @@
 # MIT License (https://opensource.org/licenses/MIT)
 
 """
-Qwen-Audio-3.0-TTS Instruction-Controlled Speech Synthesis Demo
+Qwen-Audio-3.1-TTS Instruction-Controlled Speech Synthesis Demo
 
 This demo showcases the full range of instruction control capabilities
-supported by the Qwen-Audio-3.0-TTS model:
+supported by the Qwen-Audio-3.1-TTS model:
 
   1. Style instruction   — describe the desired voice persona (tone, speed, emotion)
   2. Dialect instruction — synthesize in a specific Chinese dialect
@@ -22,8 +22,7 @@ import os
 import sys
 import threading
 
-import dashscope
-from dashscope.audio.tts_v2 import SpeechSynthesizer, ResultCallback
+from dashscope import Client
 
 sys.path.append(
     os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -34,56 +33,20 @@ from RealtimeMp3Player import RealtimeMp3Player
 # ===========================================================================
 # Configuration
 # ===========================================================================
-# Supported models: 'qwen-audio-3.0-tts-flash', 'qwen-audio-3.0-tts-plus'
-MODEL = 'qwen-audio-3.0-tts-flash'
-DEFAULT_VOICE = 'longanfengyue'
+# Supported models: 'qwen-audio-3.1-tts-flash', 'qwen-audio-3.1-tts-plus'
+MODEL = 'qwen-audio-3.1-tts-flash'
+DEFAULT_VOICE = 'longanfengyue_v3.1'
 
 
-def init_dashscope_api_key():
+def get_api_key():
     '''
     Set your DashScope API-key. More information:
     https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     '''
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ['DASHSCOPE_API_KEY']
+        return os.environ['DASHSCOPE_API_KEY']
     else:
-        dashscope.api_key = '<your-dashscope-api-key>'
-
-
-class SpeechSynthesisCallback(ResultCallback):
-    """Callback that plays audio in real-time and optionally saves to file."""
-
-    def __init__(self, player: RealtimeMp3Player, output_file: str = None):
-        self.player = player
-        self.output_file = output_file
-        self.file = None
-        self.complete_event = threading.Event()
-
-    def on_open(self):
-        if self.output_file:
-            self.file = open(self.output_file, 'wb')
-
-    def on_complete(self):
-        self.complete_event.set()
-
-    def on_error(self, message: str):
-        print(f'  [ERROR] {message}')
-        self.complete_event.set()
-
-    def on_close(self):
-        if self.file:
-            self.file.close()
-
-    def on_event(self, message):
-        pass
-
-    def on_data(self, data: bytes) -> None:
-        self.player.write(data)
-        if self.file:
-            self.file.write(data)
-
-    def wait_for_complete(self):
-        self.complete_event.wait()
+        return '<your-dashscope-api-key>'
 
 
 def synthesize(text: str,
@@ -95,16 +58,40 @@ def synthesize(text: str,
     player = RealtimeMp3Player()
     player.start()
 
-    callback = SpeechSynthesisCallback(player, output_file)
-    synthesizer = SpeechSynthesizer(
-        model=model, voice=voice, instruction=instruction, callback=callback)
+    complete_event = threading.Event()
+    parameters = {}
+    if instruction is not None:
+        parameters['instruction'] = instruction
 
-    synthesizer.call(text)
-    callback.wait_for_complete()
+    with open(output_file, 'wb') as audio_file:
+        with Client(api_key=get_api_key()) as client:
+            with client.audio.tts.connect(
+                    model=model,
+                    voice=voice,
+                    format='mp3',
+                    parameters=parameters if parameters else None) as session:
+
+                def read_audio():
+                    for chunk in session.audio_chunks():
+                        player.write(chunk)
+                        audio_file.write(chunk)
+                    complete_event.set()
+
+                reader_thread = threading.Thread(target=read_audio)
+                reader_thread.start()
+
+                session.send_text(text)
+                session.stop()
+                complete_event.wait()
+                reader_thread.join()
+
+                request_id = session.session.request_id
+                first_package_delay = session.first_package_delay
+
     player.stop()
 
-    print(f'  requestId: {synthesizer.get_last_request_id()}, '
-          f'first_package_delay: {synthesizer.get_first_package_delay():.0f}ms')
+    print(f'  requestId: {request_id}, '
+          f'first_package_delay: {first_package_delay:.0f}ms')
     if output_file:
         print(f'  saved to: {output_file}')
 
@@ -189,8 +176,6 @@ COMBINED_EXAMPLE = {
 
 
 def main():
-    init_dashscope_api_key()
-
     # ----- Section 1: Style Instructions -----
     print('=' * 60)
     print(' Section 1: Style Instructions (风格指令)')

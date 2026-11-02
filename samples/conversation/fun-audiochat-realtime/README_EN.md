@@ -40,7 +40,7 @@ export DASHSCOPE_API_KEY=your-key
 export FUN_REALTIME_SPACE_ID=your-bailian-space-id
 
 # Optional: model
-export FUN_REALTIME_MODEL=qwen-audio-3.0-realtime-plus
+export FUN_REALTIME_MODEL=qwen-audio-3.1-realtime-plus
 
 # Optional: override the full endpoint directly (takes precedence over space_id)
 export FUN_REALTIME_BASE_URL=wss://your-bailian-space-id.cn-beijing.maas.aliyuncs.com/api-ws/v1/realtime
@@ -102,10 +102,10 @@ import asyncio
 from fun_realtime import RealtimeClient, SessionConfig, TurnDetection, EventType
 
 async def main():
-    async with RealtimeClient(api_key="your-key", model="qwen-audio-3.0-realtime-plus") as client:
+    async with RealtimeClient(api_key="your-key", model="qwen-audio-3.1-realtime-plus") as client:
         await client.update_session(SessionConfig(
             instructions="You are a helpful assistant.",
-            turn_detection=TurnDetection(type="smart_turn"),
+            turn_detection=TurnDetection(type="smart_turn_v2"),
         ))
 
         # Send audio (raw PCM bytes from any source)

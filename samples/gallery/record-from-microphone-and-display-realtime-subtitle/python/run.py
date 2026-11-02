@@ -2,27 +2,22 @@ import os
 import queue
 import sys
 import threading
-import time
 
-import dashscope
 import pyaudio
 import wx
 import wx.richtext as rt
-from dashscope.audio.asr import *
+from dashscope import Client
 
 
 # Set your Dashscope API key
-def init_dashscope_api_key():
+def get_api_key():
     """
         Set your DashScope API-key. More information:
         https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     """
-
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ[
-            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
-    else:
-        dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
+        return os.environ['DASHSCOPE_API_KEY']
+    return '<your-dashscope-api-key>'
 
 
 # Lock for controlling access to the PyAudio stream
@@ -31,92 +26,98 @@ pyaudio_lock = threading.Lock()
 # Initialize global variables for microphone and audio stream
 mic = None
 audio_stream = None
-# Queue for results from ASR
-asr_result_q: queue.Queue[TranscriptionResult] = queue.Queue()
+# Queue for results from ASR: (fixed_text, unfixed_text, is_new_sentence)
+asr_result_q: queue.Queue = queue.Queue()
+stop_asr = threading.Event()
 
 
 # Handle the ASR task. This function will get audio from microphone in while loop and send it to ASR.
-# The streaming output of ASR will be pushed back to asr_result_q
+# The streaming output of ASR will be pushed back to asr_result_q.
+# TODO: the V2 realtime API exposes sentence-level transcription, not the word-level
+# fixed/unfixed partials that gummy-realtime-v1 provided, so the subtitle display is
+# approximated with final + stash text.
 def AsrTask():
-    class Callback(TranslationRecognizerCallback):
-        def __init__(self):
-            super().__init__()
+    global mic
+    global audio_stream
 
-        def on_open(self) -> None:
-            # When the recognizer opens, set up the microphone stream
-            global mic
-            global audio_stream
-            with pyaudio_lock:
-                print('RecognitionCallback open.')
-                mic = pyaudio.PyAudio()
-                audio_stream = mic.open(format=pyaudio.paInt16,
-                                        channels=1,
-                                        rate=16000,
-                                        input=True)
+    api_key = get_api_key()
 
-        def on_close(self) -> None:
-            # Clean up the audio stream and microphone
-            global mic
-            global audio_stream
-            print('RecognitionCallback close.')
-            if audio_stream is None:
-                print('audio_stream is None')
-                return
-            if audio_stream is not None:
-                audio_stream.stop_stream()
-                audio_stream.close()
-                mic.terminate()
-                audio_stream = None
-                mic = None
+    with pyaudio_lock:
+        print('ASR session open.')
+        mic = pyaudio.PyAudio()
+        audio_stream = mic.open(format=pyaudio.paInt16,
+                                channels=1,
+                                rate=16000,
+                                input=True)
 
-        def on_complete(self) -> None:
-            print('RecognitionCallback completed.')  # translation completed
+    client = Client(api_key=api_key)
+    try:
+        session = client.audio.realtime.connect(
+            model='qwen3-asr-flash-realtime',
+        )
+        session.connect()
+        session.update_session(
+            output_modalities=["text"],
+            enable_input_audio_transcription=True,
+            transcription_params={
+                "language": "zh",
+                "sample_rate": 16000,
+                "input_audio_format": "pcm",
+            },
+        )
 
-        def on_event(
-            self,
-            request_id,
-            transcription_result: TranscriptionResult,
-            translation_result: TranslationResult,
-            usage,
-        ) -> None:
-            if transcription_result is not None:
-                asr_result_q.put(transcription_result)
-
-    callback = Callback()
-
-    # Call translation service by async mode, you can customize the translation parameters, like model, format,
-    # sample_rate For more information, please refer to https://help.aliyun.com/document_detail/2712536.html
-    translator = TranslationRecognizerRealtime(
-        model='gummy-realtime-v1',
-        format='pcm',
-        sample_rate=16000,
-        transcription_enabled=True,
-        translation_enabled=False,
-        callback=callback,
-    )
-
-    print('translator start')
-    translator.start()
-
-    print('requestId: ' + translator.last_request_id)
-
-    # Open a file to save microphone audio data
-    saved_mic_audio_file = open('mic_audio.pcm', 'wb')
-
-    # Continuously read audio data from the microphone
-    while True:
-        if audio_stream:
+        def receive_events():
             try:
-                data = audio_stream.read(3200, exception_on_overflow=False)
-                translator.send_audio_frame(data)
-                saved_mic_audio_file.write(data)
+                for event in session.events():
+                    kind = event.get('type')
+                    if kind == 'conversation.item.input_audio_transcription.text':
+                        stash = event.get('stash') or event.get('text', '')
+                        asr_result_q.put(('', stash, False))
+                    elif kind == 'conversation.item.input_audio_transcription.completed':
+                        asr_result_q.put((event.get('transcript', ''), '', True))
             except Exception as e:
-                print(e)
-        else:
-            break
+                print('event consumer error: ', e)
 
-    print('translator stop')
-    translator.stop()
+        receiver = threading.Thread(target=receive_events)
+        receiver.start()
+
+        print('translator start')
+        print('requestId: ' + (session.session_id or 'unknown'))
+
+        # Open a file to save microphone audio data
+        saved_mic_audio_file = open('mic_audio.pcm', 'wb')
+
+        # Continuously read audio data from the microphone
+        try:
+            while not stop_asr.is_set() and audio_stream:
+                try:
+                    data = audio_stream.read(3200, exception_on_overflow=False)
+                    session.append_audio(data)
+                    saved_mic_audio_file.write(data)
+                except Exception as e:
+                    print(e)
+        finally:
+            saved_mic_audio_file.close()
+            session.close()
+            receiver.join(timeout=30)
+
+        print('translator stop')
+    finally:
+        with pyaudio_lock:
+            if audio_stream is not None:
+                try:
+                    audio_stream.stop_stream()
+                    audio_stream.close()
+                except Exception:
+                    pass
+                audio_stream = None
+            if mic is not None:
+                try:
+                    mic.terminate()
+                except Exception:
+                    pass
+                mic = None
+        client.close()
 
 
 class SubtitleFrame(wx.Frame):
@@ -164,33 +165,17 @@ class SubtitleFrame(wx.Frame):
             self.update_text(result)
 
     # Method to update the text in the text boxes
-    def update_text(self, asr_result: TranscriptionResult):
-        is_new_sentence = False
-        fixed_text = ''
-        unfixed_text = ''
-        for word in asr_result.words:
-            if word.fixed:
-                fixed_text += word.text
-            else:
-                unfixed_text += word.text
+    def update_text(self, asr_result):
+        fixed_text, unfixed_text, is_new_sentence = asr_result
 
         print('Updating text: ', [fixed_text, unfixed_text])
 
         # Update buffers with new text
-        self.text_buffer[-1] = [fixed_text, unfixed_text]
+        self.text_buffer[-1][0] += fixed_text
+        self.text_buffer[-1][1] = unfixed_text
 
-        if asr_result.is_sentence_end:
+        if is_new_sentence:
             self.text_buffer.append(['', ''])
-
-        fixed_text = ''
-        unfixed_text = ''
-        if asr_result.stash is not None:
-            for word in asr_result.stash.words:
-                if word['fixed']:
-                    fixed_text += word.text
-                else:
-                    unfixed_text += word.text
-            self.text_buffer[-1] = [fixed_text, unfixed_text]
 
         print('text buffer: ', self.text_buffer)
 
@@ -229,6 +214,10 @@ if __name__ == '__main__':
     asr_thread = threading.Thread(target=AsrTask)
     asr_thread.start()
     # Create and start the application's main loop
-    app = wx.App(False)
-    frame = SubtitleFrame()
-    app.MainLoop()
+    try:
+        app = wx.App(False)
+        frame = SubtitleFrame()
+        app.MainLoop()
+    finally:
+        stop_asr.set()
+        asr_thread.join(timeout=5)

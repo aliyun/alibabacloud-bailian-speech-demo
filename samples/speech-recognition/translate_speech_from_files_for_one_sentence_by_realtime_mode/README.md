@@ -28,7 +28,8 @@
 
 | 推荐模型 | API详情 |
 | ----- | ----- |
-| **gummy-chat-v1** | [Paraformer实时语音识别API详情（TODO：更新）](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
+| Python：**qwen3.8-livetranslate-flash-realtime** | DashScope SDK 2.0.2 `Client`/v2 接口 |
+| Java：**gummy-chat-v1** | [实时语音识别 API 详情](https://help.aliyun.com/zh/model-studio/developer-reference/paraformer-real-time-speech-recognition-api) |
 
 
 ### :point_right: 预期结果

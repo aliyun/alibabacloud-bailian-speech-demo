@@ -7,12 +7,12 @@ import os
 
 import requests
 
-# This demo shows how to call qwen-audio-3.0-asr-flash in non-streaming mode with
+# This demo shows how to call qwen-audio-3.1-asr-flash in non-streaming mode with
 # conversation context. The context helps to improve the recognition accuracy of
 # proper nouns. See https://help.aliyun.com/document_detail/2712536.html
 
-# supported model : 'qwen-audio-3.0-asr-flash'
-MODEL = 'qwen-audio-3.0-asr-flash'
+# supported model : 'qwen-audio-3.1-asr-flash'
+MODEL = 'qwen-audio-3.1-asr-flash'
 
 # the audio url, must be accessible from the public network
 AUDIO_URL = 'https://gw.alipayobjects.com/os/bmw-prod/0574ee2e-f494-45a5-820f-63aee583045a.wav'

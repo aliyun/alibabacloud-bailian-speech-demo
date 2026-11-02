@@ -22,7 +22,7 @@
 
 您可以通过运行run.sh (Linux, Mac系统)或run.bat (Windows系统)来运行本示例。
 
-示例运行时，将会使用 longanfengyue 音色合成示例文本流，合成音频将按照流式方式下发，通过扬声器播放。
+示例运行时，将会使用 longanfengyue_v3.1 音色合成示例文本流，合成音频将按照流式方式下发，通过扬声器播放。
 
 您可以通过修改`textToSynthesize`合成指定的文本。
 

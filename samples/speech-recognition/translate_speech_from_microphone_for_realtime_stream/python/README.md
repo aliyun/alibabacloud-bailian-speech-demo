@@ -5,6 +5,8 @@
 
 ## Python
 
+Python 示例使用 DashScope SDK 2.0.2 的 `Client`/v2 接口和 `qwen3.8-livetranslate-flash-realtime` 模型。
+
 [comment]: # (prerequisites)
 ### :point_right: 前提条件
 

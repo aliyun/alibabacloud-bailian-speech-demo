@@ -2,119 +2,88 @@
 
 import multiprocessing
 import os
+import threading
 import time
 
-import dashscope
-from dashscope.audio.asr import *
+from dashscope import Client
 
 target_language = 'en'
 
 
-def init_dashscope_api_key():
+def get_api_key():
     """
         Set your DashScope API-key. More information:
         https://github.com/aliyun/alibabacloud-bailian-speech-demo/blob/master/PREREQUISITES.md
     """
-
     if 'DASHSCOPE_API_KEY' in os.environ:
-        dashscope.api_key = os.environ[
-            'DASHSCOPE_API_KEY']  # load API-key from environment variable DASHSCOPE_API_KEY
-    else:
-        dashscope.api_key = '<your-dashscope-api-key>'  # set API-key manually
+        return os.environ['DASHSCOPE_API_KEY']
+    return '<your-dashscope-api-key>'
 
 
-class Callback(TranslationRecognizerCallback):
-    def __init__(self, tag, file_path) -> None:
-        super().__init__()
-        self.tag = tag
-        self.file_path = file_path
-        self.text = ''
-        self.translate_text = ''
-
-    def on_open(self) -> None:
-        print(f'[{self.tag}] TranslationRecognizerCallback open.')
-
-    def on_close(self) -> None:
-        print(f'[{self.tag}] TranslationRecognizerCallback close.')
-
-    def on_event(
-        self,
-        request_id,
-        transcription_result: TranscriptionResult,
-        translation_result: TranslationResult,
-        usage,
-    ) -> None:
-        if translation_result is not None:
-            translation = translation_result.get_translation(target_language)
-            # print(f'[{self.tag}]RecognitionCallback text: ', sentence['text']) partial recognition result
-            if translation.is_sentence_end:
-                self.translate_text = self.translate_text + translation.text
-        if transcription_result is not None:
-            if transcription_result.is_sentence_end:
-                self.text = self.text + transcription_result.text
-
-    def on_error(self, message) -> None:
-        print('error: {}'.format(message))
-
-    def on_complete(self) -> None:
-        print(f'[{self.tag}] Transcript ==> ', self.text)
-        print(f'[{self.tag}] Translate ==> ', self.translate_text)
-        print(f'[{self.tag}] Translation completed')  # translation complete
+def receive_events(session, done_event):
+    """Consume realtime translation events until the session finishes."""
+    try:
+        for event in session.events():
+            kind = event.get('type')
+            if kind == 'response.text.delta':
+                print(event.get('delta', ''), end='', flush=True)
+            elif kind == 'response.text.done':
+                print('\n[translation done] ', event.get('text', ''))
+            elif kind == 'conversation.item.input_audio_transcription.completed':
+                print('\n[transcript completed] ', event.get('transcript', ''))
+            elif kind == 'session.finished':
+                done_event.set()
+    except Exception as e:
+        print('receive error: {}'.format(e))
 
 
 def process_translation(file_path):
-    init_dashscope_api_key()
+    api_key = get_api_key()
     print(f'translation with file :{file_path}')
-    # Create the translation callback
-    callback = Callback(f'process {os.getpid()}', file_path)
 
-    # Call translation service by async mode, you can customize the translation parameters, like model, format,
-    # sample_rate For more information, please refer to https://help.aliyun.com/document_detail/2712536.html
-    translator = TranslationRecognizerRealtime(
-        model='gummy-realtime-v1',
-        format='pcm',
-        sample_rate=16000,
-        transcription_enabled=True,
-        translation_enabled=True,
-        translation_target_languages=[target_language],
-        callback=callback,
-    )
-
-    # Start translation
-    translator.start()
-
+    client = Client(api_key=api_key)
     try:
-        audio_data: bytes = None
-        f = open(file_path, 'rb')
-        if os.path.getsize(file_path):
-            while True:
-                audio_data = f.read(3200)
-                if not audio_data:
-                    break
-                else:
-                    translator.send_audio_frame(audio_data)
-                time.sleep(0.01)
-        else:
-            raise Exception('The supplied file was empty (zero bytes long)')
-        f.close()
-    except Exception as e:
-        raise e
+        session = client.audio.realtime.connect(
+            model='qwen3.8-livetranslate-flash-realtime',
+        )
+        session.connect()
+        session.update_session(
+            output_modalities=["text"],
+            translation_params={"language": target_language},
+        )
 
-    translator.stop()
-    print(
-        '[Metric] requestId: {}, first package delay ms: {}, last package delay ms: {}'
-        .format(
-            translator.get_last_request_id(),
-            translator.get_first_package_delay(),
-            translator.get_last_package_delay(),
-        ))
-    return callback.text
+        done_event = threading.Event()
+        receiver = threading.Thread(target=receive_events,
+                                    args=(session, done_event))
+        receiver.start()
+
+        try:
+            with open(file_path, 'rb') as f:
+                if os.path.getsize(file_path):
+                    while True:
+                        audio_data = f.read(3200)
+                        if not audio_data:
+                            break
+                        session.append_audio(audio_data)
+                        time.sleep(0.01)
+                else:
+                    raise Exception('The supplied file was empty (zero bytes long)')
+        finally:
+            session.end_session()
+            receiver.join(timeout=30)
+
+        print(
+            '[Metric] requestId: {}, first text delay ms: {}'.format(
+                session.last_response_id,
+                session.last_first_text_delay,
+            ))
+    finally:
+        client.close()
 
 
 def multi_process_recognition():
     # Get the number of CPU cores available
     num_cores = multiprocessing.cpu_count()
-    # print(f"Number of CPU cores: {num_cores}")
 
     # Create a pool of processes with the number of available CPU cores
     process_pool = multiprocessing.Pool(processes=num_cores)
@@ -130,7 +99,6 @@ def multi_process_recognition():
 
     # Use the map method to distribute tasks among the pool and collect the results
     process_pool.map(process_translation, file_list)
-    exit(0)
 
 
 if __name__ == '__main__':

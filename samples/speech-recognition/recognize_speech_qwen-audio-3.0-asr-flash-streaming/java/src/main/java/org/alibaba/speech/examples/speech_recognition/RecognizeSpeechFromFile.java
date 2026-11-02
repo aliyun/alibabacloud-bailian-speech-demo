@@ -22,7 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * A demo of the most basic streaming file recognition with qwen-audio-3.0-asr-flash-streaming: read
+ * A demo of the most basic streaming file recognition with qwen-audio-3.1-asr-flash-streaming: read
  * a local audio file and print the recognition result.
  *
  * <p>Advanced capabilities are demonstrated in dedicated samples: the dialog context in
@@ -32,8 +32,8 @@ import java.nio.file.Paths;
  * <p>for more information, please refer to https://help.aliyun.com/document_detail/2712536.html
  */
 public class RecognizeSpeechFromFile {
-  // supported model : 'qwen-audio-3.0-asr-flash-streaming'
-  private static final String MODEL = "qwen-audio-3.0-asr-flash-streaming";
+  // supported model : 'qwen-audio-3.1-asr-flash-streaming'
+  private static final String MODEL = "qwen-audio-3.1-asr-flash-streaming";
 
   // the local audio file, relative to the JVM working directory (the java module directory)
   private static final String AUDIO_RELATIVE_PATH =

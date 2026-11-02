@@ -1,5 +1,5 @@
 [comment]: # (title and brief introduction of the sample)
-## Qwen-Audio-3.0-TTS Text Normalization (TN) Showcase
+## Qwen-Audio-3.1-TTS Text Normalization (TN) Showcase
 
 [简体中文](./README.md) | English
 

@@ -18,7 +18,7 @@ This example demonstrates how to synthesize speech from a specified text, stream
 ### :point_right: Reference Details
 | Recommended Model | API Details                                                                                              |
 | --- |----------------------------------------------------------------------------------------------------------|
-| **Qwen-Audio-3.0-TTS** | [Official Documentation](https://help.aliyun.com/zh/model-studio/sound-reengraving/?spm=a2c4g.11186623.0.0.40f04483d5aWee) |
+| **Qwen-Audio-3.1-TTS** | [Official Documentation](https://help.aliyun.com/zh/model-studio/sound-reengraving/?spm=a2c4g.11186623.0.0.40f04483d5aWee) |
 
 ### :point_right: Expected Results
 
