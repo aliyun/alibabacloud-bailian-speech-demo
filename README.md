@@ -13,7 +13,7 @@
 
 ### 2026/11/02
 - ASR、TTS、Omni 与 Realtime Python 示例已升级至 DashScope SDK 2.0.2 的 `Client`/v2 接口；qwen-tts 与 MultiModalDialog 示例不在本次升级范围内。
-- Qwen-Audio ASR、流式 ASR、录音文件转写与 TTS 示例已升级至经过验证的 3.1 模型和音色。
+- Qwen-Audio ASR、流式 ASR、录音文件转写、TTS 与 Realtime 示例已升级至经过验证的 3.1 模型和音色。
 
 ### 2026/08/14
 - 增加 Qwen-Audio-3.0-TTS 语音合成与声音复刻示例，支持通过指令控制音色风格、方言与情感。
@@ -41,9 +41,9 @@
 | Qwen-Audio-3.1-ASR 录音文件转写 | *异步转写最长 12 小时录音，支持说话人分离* | [录音文件转写](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-filetrans) |
 | Qwen-Audio-3.1-TTS 语音合成 | *指令控制音色风格、方言和情感，实时流式播放* | [指令控制语音合成](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_model) |
 | Qwen-Audio-3.1-TTS 声音复刻 | *一段音频复刻音色，用复刻音色合成任意文本* | [声音复刻并合成](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_by_cloned_voice) |
-| Qwen-Audio-3.0-Realtime 实时语音对话 | *基于 WebSocket 的端到端实时语音对话，含陪伴对话、函数调用、推理路由* | [qwen-audio-3.0-realtime](./samples/conversation/fun-audiochat-realtime) |
+| Qwen-Audio-3.1-Realtime 实时语音对话 | *基于 WebSocket 的端到端实时语音对话，含陪伴对话、函数调用、推理路由* | [qwen-audio-3.1-realtime](./samples/conversation/fun-audiochat-realtime) |
 
-> **更多智能体场景**：[qwen-audio-agent](https://github.com/QwenAudio/qwen-audio-agent) 提供了基于 Qwen-Audio-3.0-Realtime 构建的多种 Agent 示例，包括多轮记忆、工具编排和多模态输入，可作为生产级参考。
+> **更多智能体场景**：[qwen-audio-agent](https://github.com/QwenAudio/qwen-audio-agent) 提供了基于 Qwen-Audio-Realtime 构建的多种 Agent 示例，包括多轮记忆、工具编排和多模态输入，可作为生产级参考。
 
 * ### :sparkles: 进阶用法
 
@@ -110,7 +110,7 @@
 | 一句话实时语音识别和翻译             | *实时从麦克风录音，断句并进行语音识别和翻译* | [麦克风实时一句话语音识别和翻译](./samples/speech-recognition/translate_speech_from_microphone_for_one_sentence/)                     |
 | 语音对话聊天 <img src="./docs/image/logo.svg" height="15"/>  | *通过语音与大语言模型进行对话聊天* | [阿里云文档](https://help.aliyun.com/zh/isi/developer-reference/voice-dialogue) |
 | 视频对话聊天 <img src="./docs/image/logo.svg" height="15"/>  | *通过多模态大模型进行视频聊天* | [阿里云文档](./samples/conversation/omni) |
-| 端到端实时语音对话 <img src="./docs/image/logo.svg" height="15"/>  | *基于 WebSocket 的实时语音对话 SDK 与示例，含陪伴对话、函数调用、推理路由三种智能体场景* | [qwen-audio-3.0-realtime](./samples/conversation/fun-audiochat-realtime) |
+| 端到端实时语音对话 <img src="./docs/image/logo.svg" height="15"/>  | *基于 WebSocket 的实时语音对话 SDK 与示例，含陪伴对话、函数调用、推理路由三种智能体场景* | [qwen-audio-3.1-realtime](./samples/conversation/fun-audiochat-realtime) |
 
 
 ## :point_right: 高并发调用
@@ -147,7 +147,7 @@ TTS 调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 
 ### 2026/11/02
 - ASR、TTS、Omni 与 Realtime Python 示例已升级至 DashScope SDK 2.0.2 的 `Client`/v2 接口；qwen-tts 与 MultiModalDialog 示例不在本次升级范围内。
-- Qwen-Audio ASR、流式 ASR、录音文件转写与 TTS 示例已升级至经过验证的 3.1 模型和音色。
+- Qwen-Audio ASR、流式 ASR、录音文件转写、TTS 与 Realtime 示例已升级至经过验证的 3.1 模型和音色。
 
 ### 2026/08/14
 - 增加 Qwen-Audio-3.0-TTS 语音合成与声音复刻示例，支持通过指令控制音色风格、方言与情感。

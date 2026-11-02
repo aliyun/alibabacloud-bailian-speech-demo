@@ -88,7 +88,7 @@ async def main():
     async with RealtimeClient(api_key=api_key, model=DEFAULT_MODEL, base_url=DEFAULT_BASE_URL) as client:
         await client.update_session(SessionConfig(
             instructions=TOOL_INSTRUCTIONS,
-            turn_detection=TurnDetection(type="smart_turn"),
+            turn_detection=TurnDetection(type="smart_turn_v2"),
             tools=TOOLS,
         ))
         print("Connected! Ask about weather or train tickets...")

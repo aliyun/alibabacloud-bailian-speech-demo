@@ -2,14 +2,14 @@
 
 Override via environment variables:
     export FUN_REALTIME_SPACE_ID=your-bailian-space-id
-    export FUN_REALTIME_MODEL=qwen-audio-3.0-realtime-plus
+    export FUN_REALTIME_MODEL=qwen-audio-3.1-realtime-plus
     # Optional: override the full base URL directly
     export FUN_REALTIME_BASE_URL=wss://your-bailian-space-id.cn-beijing.maas.aliyuncs.com/api-ws/v1/realtime
 """
 
 import os
 
-DEFAULT_MODEL = os.environ.get("FUN_REALTIME_MODEL", "qwen-audio-3.0-realtime-plus")
+DEFAULT_MODEL = os.environ.get("FUN_REALTIME_MODEL", "qwen-audio-3.1-realtime-plus")
 DEFAULT_SPACE_ID = os.environ.get("FUN_REALTIME_SPACE_ID", "")
 
 # Priority: FUN_REALTIME_BASE_URL > FUN_REALTIME_SPACE_ID > public DashScope endpoint

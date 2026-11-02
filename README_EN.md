@@ -10,7 +10,7 @@ This repository demonstrates how to call **Speech Large Models** (including [Qwe
 
 #### 2026/11/02
 - Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs; qwen-tts and MultiModalDialog examples are outside this migration scope.
-- Upgraded Qwen-Audio ASR, streaming ASR, recorded-file transcription, and TTS examples to verified 3.1 models and voices.
+- Upgraded Qwen-Audio ASR, streaming ASR, recorded-file transcription, TTS, and Realtime examples to verified 3.1 models and voices.
 
 #### 2026/08/14
 - Added Qwen-Audio-3.0-TTS speech synthesis and voice cloning examples, with voice style, dialect and emotion controllable by instruction.
@@ -33,9 +33,9 @@ This repository demonstrates how to call **Speech Large Models** (including [Qwe
 | Qwen-Audio-3.1-ASR File Transcription | Asynchronous transcription of recordings up to 12 hours, with speaker diarization | [File Transcription](./samples/speech-recognition/recognize_speech_qwen-audio-3.0-asr-flash-filetrans) |
 | Qwen-Audio-3.1-TTS Synthesis | Control style, dialect and emotion by instruction, with real-time streaming playback | [Instruction-Controlled Synthesis](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_model) |
 | Qwen-Audio-3.1-TTS Voice Cloning | Clone a voice from one audio sample and synthesize any text with it | [Voice Cloning Synthesis](./samples/speech-synthesizer/synthesize_speech_from_text_with_qwen_audio_tts_by_cloned_voice) |
-| Qwen-Audio-3.0-Realtime Voice Chat | End-to-end real-time voice conversation over WebSocket (companion chat, tool calling, reasoning routing) | [qwen-audio-3.0-realtime](./samples/conversation/fun-audiochat-realtime) |
+| Qwen-Audio-3.1-Realtime Voice Chat | End-to-end real-time voice conversation over WebSocket (companion chat, tool calling, reasoning routing) | [qwen-audio-3.1-realtime](./samples/conversation/fun-audiochat-realtime) |
 
-> **More Agent scenarios**: [qwen-audio-agent](https://github.com/QwenAudio/qwen-audio-agent) provides production-grade Agent examples built on Qwen-Audio-3.0-Realtime, including multi-turn memory, tool orchestration, and multimodal input.
+> **More Agent scenarios**: [qwen-audio-agent](https://github.com/QwenAudio/qwen-audio-agent) provides production-grade Agent examples built on Qwen-Audio-Realtime, including multi-turn memory, tool orchestration, and multimodal input.
 
 ### :sparkles: Advanced Usage
 | Use Case | Description | Example |
@@ -97,7 +97,7 @@ This repository demonstrates how to call **Speech Large Models** (including [Qwe
 | Sentence-Level Recognition & Translation | Real-time sentence recognition and translation | [Sentence-Level Example](./samples/speech-recognition/translate_speech_from_microphone_for_one_sentence/) |
 | Voice Chat with LLM | Voice interaction with large language models | [Alibaba Cloud Documentation](https://help.aliyun.com/zh/isi/developer-reference/voice-dialogue) |
 | Video Chat with LLM | Video chat via multimodal large models | [Omni Example](./samples/conversation/omni) |
-| End-to-End Real-Time Voice Chat | WebSocket-based real-time voice conversation SDK and examples (companion chat, tool calling, reasoning routing) | [qwen-audio-3.0-realtime](./samples/conversation/fun-audiochat-realtime) |
+| End-to-End Real-Time Voice Chat | WebSocket-based real-time voice conversation SDK and examples (companion chat, tool calling, reasoning routing) | [qwen-audio-3.1-realtime](./samples/conversation/fun-audiochat-realtime) |
 
 ## :point_right: High-Concurrency Usage
 For Java-based services, refer to the high-concurrency guides:
@@ -126,7 +126,7 @@ This project is licensed under the [MIT License](https://opensource.org/license/
 
 #### 2026/11/02
 - Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs; qwen-tts and MultiModalDialog examples are outside this migration scope.
-- Upgraded Qwen-Audio ASR, streaming ASR, recorded-file transcription, and TTS examples to verified 3.1 models and voices.
+- Upgraded Qwen-Audio ASR, streaming ASR, recorded-file transcription, TTS, and Realtime examples to verified 3.1 models and voices.
 
 #### 2026/08/14
 - Added Qwen-Audio-3.0-TTS speech synthesis and voice cloning examples, with voice style, dialect and emotion controllable by instruction.
