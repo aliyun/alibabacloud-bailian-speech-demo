@@ -9,7 +9,7 @@ This repository demonstrates how to call **Speech Large Models** (including [Qwe
 ## ⭐ Latest Updates ⭐
 
 #### 2026/11/02
-- Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs; qwen-tts and MultiModalDialog examples are outside this migration scope.
+- Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs;
 - Upgraded Qwen-Audio ASR, streaming ASR, recorded-file transcription, TTS, and Realtime examples to verified 3.1 models and voices.
 
 #### 2026/08/14
@@ -125,7 +125,7 @@ This project is licensed under the [MIT License](https://opensource.org/license/
 ## :point_right: Changelog
 
 #### 2026/11/02
-- Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs; qwen-tts and MultiModalDialog examples are outside this migration scope.
+- Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs;
 - Upgraded Qwen-Audio ASR, streaming ASR, recorded-file transcription, TTS, and Realtime examples to verified 3.1 models and voices.
 
 #### 2026/08/14

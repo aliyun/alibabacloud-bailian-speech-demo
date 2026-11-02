@@ -12,7 +12,7 @@
 ## ⭐最新动态⭐
 
 ### 2026/11/02
-- ASR、TTS、Omni 与 Realtime Python 示例已升级至 DashScope SDK 2.0.2 的 `Client`/v2 接口；qwen-tts 与 MultiModalDialog 示例不在本次升级范围内。
+- ASR、TTS、Omni 与 Realtime Python 示例已升级至 DashScope SDK 2.0.2 的 `Client`/v2 接口；
 - Qwen-Audio ASR、流式 ASR、录音文件转写、TTS 与 Realtime 示例已升级至经过验证的 3.1 模型和音色。
 
 ### 2026/08/14
@@ -146,7 +146,7 @@ TTS 调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 ## :point_right: 变更记录
 
 ### 2026/11/02
-- ASR、TTS、Omni 与 Realtime Python 示例已升级至 DashScope SDK 2.0.2 的 `Client`/v2 接口；qwen-tts 与 MultiModalDialog 示例不在本次升级范围内。
+- ASR、TTS、Omni 与 Realtime Python 示例已升级至 DashScope SDK 2.0.2 的 `Client`/v2 接口；
 - Qwen-Audio ASR、流式 ASR、录音文件转写、TTS 与 Realtime 示例已升级至经过验证的 3.1 模型和音色。
 
 ### 2026/08/14
