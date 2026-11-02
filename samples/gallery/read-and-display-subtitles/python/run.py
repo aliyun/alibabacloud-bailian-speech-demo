@@ -129,7 +129,7 @@ class SubtitlePlayer(wx.Frame):
         class PlayerState(Enum):
             RUNNING = (0)
             WAITING_FOR_AUDIO_STOP = (1)
-            WAITING_FOR_TEXT_STOP = (1)
+            WAITING_FOR_TEXT_STOP = (2)
 
             def __init__(self, code):
                 self.type_code = code
@@ -145,12 +145,12 @@ class SubtitlePlayer(wx.Frame):
                 audio_task = self.audio_queue[0] if self.audio_queue else None
                 text_task = self.text_queue[0] if self.text_queue else None
 
+            if stop_task and (audio_task is None or text_task is None):
+                break
+
             if audio_task is None or text_task is None:
                 time.sleep(0.05)
                 continue
-
-            if stop_task and not audio_task and not text_task:
-                break
 
             is_audio_stop, audio = audio_task
             is_text_stop, text = text_task
@@ -171,7 +171,7 @@ class SubtitlePlayer(wx.Frame):
                     with self.queue_lock:
                         self.text_queue.pop(0)
                 elif is_text_stop:
-                    state == PlayerState.WAITING_FOR_AUDIO_STOP
+                    state = PlayerState.WAITING_FOR_AUDIO_STOP
                     self.player.write(audio)
                     with self.queue_lock:
                         self.audio_queue.pop(0)

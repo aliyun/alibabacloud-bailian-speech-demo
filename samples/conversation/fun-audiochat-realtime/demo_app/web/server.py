@@ -94,11 +94,28 @@ async def ws_proxy(browser_ws):
                 async for msg in upstream_ws:
                     await browser_ws.send(msg)
 
-            await asyncio.gather(browser_to_upstream(), upstream_to_browser())
+            tasks = (
+                asyncio.create_task(browser_to_upstream()),
+                asyncio.create_task(upstream_to_browser()),
+            )
+            try:
+                done, _ = await asyncio.wait(
+                    tasks,
+                    return_when=asyncio.FIRST_COMPLETED,
+                )
+                for task in done:
+                    task.result()
+            finally:
+                for task in tasks:
+                    task.cancel()
+                await asyncio.gather(*tasks, return_exceptions=True)
+                await upstream_ws.close()
     except websockets.exceptions.ConnectionClosed:
         pass
     except Exception as e:
         print(f"[ws] error: {e}")
+    finally:
+        await browser_ws.close()
 
 
 def start_http_server(port):
