@@ -8,6 +8,9 @@ This repository demonstrates how to call **Speech Large Models** (including [Qwe
 
 ## ⭐ Latest Updates ⭐
 
+#### 2026-11-03
+- Added the Node.js SDK based [Qwen Audio Experience](./samples/gallery/qwen-audio-experience-nodejs) app to the Gallery, covering real-time dictation, speech synthesis and real-time conversation.
+
 #### 2026/11/02
 - Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs;
 - Upgraded Qwen-Audio ASR, streaming ASR, recorded-file transcription, TTS, and Realtime examples to verified 3.1 models and voices.
@@ -106,6 +109,14 @@ For Java-based services, refer to the high-concurrency guides:
 
 ## :video_game: [Gallery](./samples/gallery)
 
+### :star: Featured Apps
+
+| Project | Description | Platform |
+| --- | --- | --- |
+| [Qwen Audio Experience](./samples/gallery/qwen-audio-experience-nodejs) | A complete voice web app built on the Node.js SDK. Run `./start.sh` (`start.bat` on Windows) to try Qwen Audio 3.1 real-time dictation, speech synthesis and real-time conversation in the browser, with a developer console that shows the SDK protocol frames. | Node.js 18+ (downloaded by the launcher if missing), macOS / Linux / Windows |
+
+<img src="./docs/image/nodejs-qwen-audio-realtime.png" width="600"/>
+
 ### :sparkles: Community Projects
 
 | Project | Description | Platform |
@@ -123,6 +134,9 @@ The Gallery showcases creative applications built with Bailian AI capabilities. 
 This project is licensed under the [MIT License](https://opensource.org/license/MIT).
 
 ## :point_right: Changelog
+
+#### 2026-11-03
+- Added the Node.js SDK based [Qwen Audio Experience](./samples/gallery/qwen-audio-experience-nodejs) app to the Gallery, covering real-time dictation, speech synthesis and real-time conversation.
 
 #### 2026/11/02
 - Upgraded the ASR, TTS, Omni, and Realtime Python examples to the DashScope SDK 2.0.2 `Client`/v2 APIs;

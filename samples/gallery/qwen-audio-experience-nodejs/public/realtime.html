@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f4ef">
+  <meta name="description" content="Qwen Audio · 实时语音对话，自然开口，随时打断。">
+  <title>Qwen Audio · 实时对话</title>
+  <link rel="icon" href="./studio.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./studio.css">
+  <script src="./audio.js" defer></script>
+  <script src="./studio.js" defer></script>
+</head>
+<body data-page="realtime" data-state="idle">
+  <a class="skip-link" href="#main">跳转到体验区</a>
+  <header class="site-header">
+    <a class="brand" href="./asr.html" aria-label="Qwen Audio 首页"><span>Qwen Audio</span></a>
+    <nav class="page-nav" aria-label="语音体验"><a href="./asr.html">听写 <span>ASR</span></a><a href="./tts.html">朗读 <span>TTS</span></a><a href="./realtime.html" aria-current="page">对话 <span>REALTIME</span></a></nav>
+    <div class="header-actions"><a class="developer-link" href="/develop">开发者调试台</a><button class="settings-trigger" id="open-settings" type="button" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h7m4 0h5M4 17h3m4 0h9M11 4v6M7 14v6"/></svg><span>连接设置</span></button></div>
+  </header>
+  <main id="main" class="studio-shell">
+    <section class="intro">
+      <div><p class="eyebrow"><span class="tiny-line"></span> 03 / REALTIME CONVERSATION</p><h1>聊聊，就现在<span class="serif-dot">。</span></h1><p class="intro-copy">不用组织好语言，也不必等一个开场。<br>像面对面一样，轻松聊下去。</p></div>
+      <div class="intro-art realtime-art" aria-hidden="true"><div class="dialogue-mark first-mark">“</div><div class="dialogue-mark second-mark">”</div><span class="art-caption">A LITTLE CLOSER, BY VOICE.</span></div>
+    </section>
+    <div id="notice" class="notice" role="alert" hidden></div>
+    <div class="workspace">
+      <aside class="control-panel">
+        <details class="settings-details">
+          <summary><span>对话设置</span><span class="summary-hint">声音与交互 <span class="chevron">⌄</span></span></summary>
+          <fieldset id="controls" class="control-fields">
+            <legend class="sr-only">实时对话参数</legend>
+            <label class="field"><span>对话模型</span><select id="model"><option value="qwen-audio-3.1-realtime-plus">Qwen-Audio-Realtime · 3.1 Plus</option><option value="qwen-audio-3.1-realtime-flash">Qwen-Audio-Realtime · 3.1 Flash</option><option value="qwen-audio-3.0-realtime-plus">Qwen-Audio-Realtime · 3.0 Plus</option><option value="qwen-audio-3.0-realtime-flash">Qwen-Audio-Realtime · 3.0 Flash</option></select></label>
+            <label class="field"><span>对话声音</span><select id="voice"><option value="">模型默认音色</option><option value="longanqian_v3.1" selected>龙安芊 · Longanqian</option><option value="longanhuan_v3.1">龙安欢 · Longanhuan</option><option value="longanqian">龙安芊 · 3.0</option></select></label>
+            <label class="field"><span>轮次方式</span><select id="turn"><option value="server_vad">自然对话 · 自动断句</option><option value="smart_turn">语义判断 · 智能断句</option><option value="push">手动发送 · 说完再发送</option></select></label>
+            <label class="field"><span>回复方式</span><select id="modalities"><option value="text,audio">语音 + 文字</option><option value="text">仅文字</option></select></label>
+            <label class="field"><span>希望怎样聊天</span><textarea id="instructions" rows="3" maxlength="2000" placeholder="例如：轻松、自然，像一位老朋友。">像一位温暖的朋友，自然交流，回答简短。不使用表情符号。</textarea></label>
+            <div class="parameter-note"><span class="note-dot"></span><span>全双工交互 · 支持随时打断</span></div>
+          </fieldset>
+        </details>
+      </aside>
+      <section class="work-card conversation-card" aria-label="实时对话">
+        <div class="card-heading"><h2>此刻在线 <span>HERE & NOW</span></h2><span id="status" class="status-pill" data-state="idle" role="status">尚未连接</span></div>
+        <div class="voice-stage">
+          <div class="voice-orbit" aria-hidden="true"><div class="orbit-ring ring-outer"></div><div class="orbit-ring ring-one"></div><div class="orbit-ring ring-two"></div><div class="voice-core"><svg class="idle-voice-mark" viewBox="0 0 40 40"><path d="M8 17v6m6-12v18m6-23v28m6-23v18m6-12v6"/></svg><canvas id="waveform"></canvas></div><span class="orbit-point"></span></div>
+          <div class="conversation-section"><div id="conversation-empty" class="conversation-empty"><span class="tiny-line"></span><span>对话会在这里留下痕迹</span><span class="tiny-line"></span></div><div id="conversation" class="conversation" role="log" aria-label="对话记录"></div></div>
+        </div>
+        <div class="stage-caption"><div class="caption-line"><h2 id="orb-label">静候你的声音</h2><span id="elapsed" class="timecode">00:00</span></div><p id="session-hint">自然开口，随时打断</p></div>
+        <div class="conversation-controls"><button id="mute" class="secondary-button" type="button" aria-pressed="false" disabled>麦克风开启</button><button id="start" class="primary-button" type="button">开始对话</button><button id="stop" class="stop-button" type="button" hidden>结束对话</button><button id="commit" class="secondary-button" type="button" hidden>说完了，发送</button></div>
+        <form id="text-form" class="text-composer"><label for="message" class="sr-only">发送文字消息</label><input id="message" placeholder="也可以，打字聊聊……" maxlength="4000" autocomplete="off"><button id="send" type="submit" aria-label="发送消息" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6"/></svg></button></form>
+      </section>
+    </div>
+    <div class="under-workspace"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z"/><path d="m8 12 3 3 5-6"/></svg>结束对话即关闭麦克风</span><span>麦克风不可用时，仍可通过文字交流</span></div>
+  </main>
+  <footer class="site-footer"><span>Qwen Audio / 声音的更多可能</span><a href="/develop">开发者体验台 <span aria-hidden="true">↗</span></a><span class="footer-end">BUILT FOR THE WAY YOU SOUND.</span></footer>
+  <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title">
+    <div class="dialog-heading"><div><p class="eyebrow">CONNECTION</p><h2 id="settings-title">连接你的声音</h2></div><button id="close-settings" class="icon-button" type="button" aria-label="关闭设置">×</button></div>
+    <p class="dialog-copy">连接配置保存在当前浏览器中，每位访问者各自独立。<br>设置一次，听写、朗读和对话三个功能共同生效。</p>
+    <label class="field"><span>API Key <small id="api-key-status">需要设置</small></span><input id="api-key" type="password" autocomplete="off" placeholder="请输入 DashScope API Key" spellcheck="false"></label>
+    <p class="api-key-help">还没有 API Key？<a href="https://bailian.console.aliyun.com/cn-beijing/model/settings/api-key" target="_blank" rel="noopener noreferrer">前往阿里云百炼获取</a></p>
+    <label class="field"><span>Workspace ID <small>可选</small></span><input id="workspace-id" autocomplete="off" placeholder="可选，需同时填写 API Key" spellcheck="false"></label>
+    <label class="field"><span>服务域名 <small>可选</small></span><input id="base-url" autocomplete="off" placeholder="dashscope.aliyuncs.com（默认）" spellcheck="false"></label>
+    <p class="privacy-note">配置只保存在当前浏览器的本地缓存中，本地服务不保存；清除浏览器网站数据即可删除。API Key 留空时使用服务端 .env 配置。</p>
+    <button id="save-settings" class="primary-button full-width" type="button">保存</button>
+  </dialog>
+</body>
+</html>

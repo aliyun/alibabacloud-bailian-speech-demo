@@ -11,6 +11,9 @@
 
 ## ⭐最新动态⭐
 
+### 2026-11-03
+- Gallery 增加基于 Node.js SDK 的 [Qwen Audio 体验平台](./samples/gallery/qwen-audio-experience-nodejs)，覆盖实时听写、语音合成与实时对话。
+
 ### 2026/11/02
 - ASR、TTS、Omni 与 Realtime Python 示例已升级至 DashScope SDK 2.0.2 的 `Client`/v2 接口；
 - Qwen-Audio ASR、流式 ASR、录音文件转写、TTS 与 Realtime 示例已升级至经过验证的 3.1 模型和音色。
@@ -125,6 +128,14 @@
 
 [Gallery](./samples/gallery) 是为开发者们精心策划的灵感资源库，已包含使用百炼 AI 能力开发的一些有趣应用程序。
 
+### :star: 精选应用
+
+| 项目 | 简介 | 平台 |
+| --- | --- | --- |
+| [Qwen Audio 体验平台](./samples/gallery/qwen-audio-experience-nodejs) | 基于 Node.js SDK 的完整语音 Web 应用，运行 `./start.sh`（Windows 为 `start.bat`）即可一键启动，在浏览器中体验 Qwen Audio 3.1 实时听写、语音合成与实时对话，并附带可查看 SDK 协议帧的开发者调试台。 | Node.js 18+（启动脚本可自动下载），macOS / Linux / Windows |
+
+<img src="./docs/image/nodejs-qwen-audio-realtime.png" width="600"/>
+
 ### :sparkles: 社区项目
 
 | 项目 | 简介 | 平台 |
@@ -144,6 +155,9 @@ TTS 调用常见问题请参考[QA文档](docs/QA/cosyvoice.md)
 本项目遵循[The MIT License](https://opensource.org/license/MIT)开源协议
 
 ## :point_right: 变更记录
+
+### 2026-11-03
+- Gallery 增加基于 Node.js SDK 的 [Qwen Audio 体验平台](./samples/gallery/qwen-audio-experience-nodejs)，覆盖实时听写、语音合成与实时对话。
 
 ### 2026/11/02
 - ASR、TTS、Omni 与 Realtime Python 示例已升级至 DashScope SDK 2.0.2 的 `Client`/v2 接口；

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f4ef">
+  <meta name="description" content="Qwen Audio · 流式语音合成，为文字找到恰好的声音。">
+  <title>Qwen Audio · 语音朗读</title>
+  <link rel="icon" href="./studio.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./studio.css">
+  <script src="./audio.js" defer></script>
+  <script src="./studio.js" defer></script>
+</head>
+<body data-page="tts" data-state="idle">
+  <a class="skip-link" href="#main">跳转到体验区</a>
+  <header class="site-header">
+    <a class="brand" href="./asr.html" aria-label="Qwen Audio 首页"><span>Qwen Audio</span></a>
+    <nav class="page-nav" aria-label="语音体验"><a href="./asr.html">听写 <span>ASR</span></a><a href="./tts.html" aria-current="page">朗读 <span>TTS</span></a><a href="./realtime.html">对话 <span>REALTIME</span></a></nav>
+    <div class="header-actions"><a class="developer-link" href="/develop">开发者调试台</a><button class="settings-trigger" id="open-settings" type="button" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h7m4 0h5M4 17h3m4 0h9M11 4v6M7 14v6"/></svg><span>连接设置</span></button></div>
+  </header>
+  <main id="main" class="studio-shell">
+    <section class="intro">
+      <div><p class="eyebrow"><span class="tiny-line"></span> 02 / TEXT TO SPEECH</p><h1>让文字，有声<span class="serif-dot">。</span></h1><p class="intro-copy">为字里行间，找到恰好的声音。<br>写下一段话，听见其中的温度。</p></div>
+      <div class="intro-art tts-art" aria-hidden="true"><span class="type-glyph">Aa</span><span class="type-arrow">→</span><div class="sound-rings"><i></i><i></i><i></i></div><span class="art-caption">WORDS FIND THEIR VOICE.</span></div>
+    </section>
+    <div id="notice" class="notice" role="alert" hidden></div>
+    <div class="workspace">
+      <aside class="control-panel">
+        <details class="settings-details">
+          <summary><span>声音设置</span><span class="summary-hint">音色与语速 <span class="chevron">⌄</span></span></summary>
+          <fieldset id="controls" class="control-fields">
+            <legend class="sr-only">语音合成参数</legend>
+            <div class="field-label">选择一副声音</div>
+            <div class="voice-options">
+              <label class="voice-option"><input type="radio" name="voice" value="longanhuan_v3.1" checked><span class="voice-avatar avatar-one" aria-hidden="true"><i></i><i></i><i></i></span><span class="voice-name">龙安欢_v3.1<small>女声 · 多语种</small></span><span class="radio-indicator"></span></label>
+              <label class="voice-option"><input type="radio" name="voice" value="longanlingxin_v3.1"><span class="voice-avatar avatar-two" aria-hidden="true"><i></i><i></i><i></i></span><span class="voice-name">龙安灵心_v3.1<small>女声 · 多语种</small></span><span class="radio-indicator"></span></label>
+              <label class="voice-option"><input type="radio" name="voice" value="xunanchuan_v3.1"><span class="voice-avatar avatar-three" aria-hidden="true"><i></i><i></i><i></i></span><span class="voice-name">许南川<small>男声 · 多语种</small></span><span class="radio-indicator"></span></label>
+              <label class="voice-option"><input type="radio" name="voice" value="longanfengyue_v3.1"><span class="voice-avatar avatar-one" aria-hidden="true"><i></i><i></i><i></i></span><span class="voice-name">龙安风悦_v3.1<small>longanfengyue_v3.1</small></span><span class="radio-indicator"></span></label>
+            </div>
+            <label class="field rate-field"><span>语速 <output id="rate-value" for="rate">1.0×</output></span><input id="rate" type="range" min="0.5" max="2" step="0.1" value="1"><span class="range-labels"><small>舒缓</small><small>轻快</small></span></label>
+            <label class="field"><span>合成模型</span><select id="model"><option value="qwen-audio-3.1-tts-flash">Qwen Audio · 3.1 TTS Flash</option><option value="qwen-audio-3.1-tts-plus">Qwen Audio · 3.1 TTS Plus</option></select></label>
+            <div class="parameter-note"><span class="note-dot"></span><span>流式播放 · 24 kHz 高保真</span></div>
+          </fieldset>
+        </details>
+      </aside>
+      <section class="work-card tts-card" aria-label="文字朗读">
+        <div class="card-heading"><h2>文字画布 <span>YOUR WORDS</span></h2><span id="status" class="status-pill" data-state="idle" role="status">等待发声</span></div>
+        <div class="writing-area"><label class="sr-only" for="text">要合成的文字</label><textarea id="text" maxlength="20000" placeholder="写下一段想听见的文字……" spellcheck="false">把脚步放慢一点吧。
+
+听风穿过树叶，看阳光落在窗沿。那些平凡而细小的瞬间，正悄悄构成我们热爱的生活。</textarea><div class="writing-meta"><span>每一个标点，都是一次呼吸。</span><span><b id="char-count">0</b> / 20,000</span></div></div>
+        <div class="sample-row"><span>试试这段</span><button type="button" data-sample="daily">日常随想</button><button type="button" data-sample="travel">旅途旁白</button><button type="button" data-sample="greeting">一句问候</button></div>
+        <div class="recording-dock"><div class="signal"><span id="elapsed" class="timecode">00:00</span><canvas id="waveform" aria-hidden="true"></canvas></div><div class="action-group"><button id="start" class="primary-button" type="button">听见这段文字</button><button id="stop" class="stop-button" type="button" hidden>停止合成</button></div></div>
+        <div id="audio-result" class="audio-result" hidden><div class="audio-result-heading"><span>声音已就绪 <small id="audio-meta"></small></span><a id="download" class="text-button" download="qwen-audio.wav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>保存音频</a></div><audio id="audio" controls preload="metadata" aria-label="合成音频回放"></audio></div>
+      </section>
+    </div>
+    <div class="under-workspace"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 9 4-4 4 4m-4-4v14m6-5 4 4 4-4m-4 4V4"/></svg>边生成，边聆听</span><span>合成完成后可回放，或保存为 WAV 音频</span></div>
+  </main>
+  <footer class="site-footer"><span>Qwen Audio / 声音的更多可能</span><a href="/develop">开发者体验台 <span aria-hidden="true">↗</span></a><span class="footer-end">BUILT FOR THE WAY YOU SOUND.</span></footer>
+  <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title">
+    <div class="dialog-heading"><div><p class="eyebrow">CONNECTION</p><h2 id="settings-title">连接你的声音</h2></div><button id="close-settings" class="icon-button" type="button" aria-label="关闭设置">×</button></div>
+    <p class="dialog-copy">连接配置保存在当前浏览器中，每位访问者各自独立。<br>设置一次，听写、朗读和对话三个功能共同生效。</p>
+    <label class="field"><span>API Key <small id="api-key-status">需要设置</small></span><input id="api-key" type="password" autocomplete="off" placeholder="请输入 DashScope API Key" spellcheck="false"></label>
+    <p class="api-key-help">还没有 API Key？<a href="https://bailian.console.aliyun.com/cn-beijing/model/settings/api-key" target="_blank" rel="noopener noreferrer">前往阿里云百炼获取</a></p>
+    <label class="field"><span>Workspace ID <small>可选</small></span><input id="workspace-id" autocomplete="off" placeholder="可选，需同时填写 API Key" spellcheck="false"></label>
+    <label class="field"><span>服务域名 <small>可选</small></span><input id="base-url" autocomplete="off" placeholder="dashscope.aliyuncs.com（默认）" spellcheck="false"></label>
+    <p class="privacy-note">配置只保存在当前浏览器的本地缓存中，本地服务不保存；清除浏览器网站数据即可删除。API Key 留空时使用服务端 .env 配置。</p>
+    <button id="save-settings" class="primary-button full-width" type="button">保存</button>
+  </dialog>
+</body>
+</html>
