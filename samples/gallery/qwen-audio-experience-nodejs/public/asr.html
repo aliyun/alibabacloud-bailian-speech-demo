@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f4ef">
+  <meta name="description" content="Qwen Audio · 实时语音识别，让每一句话自然落成文字。">
+  <title>Qwen Audio · 实时听写</title>
+  <link rel="icon" href="./studio.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./studio.css">
+  <script src="./audio.js" defer></script>
+  <script src="./studio.js" defer></script>
+</head>
+<body data-page="asr" data-state="idle">
+  <a class="skip-link" href="#main">跳转到体验区</a>
+  <header class="site-header">
+    <a class="brand" href="./asr.html" aria-label="Qwen Audio 首页"><span>Qwen Audio</span></a>
+    <nav class="page-nav" aria-label="语音体验"><a href="./asr.html" aria-current="page">听写 <span>ASR</span></a><a href="./tts.html">朗读 <span>TTS</span></a><a href="./realtime.html">对话 <span>REALTIME</span></a></nav>
+    <div class="header-actions"><a class="developer-link" href="/develop">开发者调试台</a><button class="settings-trigger" id="open-settings" type="button" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h7m4 0h5M4 17h3m4 0h9M11 4v6M7 14v6"/></svg><span>连接设置</span></button></div>
+  </header>
+  <main id="main" class="studio-shell">
+    <section class="intro">
+      <div><p class="eyebrow"><span class="tiny-line"></span> 01 / SPEECH TO TEXT</p><h1>所说，即所见<span class="serif-dot">。</span></h1><p class="intro-copy">让声音自然流淌，让文字如实留下。<br>一段灵感、一场讨论，都从开口开始。</p></div>
+      <div class="intro-art asr-art" aria-hidden="true"><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-line"></span><span class="art-caption">EVERY WORD, CAPTURED.</span></div>
+    </section>
+    <div id="notice" class="notice" role="alert" hidden></div>
+    <div class="workspace">
+      <aside class="control-panel">
+        <details class="settings-details">
+          <summary><span>识别设置</span><span class="summary-hint">模型与 VAD <span class="chevron">⌄</span></span></summary>
+          <fieldset id="controls" class="control-fields">
+            <legend class="sr-only">识别参数</legend>
+            <label class="field"><span>识别模型</span><select id="model"><option value="qwen-audio-3.1-asr-flash-streaming">Qwen Audio · 3.1 ASR Flash</option><option value="qwen-audio-3.0-asr-flash-streaming">Qwen Audio · 3.0 ASR Flash</option><option value="fun-asr-realtime">Fun-ASR · Realtime</option></select></label>
+            <label class="field"><span>拾音场景 · VAD</span><select id="vad-model"><option value="near_meeting_16k">近场 VAD</option><option value="far_field_meeting_16k" selected>远场 VAD</option></select></label>
+            <div class="parameter-note"><span class="note-dot"></span><span>单声道 PCM · 16 kHz</span></div>
+            <div class="aside-note"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4v24M10 9v14M4 13v6M22 9v14M28 13v6"/></svg><h2>专注表达，<br>不必忙着记录。</h2><p>中间结果随声音即时更新，<br>停顿后自动整理成句。</p></div>
+          </fieldset>
+        </details>
+      </aside>
+      <section class="work-card asr-card" aria-label="实时听写">
+        <div class="card-heading"><h2>听写手记 <span>TRANSCRIPT</span></h2><span id="status" class="status-pill" data-state="idle" role="status">准备就绪</span></div>
+        <div id="transcript-scroll" class="transcript-area">
+          <div id="transcript-placeholder" class="empty-state"><div class="paper-icon" aria-hidden="true"><i></i><i></i><i></i></div><p>此刻的声音，下一秒的文字。</p><span>点击下方按钮，说说你正在想的事。</span></div>
+          <div id="transcript" class="transcript" role="log" aria-label="已识别文字"></div>
+          <div id="partial" class="partial-transcript" aria-live="polite"></div>
+        </div>
+        <div class="transcript-tools"><span><b id="word-count">0</b> 字</span><div><button id="clear" class="text-button" type="button" disabled>清空</button><button id="copy" class="text-button" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M15 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"/></svg>复制文字</button></div></div>
+        <div class="recording-dock"><div class="signal"><span id="elapsed" class="timecode">00:00</span><canvas id="waveform" aria-hidden="true"></canvas></div><div class="action-group"><button id="start" class="primary-button" type="button">开始听写</button><button id="stop" class="stop-button" type="button" hidden>结束听写</button></div></div>
+      </section>
+    </div>
+    <div class="under-workspace"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z"/><path d="m8 12 3 3 5-6"/></svg>仅在开始后使用麦克风</span><span>音频经本地服务发送至 Qwen Audio 识别</span></div>
+  </main>
+  <footer class="site-footer"><span>Qwen Audio / 声音的更多可能</span><a href="/develop">开发者体验台 <span aria-hidden="true">↗</span></a><span class="footer-end">BUILT FOR THE WAY YOU SOUND.</span></footer>
+  <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title">
+    <div class="dialog-heading"><div><p class="eyebrow">CONNECTION</p><h2 id="settings-title">连接你的声音</h2></div><button id="close-settings" class="icon-button" type="button" aria-label="关闭设置">×</button></div>
+    <p class="dialog-copy">连接配置保存在当前浏览器中，每位访问者各自独立。<br>设置一次，听写、朗读和对话三个功能共同生效。</p>
+    <label class="field"><span>API Key <small id="api-key-status">需要设置</small></span><input id="api-key" type="password" autocomplete="off" placeholder="请输入 DashScope API Key" spellcheck="false"></label>
+    <p class="api-key-help">还没有 API Key？<a href="https://bailian.console.aliyun.com/cn-beijing/model/settings/api-key" target="_blank" rel="noopener noreferrer">前往阿里云百炼获取</a></p>
+    <label class="field"><span>Workspace ID <small>可选</small></span><input id="workspace-id" autocomplete="off" placeholder="可选，需同时填写 API Key" spellcheck="false"></label>
+    <label class="field"><span>服务域名 <small>可选</small></span><input id="base-url" autocomplete="off" placeholder="dashscope.aliyuncs.com（默认）" spellcheck="false"></label>
+    <p class="privacy-note">配置只保存在当前浏览器的本地缓存中，本地服务不保存；清除浏览器网站数据即可删除。API Key 留空时使用服务端 .env 配置。</p>
+    <button id="save-settings" class="primary-button full-width" type="button">保存</button>
+  </dialog>
+</body>
+</html>

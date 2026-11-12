@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qwen Audio SDK · 开发调试台</title>
+  <base href="/" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="返回 Qwen Audio 体验首页">
+      <h1>Qwen Audio SDK</h1>
+      <span class="sub">开发者调试台</span>
+    </a>
+    <div class="topbar-actions"><a class="back-link" href="/">返回体验首页</a><button id="toggle-settings" class="settings-trigger" type="button" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h7m4 0h5M4 17h3m4 0h9M11 4v6M7 14v6"/></svg><span>连接设置</span></button></div>
+  </header>
+
+  <section class="developer-intro">
+    <p>集中调试 Realtime、TTS 与 ASR 的参数、事件和音频链路。</p>
+  </section>
+
+  <!-- 全局连接设置：apiKey / workspace / baseUrl -->
+  <dialog id="settings" class="settings-dialog" aria-labelledby="settings-title">
+    <div class="settings-heading">
+      <div><span>CONNECTION</span><h2 id="settings-title">连接设置</h2></div>
+      <div class="settings-heading-actions"><strong id="shared-api-status">读取中</strong><button id="close-settings" class="dialog-close" type="button" aria-label="关闭设置">×</button></div>
+    </div>
+    <p class="settings-copy">设置一次即可供听写、朗读、对话和开发调试共用。</p>
+    <div class="settings-fields">
+      <label class="field">
+        <span>API Key</span>
+        <input id="apiKey" type="password" placeholder="请输入 DashScope API Key" autocomplete="off" />
+        <small class="api-key-help">还没有 API Key？<a href="https://bailian.console.aliyun.com/cn-beijing/model/settings/api-key" target="_blank" rel="noopener noreferrer">前往阿里云百炼获取</a></small>
+      </label>
+      <label class="field">
+        <span>业务空间 Workspace ID（可选）</span>
+        <input id="workspaceId" type="text" placeholder="llm-xxxx，需同时填写 API Key" autocomplete="off" />
+      </label>
+      <label class="field">
+        <span>服务域名（可选）</span>
+        <input id="baseUrl" type="text" placeholder="dashscope.aliyuncs.com（默认）" autocomplete="off" spellcheck="false" />
+        <small class="api-key-help">切换地域或业务空间专属域名请直接填写域名，例如 dashscope-intl.aliyuncs.com。</small>
+      </label>
+    </div>
+    <p class="hint">配置只保存在当前浏览器的本地缓存中，本地服务不保存；清除浏览器网站数据即可删除。API Key 留空时使用服务端 .env 配置。</p>
+    <button id="save-shared-settings" class="primary settings-save" type="button">保存</button>
+  </dialog>
+
+  <!-- 模块切换 -->
+  <nav class="tabs">
+    <button class="tab active" data-tab="realtime">🎙 实时对话</button>
+    <button class="tab" data-tab="tts">🔊 语音合成 TTS</button>
+    <button class="tab" data-tab="asr-rt">📝 实时识别</button>
+  </nav>
+
+  <main>
+    <!-- ============ 实时对话 ============ -->
+    <section class="panel active" id="panel-realtime">
+      <div class="grid2">
+        <label class="field"><span>模型 model（可自定义）</span>
+          <input id="rt-model" type="text" list="rt-model-options" value="qwen-audio-3.1-realtime-plus" spellcheck="false" autocomplete="off" />
+          <datalist id="rt-model-options">
+            <option value="qwen-audio-3.1-realtime-plus"></option>
+            <option value="qwen-audio-3.1-realtime-flash"></option>
+            <option value="qwen-audio-3.0-realtime-plus"></option>
+            <option value="qwen-audio-3.0-realtime-flash"></option>
+          </datalist>
+        </label>
+        <label class="field"><span>音色 voice</span>
+          <select id="rt-voice">
+            <option value="">模型默认音色</option>
+            <option value="longanqian_v3.1" selected>longanqian_v3.1（默认）</option>
+            <option value="longanhuan_v3.1">longanhuan_v3.1</option>
+            <option value="longanfengyue_v3.1">longanfengyue_v3.1</option>
+            <option value="longanlingxin_v3.1">longanlingxin_v3.1</option>
+            <option value="longanqian">longanqian</option>
+            <option value="longanlingxi">longanlingxi</option>
+            <option value="longanlingxin">longanlingxin</option>
+            <option value="longanlufeng">longanlufeng</option>
+            <option value="longanxiaoxin">longanxiaoxin</option>
+          </select>
+        </label>
+        <label class="field"><span>交互模式 turn_detection</span>
+          <select id="rt-turn">
+            <option value="server_vad">server_vad（自动断句）</option>
+            <option value="smart_turn">smart_turn（语义轮次）</option>
+            <option value="push">push-to-talk（手动）</option>
+          </select>
+        </label>
+        <label class="field"><span>输出模态 modalities</span>
+          <select id="rt-modalities">
+            <option value="text,audio">文本 + 音频</option>
+            <option value="text">仅文本</option>
+          </select>
+        </label>
+      </div>
+      <label class="field"><span>系统指令 instructions</span>
+        <textarea id="rt-instructions" rows="2" placeholder="你是一位友好的智能语音助手。">你是一位友好的智能语音助手，回答简洁。</textarea>
+      </label>
+
+      <div class="row">
+        <button id="rt-start" class="primary">● 连接并开始</button>
+        <button id="rt-commit" class="warn" style="display:none">发送（push-to-talk）</button>
+        <button id="rt-stop" class="danger" disabled>■ 停止</button>
+        <span id="rt-status" class="status">未连接</span>
+      </div>
+
+      <div class="row send-text">
+        <input id="rt-text" type="text" placeholder="也可以用文字和它对话（无需麦克风）…" />
+        <button id="rt-send-text">发送文本</button>
+      </div>
+
+      <div class="log-heading"><span>Node.js ↔ 百炼服务端</span><small>SDK 实际建联 / 上下行协议帧 / 音频字节 / 错误</small></div>
+      <div class="debug-log" id="rt-log" role="log" aria-label="实时对话 Node.js 与百炼协议日志"></div>
+      <div class="log-heading"><span>浏览器 ↔ Node.js</span><small>本地桥接请求 / 状态通知 / 麦克风</small></div>
+      <div class="debug-log bridge-log" id="rt-log-bridge" role="log" aria-label="实时对话浏览器与 Node.js 桥接日志"></div>
+    </section>
+
+    <!-- ============ TTS ============ -->
+    <section class="panel" id="panel-tts">
+      <div class="grid3">
+        <label class="field"><span>模型 model（可自定义）</span>
+          <input id="tts-model" type="text" list="tts-model-options" value="qwen-audio-3.1-tts-flash" spellcheck="false" autocomplete="off" />
+          <datalist id="tts-model-options">
+            <option value="qwen-audio-3.1-tts-flash"></option>
+            <option value="qwen-audio-3.1-tts-plus"></option>
+          </datalist>
+        </label>
+        <label class="field"><span>音色 voice</span>
+          <select id="tts-voice">
+            <option value="longanhuan_v3.1" selected>longanhuan_v3.1（龙安欢_v3.1）</option>
+            <option value="longanlingxin_v3.1">longanlingxin_v3.1（龙安灵心_v3.1）</option>
+            <option value="xunanchuan_v3.1">xunanchuan_v3.1（许南川）</option>
+            <option value="longanfengyue_v3.1">longanfengyue_v3.1（龙安风悦_v3.1）</option>
+          </select>
+        </label>
+        <label class="field"><span>格式 format</span>
+          <select id="tts-format">
+            <option value="mp3">mp3</option>
+            <option value="wav">wav</option>
+            <option value="pcm">pcm</option>
+          </select>
+        </label>
+        <label class="field"><span>采样率 sampleRate</span>
+          <select id="tts-samplerate">
+            <option>8000</option><option>16000</option><option>22050</option>
+            <option selected>24000</option><option>44100</option><option>48000</option>
+          </select>
+        </label>
+        <label class="field"><span>音量 volume <b id="tts-volume-val">50</b></span>
+          <input id="tts-volume" type="range" min="0" max="100" value="50" /></label>
+        <label class="field"><span>语速 rate <b id="tts-rate-val">1.0</b></span>
+          <input id="tts-rate" type="range" min="0.5" max="2" step="0.1" value="1" /></label>
+        <label class="field"><span>音调 pitch <b id="tts-pitch-val">1.0</b></span>
+          <input id="tts-pitch" type="range" min="0.5" max="2" step="0.1" value="1" /></label>
+      </div>
+      <label class="field"><span>文本 text</span>
+        <textarea id="tts-text" rows="4">床前明月光，疑是地上霜。举头望明月，低头思故乡。</textarea>
+      </label>
+      <div class="row">
+        <button id="tts-run" class="primary">🔊 合成</button>
+        <span id="tts-status" class="status">就绪</span>
+      </div>
+      <div class="log-heading"><span>Node.js ↔ 百炼服务端</span><small>SDK 实际建联 / 上下行协议帧 / 音频字节 / 错误</small></div>
+      <div class="debug-log" id="tts-log" role="log" aria-label="语音合成 Node.js 与百炼协议日志"></div>
+      <div class="log-heading"><span>浏览器 ↔ Node.js</span><small>本地 WebSocket 消息 / 音频字节 / 状态</small></div>
+      <div class="debug-log bridge-log" id="tts-log-bridge" role="log" aria-label="语音合成浏览器与 Node.js 桥接日志"></div>
+    </section>
+
+    <!-- ============ 实时识别 ============ -->
+    <section class="panel" id="panel-asr-rt">
+      <div class="grid2">
+        <label class="field"><span>模型 model（可自定义）</span>
+          <input id="rasr-model" type="text" list="rasr-model-options" value="qwen-audio-3.1-asr-flash-streaming" spellcheck="false" autocomplete="off" />
+          <datalist id="rasr-model-options">
+            <option value="qwen-audio-3.1-asr-flash-streaming"></option>
+            <option value="qwen-audio-3.0-asr-flash-streaming"></option>
+            <option value="fun-asr-realtime"></option>
+          </datalist>
+        </label>
+        <label class="field"><span>采样率 sampleRate</span>
+          <select id="rasr-samplerate"><option selected>16000</option><option>8000</option></select>
+        </label>
+      </div>
+      <p class="param-help">已按官方文档填入默认值；保持默认值时不写入 run-task，由服务端按默认生效。无默认值的参数留空即不传。</p>
+      <div class="grid3">
+        <label class="field"><span>语种提示（逗号分隔）</span><input id="rasr-langs" type="text" value="zh,en" /></label>
+        <label class="field"><span>VAD 模型 <b>vad_model</b></span>
+          <select id="rasr-vad">
+            <option value="far_field_meeting_16k" selected>far_field_meeting_16k（远场·默认）</option>
+            <option value="near_meeting_16k">near_meeting_16k（近场）</option>
+          </select>
+        </label>
+        <label class="field"><span>断句静音 <b>max_sentence_silence</b> 200-6000ms</span>
+          <input id="rasr-silence" type="number" min="200" max="6000" step="100" value="800" placeholder="默认 800" />
+        </label>
+      </div>
+      <div class="grid3">
+        <label class="field"><span>噪声阈值 <b>speech_noise_threshold</b> -1~1</span>
+          <input id="rasr-noise" type="number" min="-1" max="1" step="0.1" placeholder="不传（无默认值）" />
+        </label>
+        <label class="field"><span>多阈值模式 <b>multi_threshold_mode_enabled</b></span>
+          <select id="rasr-multi-threshold">
+            <option value="false" selected>false（默认）</option><option value="true">true</option>
+          </select>
+        </label>
+        <label class="field"><span>心跳保活 <b>heartbeat</b></span>
+          <select id="rasr-heartbeat">
+            <option value="false" selected>false（默认）</option><option value="true">true</option>
+          </select>
+        </label>
+      </div>
+      <div class="grid3">
+        <label class="field"><span>保留方言 <b>keep_dialect</b></span>
+          <select id="rasr-keep-dialect">
+            <option value="false" selected>false（默认）</option><option value="true">true</option>
+          </select>
+        </label>
+        <label class="field"><span>热词表 <b>vocabulary_id</b></span><input id="rasr-vocabulary-id" type="text" placeholder="不传（无默认值）" /></label>
+        <label class="field"><span>临时热词 <b>vocabulary</b> JSON</span><input id="rasr-vocabulary" type="text" placeholder='不传，如 {"通义千问": 4}' /></label>
+      </div>
+      <div class="row">
+        <button id="rasr-start" class="primary">● 开始录音识别</button>
+        <button id="rasr-stop" class="danger" disabled>■ 结束</button>
+        <span id="rasr-status" class="status">未开始</span>
+      </div>
+      <div class="log-heading"><span>Node.js ↔ 百炼服务端</span><small>SDK 实际建联 / 上下行协议帧 / 音频字节 / 错误</small></div>
+      <div class="debug-log" id="rasr-log" role="log" aria-label="实时识别 Node.js 与百炼协议日志"></div>
+      <div class="log-heading"><span>浏览器 ↔ Node.js</span><small>本地桥接请求 / 状态通知 / 麦克风</small></div>
+      <div class="debug-log bridge-log" id="rasr-log-bridge" role="log" aria-label="实时识别浏览器与 Node.js 桥接日志"></div>
+    </section>
+
+    <section class="code-panel" aria-labelledby="code-title">
+      <div class="code-heading">
+        <div>
+          <span>NODE.JS EXAMPLE</span>
+          <h2 id="code-title">实时对话调用代码</h2>
+        </div>
+        <button id="copy-code" class="copy-code" type="button">复制代码</button>
+      </div>
+      <p class="code-help">示例随当前功能和参数实时更新，凭据从服务端环境变量读取。</p>
+      <pre class="code-block"><code id="node-code"></code></pre>
+    </section>
+  </main>
+
+  <footer class="foot"><span>dashscope-sdk-nodejs · 本地体验台 · 仅用于开发调试</span><a href="/">Qwen Audio 轻量体验 ↗</a></footer>
+
+  <script src="./audio.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
